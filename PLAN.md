@@ -25,8 +25,8 @@ at a time?
 
 - [x] Run `/ce:brainstorm` to challenge and refine the build spec
 - [x] Run `/ce:plan` to create an implementation plan
-- [ ] Lock stack decisions in DECISIONS.md
-- [ ] Run `/ce:work` to implement (15 units: U1–U15)
+- [x] Lock stack decisions in DECISIONS.md
+- [x] Run `/ce:work` to implement (15 units: U1–U15)
 
 ## Out of scope for this arc
 
@@ -39,8 +39,8 @@ at a time?
 
 - [x] Brainstorm doc produced and reviewed
 - [x] Implementation plan produced with task breakdown
-- [ ] Stack decisions locked in DECISIONS.md
-- [ ] All 15 implementation units complete and verified
+- [x] Stack decisions locked in DECISIONS.md
+- [x] All 15 implementation units complete and verified
 - [ ] dbt tests pass, frontend deploys to Cloudflare Workers
 
 ---

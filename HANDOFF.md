@@ -9,6 +9,38 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-04 — Implementation complete (U1–U15)
+
+**Started from:** Plan complete, ready to implement.
+
+**Did:**
+- Ran `/ce:work` across two sessions (context compaction between U9 and U10)
+- **Session 1 (U1–U9):** Pipeline — data gen, dbt models, cost computation, JSON export
+- **Session 2 (U10–U15):** Frontend scaffold, 4 chapter components (parallel subagents), E2E tests, README
+- All 15 implementation units complete and verified
+- 99 tests passing: 50 frontend (Vitest) + 36 Python (pytest) + 13 E2E reconciliation
+- Browser-verified all 5 chapters end-to-end via preview tools
+- Production build passes (`npm run build`)
+- Pushed to GitHub on main
+
+**Key implementation details:**
+- Hero SKU CHP-0009 overridden with build spec values (21.5 lb, 11.25×8.5×5.25″, 12-count)
+- DIM weight uses per-dimension ceiling before computing cubic volume
+- Frontend uses import-time JSON from `src/data/` (Pattern A), not fetch from `public/`
+- Vitest requires `globals: true` for @testing-library/react cleanup hooks
+- Parallel subagent dispatch (U11–U14) used shared-directory mode — worktree isolation unavailable
+
+**Commits this session:**
+1. `feat(frontend): add React scaffold with domain logic, formatting, and chapter navigation` (U10)
+2. `feat(frontend): add Quiz, Cost Reveal, Paradox Toggle, and Portfolio views` (U11–U14)
+3. `feat: add E2E reconciliation tests, production build verification, and README` (U15)
+
+**State:** Implementation complete. All units done, all tests green, pushed to GitHub.
+
+**Next:** Run `/ce:review` (reviewer ensemble), then `/qa` for browser testing, then `/ce:compound` to extract learnings.
+
+---
+
 ## 2026-06-04 — Brainstorm + Plan complete
 
 **Started from:** Scaffolded project with build spec.

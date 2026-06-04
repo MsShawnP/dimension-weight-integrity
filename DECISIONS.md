@@ -93,6 +93,19 @@ Each entry:
 
 ---
 
+## Testing
+
+### 2026-06-04 — Vitest with globals: true for @testing-library/react compatibility
+- **Why:** @testing-library/react auto-registers afterEach cleanup hooks by detecting the test framework's globals. Without `globals: true` in vitest config, cleanup doesn't run and DOM accumulates between tests, causing false failures.
+- **Scope:** `frontend/vite.config.ts`
+- **Do not:** Remove `globals: true` from vitest config — tests will silently break.
+
+### 2026-06-04 — E2E reconciliation tests verify hero.json against physics and cost math
+- **Why:** hero.json is the contract between pipeline and frontend. Tests verify AE1–AE4 invariants (physical constants, GDSN mismatch, cost driver math, rate tables) hold regardless of data source.
+- **Scope:** `tests/test_e2e_reconciliation.py`
+
+---
+
 ## Reversed / Superseded
 
 [None yet]
