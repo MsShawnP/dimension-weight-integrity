@@ -18,13 +18,14 @@ For things that didn't work, see FAILURES.md.
 - Ran `/ce:compound` (Full + session history) — produced architecture pattern doc at `docs/solutions/architecture-patterns/exact-vs-parameter-split-2026-06-04.md`
 - Fixed dead `RateTables` import in `domain.ts` (broke production build, caught by compound's TypeScript reviewer)
 - Deployed to Cloudflare Pages (`dimension-weight-integrity.pages.dev`)
-- Registered `dimensions.lailarallc.com` custom domain (CNAME pending manual DNS entry)
+- Registered `dimensions.lailarallc.com` custom domain, created CNAME record via Cloudflare API
 - Added `docs/solutions/` to CLAUDE.md project files for discoverability
 - Updated project-health.md (Tests + code-review now marked "yes")
+- Tagged `v1.0.0`, pushed to GitHub
 
-**State:** All 11 workflow steps complete. Deployed and live. CNAME record needed for custom domain.
+**State:** All 11 workflow steps complete. Deployed and live at `dimensions.lailarallc.com`. Tagged `v1.0.0`.
 
-**Next:** Add CNAME record (Type: CNAME, Name: dimensions, Target: dimension-weight-integrity.pages.dev, Proxy: ON) in Cloudflare dashboard. Then consider `/improve` for first maintenance pass, and optionally document secondary learnings (discovery narrative pattern, Vitest globals, DIM weight ceiling).
+**Next:** Consider `/improve` for first maintenance pass, and optionally document secondary learnings (discovery narrative pattern, Vitest globals, DIM weight ceiling).
 
 ---
 

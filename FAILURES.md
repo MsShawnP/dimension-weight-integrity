@@ -80,3 +80,45 @@ shouldn't re-attempt dead ends because the lesson got lost.
 **Status:** Resolved
 
 **Tags:** typescript, runtime-assertion, type-guard, vite-hmr
+
+---
+
+### 2026-06-04 — Dead import survives dev server, tests, and code review — only caught by production build
+
+**Attempted:** `domain.ts` line 1 had `import type { RateTables } from './types'` — a leftover from an earlier refactor. Dev server, Vitest, and code review all passed.
+
+**Why it didn't work:** Vite dev server and Vitest use esbuild for transforms, which strips type-only imports without running `tsc -b`. The unused import only fails during `npm run build` (which runs `tsc -b`). Code review agents didn't run the production build either.
+
+**What we tried instead:** Removed the dead import. Added production build verification to the QA checklist.
+
+**Status:** Resolved
+
+**Tags:** typescript, dead-import, production-build, tsc, vite, esbuild
+
+---
+
+### 2026-06-04 — Wrangler CLI lacks pages domain and DNS commands
+
+**Attempted:** Tried `npx wrangler pages project add-domain` to register custom domain, and used wrangler's OAuth token for DNS record creation.
+
+**Why it didn't work:** `add-domain` subcommand doesn't exist in wrangler. The wrangler OAuth token has `zone:read` scope but not DNS write — returned authentication error on `POST dns_records`.
+
+**What we tried instead:** Used Cloudflare REST API directly for both domain registration (`POST /pages/projects/.../domains`) and DNS record creation (`POST /zones/.../dns_records`) with a separate API token that had DNS write permissions.
+
+**Status:** Resolved
+
+**Tags:** cloudflare, wrangler, pages, dns, api, custom-domain
+
+---
+
+### 2026-06-04 — preview_screenshot consistently times out on Windows
+
+**Attempted:** Used `preview_screenshot` during QA testing — timed out at 30s on every attempt.
+
+**Why it didn't work:** Appears to be a renderer/tooling issue on Windows, not an app problem. The preview server was responsive and all other preview tools worked.
+
+**What we tried instead:** Used `preview_snapshot` (DOM text), `preview_inspect` (CSS values), and `preview_eval` (JS assertions) for all verification. Full QA coverage achieved without screenshots.
+
+**Status:** Open (tooling limitation, not project issue)
+
+**Tags:** preview-tools, screenshot, windows, qa, timeout
