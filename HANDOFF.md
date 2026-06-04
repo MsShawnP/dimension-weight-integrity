@@ -9,6 +9,25 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-04 — QA, compound, deploy complete — arc done
+
+**Started from:** Code review complete, all 17 findings resolved, 99 tests green.
+
+**Did:**
+- Ran `/qa` — browser-tested all 5 chapters, nav locking, mobile viewport, design system compliance. All passed.
+- Ran `/ce:compound` (Full + session history) — produced architecture pattern doc at `docs/solutions/architecture-patterns/exact-vs-parameter-split-2026-06-04.md`
+- Fixed dead `RateTables` import in `domain.ts` (broke production build, caught by compound's TypeScript reviewer)
+- Deployed to Cloudflare Pages (`dimension-weight-integrity.pages.dev`)
+- Registered `dimensions.lailarallc.com` custom domain (CNAME pending manual DNS entry)
+- Added `docs/solutions/` to CLAUDE.md project files for discoverability
+- Updated project-health.md (Tests + code-review now marked "yes")
+
+**State:** All 11 workflow steps complete. Deployed and live. CNAME record needed for custom domain.
+
+**Next:** Add CNAME record (Type: CNAME, Name: dimensions, Target: dimension-weight-integrity.pages.dev, Proxy: ON) in Cloudflare dashboard. Then consider `/improve` for first maintenance pass, and optionally document secondary learnings (discovery narrative pattern, Vitest globals, DIM weight ceiling).
+
+---
+
 ## 2026-06-04 — Code review complete, all findings resolved
 
 **Started from:** Implementation complete (U1–U15), all tests passing, pushed to GitHub.

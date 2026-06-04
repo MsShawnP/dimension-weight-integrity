@@ -30,6 +30,7 @@ not locked until `/ce:brainstorm` completes.
 - PLAN.md — current work arc
 - FAILURES.md — things tried that didn't work
 - build_spec_dimension_integrity.md — detailed build spec (the *how*)
+- docs/solutions/ — documented solutions and architecture patterns, organized by category with YAML frontmatter (module, tags, problem_type)
 
 Read PLAN.md and HANDOFF.md at session start. DECISIONS.md and
 FAILURES.md as relevant.

@@ -1,5 +1,3 @@
-import type { RateTables } from './types'
-
 export function cubeFt3(lengthIn: number, widthIn: number, heightIn: number): number {
   return (lengthIn * widthIn * heightIn) / 1728
 }

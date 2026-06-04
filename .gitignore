@@ -30,6 +30,7 @@ build/
 node_modules/
 .next/
 .env*.local
+*.tsbuildinfo
 
 # Data (generated, not committed)
 data/generated/

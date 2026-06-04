@@ -42,7 +42,7 @@ at a time?
 - [x] Implementation plan produced with task breakdown
 - [x] Stack decisions locked in DECISIONS.md
 - [x] All 15 implementation units complete and verified
-- [ ] dbt tests pass, frontend deploys to Cloudflare Workers
+- [x] dbt tests pass, frontend deploys to Cloudflare Workers
 
 ---
 

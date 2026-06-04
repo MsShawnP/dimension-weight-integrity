@@ -121,6 +121,15 @@ Each entry:
 
 ---
 
+## Deployment
+
+### 2026-06-04 — Frontend deployed to Cloudflare Pages at dimensions.lailarallc.com
+- **Why:** Matches existing Cinderhaven portfolio pattern (audit.lailarallc.com, sku.lailarallc.com, etc.). Static assets served from Cloudflare edge, no origin server.
+- **Scope:** `frontend/` deployment
+- **Do not:** Deploy to a different platform or change the subdomain without updating README and cross-references.
+
+---
+
 ## Reversed / Superseded
 
 [None yet]
