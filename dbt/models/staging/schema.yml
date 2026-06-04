@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: public
+    tables:
+      - name: netsuite_items
+      - name: wms_dimensions
+      - name: gdsn_published
+      - name: shopify_products
+
+models:
+  - name: stg_netsuite_items
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: case_gross_weight_lb
+        tests:
+          - not_null
+
+  - name: stg_wms_dimensions
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: case_gross_weight_lb
+        tests:
+          - not_null
+
+  - name: stg_gdsn_published
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: case_gross_weight_lb
+        tests:
+          - not_null
+
+  - name: stg_shopify_products
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: ship_weight_lb
+        tests:
+          - not_null

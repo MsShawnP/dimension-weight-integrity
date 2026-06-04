@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: int_measurement_of_record
+    description: WMS promoted as measurement of record with computed cube, density, and freight class
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: case_cube_ft3
+        tests:
+          - not_null
+      - name: density_lb_per_ft3
+        tests:
+          - not_null
+      - name: freight_class
+        tests:
+          - not_null
+          - accepted_values:
+              values: [50, 55, 60, 65, 70, 77.5, 85, 92.5, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+
+  - name: int_system_attribute_divergence
+    description: Per-SKU per-system per-field divergence from measurement of record
+
+  - name: int_freight_class_by_system
+    description: Density and freight class computed from each system's stored dimensions
+    columns:
+      - name: freight_class
+        tests:
+          - not_null
+          - accepted_values:
+              values: [50, 55, 60, 65, 70, 77.5, 85, 92.5, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+
+  - name: int_dim_and_billable
+    description: DIM weight and billable weight for DTC parcel path
+    columns:
+      - name: sku
+        tests:
+          - not_null
+          - unique
+      - name: billable_weight_lb
+        tests:
+          - not_null

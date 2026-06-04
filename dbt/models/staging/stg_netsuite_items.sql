@@ -1,0 +1,19 @@
+with source as (
+    select * from {{ source('raw', 'netsuite_items') }}
+),
+
+renamed as (
+    select
+        sku,
+        product_name,
+        'erp' as system,
+        case_gross_weight_lb::numeric as case_gross_weight_lb,
+        case_length_in::numeric as case_length_in,
+        case_width_in::numeric as case_width_in,
+        case_height_in::numeric as case_height_in,
+        unit_weight_lb::numeric as unit_weight_lb,
+        case_pack_qty::int as case_pack_qty
+    from source
+)
+
+select * from renamed

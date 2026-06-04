@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: fct_governed_product_master
+    description: Governed product master — MoR values for all physical attributes
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: sku
+        data_type: text
+        tests:
+          - not_null
+          - unique
+      - name: product_name
+        data_type: text
+      - name: mor_source
+        data_type: text
+      - name: case_gross_weight_lb
+        data_type: numeric
+        tests:
+          - not_null
+      - name: case_length_in
+        data_type: numeric
+      - name: case_width_in
+        data_type: numeric
+      - name: case_height_in
+        data_type: numeric
+      - name: unit_weight_lb
+        data_type: numeric
+      - name: case_pack_qty
+        data_type: integer
+      - name: case_cube_ft3
+        data_type: numeric
+      - name: density_lb_per_ft3
+        data_type: numeric
+      - name: freight_class
+        data_type: numeric
+        tests:
+          - accepted_values:
+              values: [50, 55, 60, 65, 70, 77.5, 85, 92.5, 100, 110, 125, 150, 175, 200, 250, 300, 400, 500]
+
+  - name: fct_attribute_divergence
+    description: Per-SKU per-system per-field divergence from measurement of record
+    columns:
+      - name: sku
+        tests:
+          - not_null
+      - name: system
+        tests:
+          - not_null
+      - name: field
+        tests:
+          - not_null
+
+  - name: fct_freight_class_by_system
+    description: Density and freight class per system
+    columns:
+      - name: sku
+        tests:
+          - not_null
+
+  - name: fct_dimension_cost
+    description: Cost of divergence per SKU per driver
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: sku
+        data_type: text
+        tests:
+          - not_null
+      - name: cost_driver
+        data_type: text
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['ltl_reclass', 'parcel_reweigh', 'compliance_cb']
+      - name: per_unit_delta
+        data_type: numeric
+      - name: annual_units
+        data_type: integer
+      - name: annual_cost
+        data_type: numeric
+      - name: basis
+        data_type: jsonb
