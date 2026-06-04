@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import type { Chapter } from './types'
+import { heroData, allSkusData } from './data'
 import ChapterNav from './components/ChapterNav'
+import QuizView from './components/QuizView'
+import CostReveal from './components/CostReveal'
+import ParadoxToggle from './components/ParadoxToggle'
+import GovernanceResolution from './components/GovernanceResolution'
+import PortfolioView from './components/PortfolioView'
 
 const CHAPTER_ORDER: Chapter[] = ['quiz', 'cost', 'paradox', 'resolution', 'portfolio']
 
@@ -35,30 +41,19 @@ export default function App() {
       </header>
       <ChapterNav active={active} furthest={furthest} onNavigate={navigate} />
       <main className="chapter-content">
-        <ChapterPlaceholder chapter={active} onAdvance={advance} />
+        {active === 'quiz' && <QuizView data={heroData} onComplete={advance} />}
+        {active === 'cost' && <CostReveal data={heroData} onComplete={advance} />}
+        {active === 'paradox' && <ParadoxToggle data={heroData} onComplete={advance} />}
+        {active === 'resolution' && (
+          <>
+            <GovernanceResolution data={heroData} />
+            <div style={{ textAlign: 'center', marginTop: 40 }}>
+              <button className="btn-primary" onClick={advance}>Continue</button>
+            </div>
+          </>
+        )}
+        {active === 'portfolio' && <PortfolioView data={allSkusData} />}
       </main>
     </div>
-  )
-}
-
-function ChapterPlaceholder({ chapter, onAdvance }: { chapter: Chapter; onAdvance: () => void }) {
-  const titles: Record<Chapter, string> = {
-    quiz: 'The Quiz',
-    cost: 'The Cost',
-    paradox: 'The Paradox',
-    resolution: 'The Resolution',
-    portfolio: 'The Portfolio',
-  }
-
-  return (
-    <section className="placeholder-chapter">
-      <h2>{titles[chapter]}</h2>
-      <p className="placeholder-text">Chapter content will be implemented in subsequent units.</p>
-      {chapter !== 'portfolio' && (
-        <button className="btn-primary" onClick={onAdvance}>
-          Continue
-        </button>
-      )}
-    </section>
   )
 }
