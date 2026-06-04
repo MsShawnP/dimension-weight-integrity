@@ -1,0 +1,121 @@
+import { describe, it, expect } from 'vitest'
+import {
+  cubeFt3,
+  densityLbPerFt3,
+  densityToNmfcClass,
+  dimWeightLb,
+  billableWeightLb,
+  computeLtlDelta,
+  computeParcelDelta,
+  computeParadox,
+} from './domain'
+
+describe('cubeFt3', () => {
+  it('computes hero SKU cube', () => {
+    expect(cubeFt3(11.25, 8.5, 5.25)).toBeCloseTo(0.29053, 4)
+  })
+})
+
+describe('densityLbPerFt3', () => {
+  it('computes hero SKU density', () => {
+    const cube = cubeFt3(11.25, 8.5, 5.25)
+    expect(densityLbPerFt3(21.5, cube)).toBeCloseTo(74.0, 0)
+  })
+})
+
+describe('densityToNmfcClass', () => {
+  it('returns class 50 for density >= 50', () => {
+    expect(densityToNmfcClass(74.0)).toBe(50)
+    expect(densityToNmfcClass(50.0)).toBe(50)
+  })
+
+  it('returns class 55 for density >= 35', () => {
+    expect(densityToNmfcClass(37.98)).toBe(55)
+  })
+
+  it('returns class 500 for very low density', () => {
+    expect(densityToNmfcClass(0.3)).toBe(500)
+  })
+
+  it('returns class 400 for density >= 0.5', () => {
+    expect(densityToNmfcClass(0.5)).toBe(400)
+  })
+})
+
+describe('dimWeightLb', () => {
+  it('rounds each dimension up before computing', () => {
+    expect(dimWeightLb(11.25, 8.5, 5.25, 139)).toBeCloseTo(
+      (12 * 9 * 6) / 139,
+      4,
+    )
+  })
+})
+
+describe('billableWeightLb', () => {
+  it('returns the greater of actual and dim weight, ceiled', () => {
+    expect(billableWeightLb(3.5, 4.66)).toBe(5)
+    expect(billableWeightLb(10, 3)).toBe(10)
+  })
+})
+
+describe('computeLtlDelta', () => {
+  it('returns 0 when classes match', () => {
+    const rates = { '50': 18.0, '55': 19.8 }
+    expect(computeLtlDelta(50, 50, 21.5, rates)).toBe(0)
+  })
+
+  it('computes per-case delta when classes differ', () => {
+    const rates = { '50': 18.0, '55': 19.8 }
+    const delta = computeLtlDelta(55, 50, 21.5, rates)
+    expect(delta).toBeCloseTo((21.5 / 100) * (19.8 - 18.0), 4)
+  })
+})
+
+describe('computeParcelDelta', () => {
+  const rates = { '1': 9.8, '2': 10.2, '3': 10.8, '4': 11.6, '5': 12.97 }
+
+  it('returns the rate difference when billable exceeds shopify', () => {
+    const delta = computeParcelDelta(5, 1, rates)
+    expect(delta).toBeCloseTo(12.97 - 9.8, 4)
+  })
+
+  it('returns 0 when shopify weight is higher', () => {
+    expect(computeParcelDelta(1, 5, rates)).toBe(0)
+  })
+})
+
+describe('computeParadox', () => {
+  const rateTables = {
+    ltl_rate_per_cwt: { '50': 18.0, '55': 19.8 },
+    parcel_rate_per_lb: { '1': 9.8, '5': 12.97 },
+    dim_divisor: 139,
+  }
+  const heroMor = { case_gross_weight_lb: 21.5, freight_class: 50 }
+  const gdsn = { freight_class: 55 }
+  const parcel = { billable_weight_lb: 5, shopify_weight_lb: 1 }
+  const baseCosts = { ltl: 20.28, parcel: 394.0, cb: 600.0 }
+
+  it('returns base costs when fixType is none', () => {
+    const result = computeParadox('none', rateTables, heroMor, gdsn, parcel, baseCosts)
+    expect(result.ltlCost).toBe(20.28)
+    expect(result.parcelCost).toBe(394.0)
+    expect(result.ltlFixed).toBe(false)
+    expect(result.parcelFixed).toBe(false)
+  })
+
+  it('zeroes LTL when ops fix applied', () => {
+    const result = computeParadox('ops', rateTables, heroMor, gdsn, parcel, baseCosts)
+    expect(result.ltlCost).toBe(0)
+    expect(result.ltlFixed).toBe(true)
+    expect(result.parcelCost).toBe(394.0)
+    expect(result.parcelFixed).toBe(false)
+  })
+
+  it('zeroes parcel when dtc fix applied', () => {
+    const result = computeParadox('dtc', rateTables, heroMor, gdsn, parcel, baseCosts)
+    expect(result.parcelCost).toBe(0)
+    expect(result.parcelFixed).toBe(true)
+    expect(result.ltlCost).toBe(20.28)
+    expect(result.ltlFixed).toBe(false)
+  })
+})

@@ -1,0 +1,10 @@
+{
+  "skus": [
+    { "sku": "CHP-0009", "product_name": "Cinderhaven Spicy Marinara (16 oz)", "case_gross_weight_lb": 21.5, "freight_class": 50, "density_lb_per_ft3": 74.0, "cost": { "drivers": { "ltl_reclass": { "per_unit_delta": 0.39, "annual_units": 52, "annual_cost": 20.28 }, "parcel_reweigh": { "per_unit_delta": 1.97, "annual_units": 200, "annual_cost": 394.0 }, "compliance_cb": { "per_unit_delta": 200.0, "annual_units": 3, "annual_cost": 600.0 } }, "total_annual_cost": 1014.28 }, "divergence_count": 5 }
+  ],
+  "aggregate": {
+    "total_annual_cost": 1014.28,
+    "skus_with_class_mismatch": 1,
+    "total_skus": 1
+  }
+}

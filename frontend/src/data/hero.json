@@ -1,0 +1,103 @@
+{
+  "hero_sku": {
+    "sku": "CHP-0009",
+    "product_name": "Cinderhaven Spicy Marinara (16 oz)",
+    "measurement_of_record": {
+      "source": "wms",
+      "case_gross_weight_lb": 21.5,
+      "case_length_in": 11.25,
+      "case_width_in": 8.5,
+      "case_height_in": 5.25,
+      "case_cube_ft3": 0.29053,
+      "density_lb_per_ft3": 74.0,
+      "freight_class": 50
+    },
+    "systems": [
+      {
+        "system": "erp",
+        "divergences": [
+          { "field": "case_gross_weight_lb", "system_value": 20.0, "mor_value": 21.5, "abs_delta": 1.5, "pct_delta": 0.0698, "flagged": true },
+          { "field": "case_length_in", "system_value": 11.0, "mor_value": 11.25, "abs_delta": 0.25, "pct_delta": 0.0222, "flagged": false },
+          { "field": "case_width_in", "system_value": 8.0, "mor_value": 8.5, "abs_delta": 0.5, "pct_delta": 0.0588, "flagged": false },
+          { "field": "case_height_in", "system_value": 5.0, "mor_value": 5.25, "abs_delta": 0.25, "pct_delta": 0.0476, "flagged": false }
+        ]
+      },
+      {
+        "system": "wms",
+        "divergences": [
+          { "field": "case_gross_weight_lb", "system_value": 21.5, "mor_value": 21.5, "abs_delta": 0.0, "pct_delta": 0.0, "flagged": false }
+        ]
+      },
+      {
+        "system": "gdsn",
+        "divergences": [
+          { "field": "case_gross_weight_lb", "system_value": 22.0, "mor_value": 21.5, "abs_delta": 0.5, "pct_delta": 0.0233, "flagged": false },
+          { "field": "case_length_in", "system_value": 13.0, "mor_value": 11.25, "abs_delta": 1.75, "pct_delta": 0.1556, "flagged": true },
+          { "field": "case_width_in", "system_value": 11.0, "mor_value": 8.5, "abs_delta": 2.5, "pct_delta": 0.2941, "flagged": true },
+          { "field": "case_height_in", "system_value": 7.0, "mor_value": 5.25, "abs_delta": 1.75, "pct_delta": 0.3333, "flagged": true }
+        ]
+      },
+      {
+        "system": "shopify",
+        "divergences": [
+          { "field": "ship_weight_lb", "system_value": 1.0, "mor_value": 2.05, "abs_delta": 1.05, "pct_delta": 0.5122, "flagged": true }
+        ]
+      }
+    ],
+    "freight_by_system": {
+      "erp": { "density": 48.41, "freight_class": 55 },
+      "wms": { "density": 74.0, "freight_class": 50 },
+      "gdsn": { "density": 37.98, "freight_class": 55 }
+    }
+  },
+  "cost": {
+    "ltl_reclass": {
+      "per_unit_delta": 0.39,
+      "annual_units": 52,
+      "annual_cost": 20.28,
+      "basis": {
+        "gdsn_class": 55,
+        "mor_class": 50,
+        "gdsn_density": 37.98,
+        "mor_density": 74.0,
+        "case_weight_lb": 21.5
+      }
+    },
+    "parcel_reweigh": {
+      "per_unit_delta": 1.97,
+      "annual_units": 200,
+      "annual_cost": 394.0,
+      "basis": {
+        "billable_weight_lb": 3,
+        "shopify_weight_lb": 1.0,
+        "dim_weight_lb": 1.554,
+        "dtc_parcel_gross_lb": 2.05
+      }
+    },
+    "compliance_cb": {
+      "per_unit_delta": 200.0,
+      "annual_units": 3,
+      "annual_cost": 600.0,
+      "basis": {
+        "reason": "dimension_mismatch",
+        "gdsn_class": 55,
+        "mor_class": 50
+      }
+    }
+  },
+  "rate_tables": {
+    "ltl_rate_per_cwt": { "50": 18.0, "55": 19.8 },
+    "parcel_rate_per_lb": { "1": 9.8, "2": 10.96, "3": 11.77, "4": 12.41, "5": 12.97 },
+    "dim_divisor": 139
+  },
+  "paradox": {
+    "ops_fix": {
+      "description": "Align GDSN dimensions to physical case measurements",
+      "effect": "Retail freight class improves; DTC parcel leak unchanged"
+    },
+    "dtc_fix": {
+      "description": "Correct Shopify weight to actual parcel gross weight",
+      "effect": "Parcel back-billing eliminated; quoted shipping cost rises"
+    }
+  }
+}
