@@ -1,0 +1,12 @@
+dimension_weight_integrity:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('CINDERHAVEN_DB_HOST', 'localhost') }}"
+      port: "{{ env_var('CINDERHAVEN_DB_PORT', '5432') | int }}"
+      user: "{{ env_var('CINDERHAVEN_DB_USER', 'postgres') }}"
+      password: "{{ env_var('CINDERHAVEN_DB_PASSWORD', '') }}"
+      dbname: "{{ env_var('CINDERHAVEN_DB_NAME', 'cinderhaven') }}"
+      schema: public
+      threads: 4

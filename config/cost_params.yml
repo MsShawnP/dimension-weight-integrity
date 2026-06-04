@@ -1,0 +1,86 @@
+# Dimension & Weight Integrity — Business Parameters
+#
+# Every value in this file is a calibratable business parameter.
+# Physics (cube, density, freight class) are computed in dbt macros, never here.
+# This file is the single source for all rate tables, volumes, and tolerances.
+#
+# PARAM tags mark each value as a tunable business parameter.
+# Source citations document the basis for each value.
+
+# --- LTL Freight Rates ---
+# Source: modeled stand-in based on industry benchmarks
+#   15-25% cost increase per class step (Red Stag, Jansson LLC)
+#   Rates are $/cwt (per hundred weight) by NMFC class
+ltl:
+  rate_per_cwt:  # PARAM — $/cwt by NMFC freight class
+    50: 18.00
+    55: 19.80
+    60: 21.78
+    65: 23.96
+    70: 26.35
+    77.5: 28.99
+    85: 31.89
+    92.5: 35.08
+    100: 38.59
+    110: 42.44
+    125: 46.69
+    150: 51.36
+    175: 56.49
+    200: 62.14
+    250: 68.36
+    300: 75.19
+    400: 82.71
+    500: 90.98
+  reclassification_inspection_fee: 112.50  # PARAM — $/shipment, source: industry $75-$150 range midpoint
+  annual_pallet_shipments_per_sku: 52  # PARAM — weekly pallet shipment per SKU, annualized
+
+# --- Parcel Rates ---
+# Source: FedEx Ground Zone 5, 2026 list rates (Quadient/FedEx Rate Guide)
+#   List: 1lb=$14.00, 2lb=$15.66, 3lb=$16.81, 4lb=$17.73, 5lb=$18.53
+#   Modeled at ~30% discount (typical small-brand negotiated rate)
+parcel:
+  rate_per_lb:  # PARAM — $/shipment by weight tier (lb), discounted from list
+    1: 9.80
+    2: 10.96
+    3: 11.77
+    4: 12.41
+    5: 12.97
+  list_rate_per_lb:  # Reference only — published FedEx Ground Zone 5 2026 list rates
+    1: 14.00
+    2: 15.66
+    3: 16.81
+    4: 17.73
+    5: 18.53
+  dim_divisor: 139  # PARAM — FedEx/UPS domestic standard (USPS moves to 139 July 2026)
+  annual_dtc_orders_per_sku: 200  # PARAM — estimated annual DTC orders per SKU
+
+# --- Compliance Chargebacks ---
+# Source: Walmart SQEP ($200 base + $4/non-compliant pallet), Costco (2% of invoice)
+#   Dimension-specific chargebacks modeled as subset of pallet/packaging violations
+#   Labeled as modeled assumption — not published as standalone category
+chargebacks:
+  per_event_cost: 200.00  # PARAM — $/event, modeled from Walmart SQEP base
+  per_pallet_surcharge: 4.00  # PARAM — $/non-compliant pallet (Walmart SQEP)
+  annual_events_per_sku: 3  # PARAM — estimated annual chargeback events per affected SKU
+  affected_sku_pct: 0.40  # PARAM — fraction of SKUs likely to trigger dimension chargebacks
+
+# --- Divergence Tolerances ---
+# Thresholds for flagging system divergence
+tolerances:
+  weight_lb: 0.50  # PARAM — absolute lb difference to flag as divergent
+  dimension_in: 0.50  # PARAM — absolute inch difference to flag as divergent
+  weight_pct: 0.03  # PARAM — percentage weight difference to flag
+  dimension_pct: 0.05  # PARAM — percentage dimension difference to flag
+
+# --- Hero SKU Reference Values ---
+# These are NOT parameters — they are the measurement-of-record values
+# used for reconciliation testing. Computed from physical measurement.
+hero_sku:
+  sku_id: null  # Resolved during data generation from product_master
+  case_gross_weight_lb: 21.50
+  case_length_in: 11.25
+  case_width_in: 8.50
+  case_height_in: 5.25
+  unit_net_weight_lb: 1.00
+  dtc_parcel_gross_lb: 2.05
+  case_pack_qty: 12

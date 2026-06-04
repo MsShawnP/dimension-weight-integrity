@@ -1,0 +1,25 @@
+name: dimension_weight_integrity
+version: '1.0.0'
+config-version: 2
+
+profile: dimension_weight_integrity
+
+model-paths: ["models"]
+test-paths: ["tests", "unit_tests"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+  dimension_weight_integrity:
+    staging:
+      +schema: public_staging
+      +materialized: view
+    intermediate:
+      +schema: public_intermediate
+      +materialized: view
+    marts:
+      +schema: public_marts
+      +materialized: table
