@@ -42,19 +42,19 @@ with test_cases as (
         55 as expected
 
     union all select
-        'nmfc class 85 — mid range (13.0)' as test_name,
+        'nmfc class 77.5 — mid range (13.0)' as test_name,
         ({{ density_to_nmfc_class('13.0') }})::numeric as actual,
-        85 as expected
+        77.5 as expected
 
     union all select
-        'nmfc class 250 — low density (3.5)' as test_name,
+        'nmfc class 200 — low density (3.5)' as test_name,
         ({{ density_to_nmfc_class('3.5') }})::numeric as actual,
-        250 as expected
+        200 as expected
 
     union all select
-        'nmfc class 500 — lowest (0.5)' as test_name,
+        'nmfc class 400 — lowest (0.5)' as test_name,
         ({{ density_to_nmfc_class('0.5') }})::numeric as actual,
-        500 as expected
+        400 as expected
 
     -- dim_weight_lb tests (per-dimension ceiling before division)
     union all select

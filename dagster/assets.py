@@ -8,8 +8,10 @@ import os
 import pathlib
 import subprocess
 
-import psycopg2
 from dagster import asset, AssetExecutionContext
+from psycopg2 import sql
+
+from data_gen.shared import get_db_connection
 
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
@@ -24,15 +26,6 @@ RAW_TABLES = {
     "shopify_products": "shopify_products.csv",
 }
 
-
-def _get_connection():
-    return psycopg2.connect(
-        host=os.environ.get("CINDERHAVEN_DB_HOST", "localhost"),
-        port=int(os.environ.get("CINDERHAVEN_DB_PORT", "5432")),
-        user=os.environ.get("CINDERHAVEN_DB_USER", "postgres"),
-        password=os.environ.get("CINDERHAVEN_DB_PASSWORD", ""),
-        dbname=os.environ.get("CINDERHAVEN_DB_NAME", "cinderhaven"),
-    )
 
 
 @asset(description="Generate synthetic dimension divergence CSVs for 50 SKUs × 4 systems")
@@ -49,7 +42,7 @@ def generate_source_extracts(context: AssetExecutionContext):
 
 @asset(deps=[generate_source_extracts], description="Load generated CSVs into Postgres raw tables")
 def load_raw(context: AssetExecutionContext):
-    conn = _get_connection()
+    conn = get_db_connection()
     try:
         with conn.cursor() as cur:
             for table_name, csv_file in RAW_TABLES.items():
@@ -59,19 +52,25 @@ def load_raw(context: AssetExecutionContext):
                 with open(csv_path) as f:
                     reader = csv.DictReader(f)
                     columns = reader.fieldnames
+                    tbl = sql.Identifier(table_name)
+                    col_ids = sql.SQL(", ").join(sql.Identifier(c) for c in columns)
+                    col_defs = sql.SQL(", ").join(
+                        sql.SQL("{} text").format(sql.Identifier(c)) for c in columns
+                    )
 
-                    cur.execute(f"drop table if exists {table_name}")
-                    col_defs = ", ".join(f"{c} text" for c in columns)
-                    cur.execute(f"create table {table_name} ({col_defs})")
+                    cur.execute(sql.SQL("drop table if exists {}").format(tbl))
+                    cur.execute(sql.SQL("create table {} ({})").format(tbl, col_defs))
 
+                    placeholders = sql.SQL(", ").join(sql.Placeholder() * len(columns))
+                    insert_stmt = sql.SQL("insert into {} ({}) values ({})").format(
+                        tbl, col_ids, placeholders
+                    )
                     for row in reader:
-                        placeholders = ", ".join(["%s"] * len(columns))
-                        cur.execute(
-                            f"insert into {table_name} ({', '.join(columns)}) values ({placeholders})",
-                            [row[c] for c in columns],
-                        )
+                        cur.execute(insert_stmt, [row[c] for c in columns])
 
-            conn.commit()
+                conn.commit()
+                context.log.info(f"Loaded {table_name}")
+
             context.log.info(f"Loaded {len(RAW_TABLES)} raw tables")
     finally:
         conn.close()

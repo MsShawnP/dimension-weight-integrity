@@ -9,7 +9,7 @@ shopify as (
 parcel_weights as (
     select
         mor.sku,
-        mor.unit_weight_lb + 1.05 as dtc_parcel_gross_lb,
+        mor.unit_weight_lb + {{ var('packaging_offset_lb') }} as dtc_parcel_gross_lb,
         shopify.ship_weight_lb as shopify_ship_weight_lb,
         coalesce(shopify.case_length_in, 6.0) as parcel_length_in,
         coalesce(shopify.case_width_in, 6.0) as parcel_width_in,
@@ -18,15 +18,15 @@ parcel_weights as (
             'coalesce(shopify.case_length_in, 6.0)',
             'coalesce(shopify.case_width_in, 6.0)',
             'coalesce(shopify.case_height_in, 6.0)',
-            '139'
+            var('dim_divisor')
         ) }} as dim_weight_lb,
         {{ billable_weight_lb(
-            'mor.unit_weight_lb + 1.05',
+            'mor.unit_weight_lb + ' ~ var('packaging_offset_lb'),
             dim_weight_lb(
                 'coalesce(shopify.case_length_in, 6.0)',
                 'coalesce(shopify.case_width_in, 6.0)',
                 'coalesce(shopify.case_height_in, 6.0)',
-                '139'
+                var('dim_divisor')
             )
         ) }} as billable_weight_lb
     from mor

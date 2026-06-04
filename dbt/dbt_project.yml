@@ -12,6 +12,51 @@ clean-targets:
   - target
   - dbt_packages
 
+# Business parameters — sourced from config/cost_params.yml
+# These are calibratable values, not physics. Tagged PARAM at source.
+vars:
+  # LTL rate table: $/cwt by NMFC class
+  ltl_rate_per_cwt:
+    50: 18.00
+    55: 19.80
+    60: 21.78
+    65: 23.96
+    70: 26.35
+    77.5: 28.99
+    85: 31.89
+    92.5: 35.08
+    100: 38.59
+    110: 42.44
+    125: 46.69
+    150: 51.36
+    175: 56.49
+    200: 62.14
+    250: 68.36
+    300: 75.19
+    400: 82.71
+    500: 90.98
+  # Parcel rate table: $/shipment by weight tier
+  parcel_rate_per_lb:
+    1: 9.80
+    2: 10.96
+    3: 11.77
+    4: 12.41
+    5: 12.97
+  parcel_rate_fallback: 12.97
+  # Annual volumes
+  annual_pallet_shipments_per_sku: 52
+  annual_dtc_orders_per_sku: 200
+  # Compliance chargebacks
+  chargeback_per_event_cost: 200.00
+  annual_chargeback_events_per_sku: 3
+  # Divergence tolerances
+  divergence_tolerance_lb: 0.50
+  divergence_tolerance_in: 0.50
+  # DIM weight divisor (industry standard)
+  dim_divisor: 139
+  # Packaging offset (unit net weight → DTC parcel gross)
+  packaging_offset_lb: 1.05
+
 models:
   dimension_weight_integrity:
     staging:

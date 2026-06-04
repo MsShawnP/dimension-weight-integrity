@@ -27,10 +27,11 @@ def test_decimal_encoder_converts_to_float():
 
 
 def test_hero_json_schema_keys():
-    """Verify expected top-level keys in the hero JSON schema."""
+    """Verify expected top-level keys in the hero JSON output."""
+    hero_path = pathlib.Path(__file__).parent.parent / "frontend" / "src" / "data" / "hero.json"
+    hero = json.loads(hero_path.read_text())
     expected_keys = {"hero_sku", "cost", "rate_tables", "paradox"}
-    # Schema check only — actual data requires Postgres
-    assert expected_keys == expected_keys
+    assert set(hero.keys()) == expected_keys
 
 
 def test_config_rate_tables_match_hero_json_contract():
@@ -46,7 +47,9 @@ def test_config_rate_tables_match_hero_json_contract():
 
 
 def test_hero_json_annual_cost_formula():
-    """annual_cost = per_unit_delta × annual_units."""
-    per_unit = 15.48
-    annual_units = 52
-    assert round(per_unit * annual_units, 2) == 804.96
+    """annual_cost = per_unit_delta × annual_units for each cost driver."""
+    hero_path = pathlib.Path(__file__).parent.parent / "frontend" / "src" / "data" / "hero.json"
+    hero = json.loads(hero_path.read_text())
+    for name, driver in hero["cost"].items():
+        expected = round(driver["per_unit_delta"] * driver["annual_units"], 2)
+        assert driver["annual_cost"] == expected, f"{name}: {driver['annual_cost']} != {expected}"

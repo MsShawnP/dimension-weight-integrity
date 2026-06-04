@@ -115,9 +115,9 @@ dtc_divergence as (
         'shopify' as system,
         'ship_weight_lb' as field,
         shopify.ship_weight_lb as system_value,
-        mor.unit_weight_lb + 1.05 as mor_value,  -- dtc_parcel_gross_lb = unit_net + packaging
-        abs(shopify.ship_weight_lb - (mor.unit_weight_lb + 1.05)) as abs_delta,
-        abs(shopify.ship_weight_lb - (mor.unit_weight_lb + 1.05)) / nullif(mor.unit_weight_lb + 1.05, 0) as pct_delta
+        mor.unit_weight_lb + {{ var('packaging_offset_lb') }} as mor_value,
+        abs(shopify.ship_weight_lb - (mor.unit_weight_lb + {{ var('packaging_offset_lb') }})) as abs_delta,
+        abs(shopify.ship_weight_lb - (mor.unit_weight_lb + {{ var('packaging_offset_lb') }})) / nullif(mor.unit_weight_lb + {{ var('packaging_offset_lb') }}, 0) as pct_delta
     from shopify
     join mor using (sku)
 )

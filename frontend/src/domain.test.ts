@@ -85,18 +85,10 @@ describe('computeParcelDelta', () => {
 })
 
 describe('computeParadox', () => {
-  const rateTables = {
-    ltl_rate_per_cwt: { '50': 18.0, '55': 19.8 },
-    parcel_rate_per_lb: { '1': 9.8, '5': 12.97 },
-    dim_divisor: 139,
-  }
-  const heroMor = { case_gross_weight_lb: 21.5, freight_class: 50 }
-  const gdsn = { freight_class: 55 }
-  const parcel = { billable_weight_lb: 5, shopify_weight_lb: 1 }
   const baseCosts = { ltl: 20.28, parcel: 394.0, cb: 600.0 }
 
   it('returns base costs when fixType is none', () => {
-    const result = computeParadox('none', rateTables, heroMor, gdsn, parcel, baseCosts)
+    const result = computeParadox('none', baseCosts)
     expect(result.ltlCost).toBe(20.28)
     expect(result.parcelCost).toBe(394.0)
     expect(result.ltlFixed).toBe(false)
@@ -104,7 +96,7 @@ describe('computeParadox', () => {
   })
 
   it('zeroes LTL when ops fix applied', () => {
-    const result = computeParadox('ops', rateTables, heroMor, gdsn, parcel, baseCosts)
+    const result = computeParadox('ops', baseCosts)
     expect(result.ltlCost).toBe(0)
     expect(result.ltlFixed).toBe(true)
     expect(result.parcelCost).toBe(394.0)
@@ -112,7 +104,7 @@ describe('computeParadox', () => {
   })
 
   it('zeroes parcel when dtc fix applied', () => {
-    const result = computeParadox('dtc', rateTables, heroMor, gdsn, parcel, baseCosts)
+    const result = computeParadox('dtc', baseCosts)
     expect(result.parcelCost).toBe(0)
     expect(result.parcelFixed).toBe(true)
     expect(result.ltlCost).toBe(20.28)

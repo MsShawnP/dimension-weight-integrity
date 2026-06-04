@@ -14,19 +14,10 @@ import json
 import os
 import pathlib
 
-import psycopg2
 import psycopg2.extras
 import yaml
 
-
-def get_connection():
-    return psycopg2.connect(
-        host=os.environ.get("CINDERHAVEN_DB_HOST", "localhost"),
-        port=int(os.environ.get("CINDERHAVEN_DB_PORT", "5432")),
-        user=os.environ.get("CINDERHAVEN_DB_USER", "postgres"),
-        password=os.environ.get("CINDERHAVEN_DB_PASSWORD", ""),
-        dbname=os.environ.get("CINDERHAVEN_DB_NAME", "cinderhaven"),
-    )
+from data_gen.shared import get_db_connection
 
 
 class DecimalEncoder(json.JSONEncoder):
@@ -205,11 +196,10 @@ def build_all_skus_json(cur, config):
         "skus": skus,
         "aggregate": {
             "total_annual_cost": sum(s["cost"]["total_annual_cost"] for s in skus),
-            "skus_with_class_mismatch": sum(1 for s in skus if any(
-                d.get("annual_cost", 0) and d.get("annual_cost", 0) > 0
-                for d in s["cost"]["drivers"].values()
-                if True
-            )),
+            "skus_with_class_mismatch": sum(
+                1 for s in skus
+                if s["cost"]["drivers"].get("ltl_reclass", {}).get("annual_cost", 0) > 0
+            ),
             "total_skus": len(skus),
         },
     }
@@ -217,7 +207,7 @@ def build_all_skus_json(cur, config):
 
 def export(output_dir, hero_sku):
     config = load_config()
-    conn = get_connection()
+    conn = get_db_connection()
 
     try:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:

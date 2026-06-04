@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Chapter } from './types'
+import { CHAPTER_ORDER } from './types'
 import { heroData, allSkusData } from './data'
 import ChapterNav from './components/ChapterNav'
 import QuizView from './components/QuizView'
@@ -7,8 +8,6 @@ import CostReveal from './components/CostReveal'
 import ParadoxToggle from './components/ParadoxToggle'
 import GovernanceResolution from './components/GovernanceResolution'
 import PortfolioView from './components/PortfolioView'
-
-const CHAPTER_ORDER: Chapter[] = ['quiz', 'cost', 'paradox', 'resolution', 'portfolio']
 
 function chapterIndex(ch: Chapter): number {
   return CHAPTER_ORDER.indexOf(ch)

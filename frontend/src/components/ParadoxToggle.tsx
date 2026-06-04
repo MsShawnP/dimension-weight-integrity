@@ -29,21 +29,7 @@ export default function ParadoxToggle({ data, onComplete }: ParadoxToggleProps) 
     cb: complianceCb?.annual_cost ?? 0,
   }
 
-  const mor = data.hero_sku.measurement_of_record
-  const gdsnSystem = data.hero_sku.freight_by_system['gdsn']
-  const parcelBasis = (parcelReweigh?.basis ?? {}) as {
-    billable_weight_lb: number
-    shopify_weight_lb: number
-  }
-
-  const result = computeParadox(
-    fixType,
-    data.rate_tables,
-    { case_gross_weight_lb: mor.case_gross_weight_lb, freight_class: mor.freight_class },
-    { freight_class: gdsnSystem?.freight_class ?? 0 },
-    { billable_weight_lb: parcelBasis.billable_weight_lb, shopify_weight_lb: parcelBasis.shopify_weight_lb },
-    baseCosts,
-  )
+  const result = computeParadox(fixType, baseCosts)
 
   const totalRemaining = result.ltlCost + result.parcelCost + result.cbCost
 

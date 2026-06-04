@@ -32,7 +32,7 @@ export function billableWeightLb(actualWeight: number, dimWeight: number): numbe
 }
 
 function lookupRate(rates: Record<string, number>, key: number): number {
-  return rates[String(key)] ?? rates[String(Math.min(key, 5))] ?? 0
+  return rates[String(key)] ?? 0
 }
 
 export function computeLtlDelta(
@@ -67,10 +67,6 @@ export interface ParadoxResult {
 
 export function computeParadox(
   fixType: 'none' | 'ops' | 'dtc',
-  _rateTables: RateTables,
-  _heroMor: { case_gross_weight_lb: number; freight_class: number },
-  _gdsn: { freight_class: number },
-  _parcel: { billable_weight_lb: number; shopify_weight_lb: number },
   baseCosts: { ltl: number; parcel: number; cb: number }
 ): ParadoxResult {
   if (fixType === 'none') {

@@ -160,31 +160,6 @@ body {
   min-height: 400px;
 }
 
-.placeholder-chapter {
-  text-align: center;
-  padding: 80px 0;
-}
-
-.placeholder-chapter h2 {
-  font-family: var(--font-serif);
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 16px;
-}
-
-@media (max-width: 640px) {
-  .placeholder-chapter h2 {
-    font-size: 18px;
-  }
-}
-
-.placeholder-text {
-  color: var(--text-secondary);
-  font-size: 17px;
-  margin-bottom: 32px;
-}
-
 /* Primary button */
 .btn-primary {
   font-family: var(--font-sans);
