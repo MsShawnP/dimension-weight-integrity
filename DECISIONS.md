@@ -104,6 +104,21 @@ Each entry:
 - **Why:** hero.json is the contract between pipeline and frontend. Tests verify AE1–AE4 invariants (physical constants, GDSN mismatch, cost driver math, rate tables) hold regardless of data source.
 - **Scope:** `tests/test_e2e_reconciliation.py`
 
+### 2026-06-04 — All business parameters sourced from dbt vars, not hard-coded in SQL
+- **Why:** Code review found rate tables, annual volumes, chargeback costs, tolerances, DIM divisor, and packaging offset hard-coded in 4 SQL files — violating the "exact vs parameter split is the credibility core" rule. Values now flow from config/cost_params.yml → dbt_project.yml vars → SQL via `{{ var('...') }}` and the new `rate_lookup.sql` macro.
+- **Scope:** `dbt/dbt_project.yml`, `dbt/macros/rate_lookup.sql`, `dbt/models/marts/fct_dimension_cost.sql`, `dbt/models/intermediate/int_dim_and_billable.sql`, `dbt/models/intermediate/int_system_attribute_divergence.sql`, `dbt/models/marts/fct_attribute_divergence.sql`
+- **Do not:** Hard-code business parameters in SQL. All calibratable values go through dbt vars.
+
+### 2026-06-04 — Runtime type assertions for JSON imports, not `as unknown as T`
+- **Why:** Double-cast `as unknown as T` bypasses TypeScript entirely. Runtime assertion functions validate JSON shape at import time and fail fast with clear errors if the contract breaks.
+- **Scope:** `frontend/src/data.ts`
+- **Do not:** Use `as unknown as T` for JSON imports.
+
+### 2026-06-04 — DB connection factory lives in data_gen/shared.py only
+- **Why:** Three identical copies existed (data_gen, dagster, scripts). Single source prevents drift.
+- **Scope:** `data_gen/shared.py`, `dagster/assets.py`, `scripts/export_frontend_json.py`
+- **Do not:** Create new connection factories — import `get_db_connection` from `data_gen.shared`.
+
 ---
 
 ## Reversed / Superseded

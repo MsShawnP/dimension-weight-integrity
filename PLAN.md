@@ -27,6 +27,7 @@ at a time?
 - [x] Run `/ce:plan` to create an implementation plan
 - [x] Lock stack decisions in DECISIONS.md
 - [x] Run `/ce:work` to implement (15 units: U1–U15)
+- [x] Run `/ce:review` — 17 findings, all resolved
 
 ## Out of scope for this arc
 

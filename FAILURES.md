@@ -66,3 +66,17 @@ shouldn't re-attempt dead ends because the lesson got lost.
 **Status:** Resolved
 
 **Tags:** typescript, strict, unused-params, array-access
+
+---
+
+### 2026-06-04 — Runtime assertion broke app by assuming all_skus.json is an array
+
+**Attempted:** Replaced `as unknown as AllSkusData` with runtime assertion `assertAllSkusData` that checked `Array.isArray(data)`.
+
+**Why it didn't work:** `AllSkusData` is `{ skus: SkuSummary[], aggregate: {...} }` — an object with a `skus` array inside, not an array itself. The assertion threw immediately on import, breaking the entire app. Vite HMR couldn't recover.
+
+**What we tried instead:** Fixed the assertion to check `Array.isArray(obj.skus) && obj.aggregate` instead. Had to restart the dev server because HMR was stuck on the old error.
+
+**Status:** Resolved
+
+**Tags:** typescript, runtime-assertion, type-guard, vite-hmr

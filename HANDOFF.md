@@ -9,6 +9,34 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-04 — Code review complete, all findings resolved
+
+**Started from:** Implementation complete (U1–U15), all tests passing, pushed to GitHub.
+
+**Did:**
+- Ran `/ce:code-review` — 9 reviewer agents dispatched in parallel (correctness, testing, maintainability, project-standards, agent-native, learnings-researcher, adversarial, kieran-python, kieran-typescript)
+- Review surfaced 17 findings (0 P0, 7 P1, 9 P2, 1 P3), 5 suppressed below confidence threshold
+- Applied 8 safe_auto fixes automatically, then fixed all 8 remaining manual findings
+- Key fixes: 3 wrong dbt test assertions corrected, vacuous/inert Python tests rewritten to validate actual data, business parameters extracted from SQL to dbt vars via new `rate_lookup.sql` macro, `as unknown as T` replaced with runtime assertions, DB connection and CHAPTER_ORDER deduplicated, `if True` bug fixed, lookupRate fallback removed, dagster loader hardened
+- All 99 tests pass (50 frontend + 49 Python), TypeScript compiles clean, browser preview verified
+
+**Commits this session:**
+1. `fix: resolve 17 code review findings — tests, type safety, parameter extraction, deduplication`
+
+**Decisions logged:**
+- All business parameters sourced from dbt vars, not hard-coded in SQL
+- Runtime type assertions for JSON imports, not `as unknown as T`
+- DB connection factory lives in data_gen/shared.py only
+
+**Failures logged:**
+- Runtime assertion broke app by assuming all_skus.json is an array (fixed)
+
+**State:** Code review complete. All findings resolved. Pushed to GitHub.
+
+**Next:** Run `/qa` for browser testing, then `/ce:compound` to extract learnings.
+
+---
+
 ## 2026-06-04 — Implementation complete (U1–U15)
 
 **Started from:** Plan complete, ready to implement.
