@@ -1,0 +1,44 @@
+# Secrets
+.env
+.env.*
+*.key
+credentials.*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python (likely — will be refined after stack selection)
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Node (if frontend uses it)
+node_modules/
+.next/
+.env*.local
+
+# Data (generated, not committed)
+data/generated/
+
+# dbt
+dbt_packages/
+dbt_modules/
+target/
+logs/
+
+# Claude
+.claude-project-url
