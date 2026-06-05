@@ -1,5 +1,7 @@
 # Dimension & Weight Integrity
 
+**Live:** https://dimensions.lailarallc.com
+
 Inconsistent product weights and dimensions across ERP, WMS, GDSN, and DTC systems silently bleed margin through freight misclassification, parcel reweigh back-bills, and compliance chargebacks. This project quantifies the cost for Cinderhaven Foods' 50-SKU portfolio and demonstrates why no single-channel fix resolves the problem — only a governed measurement of record does.
 
 ## Cinderhaven context
@@ -20,7 +22,7 @@ Total annual cost for one SKU: $1,014.28. The localization paradox: fixing retai
 
 - **Pipeline:** Python 3.13, dbt-core, Dagster, PostgreSQL
 - **Frontend:** React 19, TypeScript 5.7, Vite 6
-- **Deployment:** Cloudflare Workers (frontend), Fly.io (pipeline)
+- **Deployment:** Cloudflare Pages (frontend), Fly.io (pipeline)
 - **Design:** Lailara design system (Playfair Display + Source Sans 3, Economist-style charts)
 
 ## Data contract

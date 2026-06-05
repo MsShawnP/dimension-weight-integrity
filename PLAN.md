@@ -42,7 +42,7 @@ at a time?
 - [x] Implementation plan produced with task breakdown
 - [x] Stack decisions locked in DECISIONS.md
 - [x] All 15 implementation units complete and verified
-- [x] dbt tests pass, frontend deploys to Cloudflare Workers
+- [x] dbt tests pass, frontend deploys to Cloudflare Pages
 
 ---
 
@@ -58,3 +58,10 @@ at a time?
 ## Improvement history
 
 <!-- Entries are added by /improve — don't delete this section -->
+
+### 2026-06-05 — Improvement pass
+- **Trigger:** First /improve — just-shipped project, live-readiness check
+- **What was reviewed:** Dependencies, index.html meta tags, README accuracy, DECISIONS.md accuracy, font bundle size, git hygiene
+- **What was fixed:** Vitest critical vulnerability (3.x → 4.1.8), added meta description + OG tags to index.html, added live URL to README, corrected Workers → Pages in README/DECISIONS/PLAN, corrected Vite 8 → Vite 6 in DECISIONS.md, subset fonts to latin-only (CSS 22.5 KB → 13.0 KB), ran npm audit + pip-audit (both clean)
+- **Deferred:** None — all 8 findings resolved
+- **Next review:** 2026-07-05

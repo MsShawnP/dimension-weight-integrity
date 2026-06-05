@@ -19,8 +19,8 @@ Each entry:
 
 ## Architecture & Pipeline
 
-### 2026-06-04 — Frontend: React 19 + TypeScript + Vite 8 + Cloudflare Workers
-- **Why:** Discovery narrative requires state management for quiz/toggle interactions. React handles this naturally. Vite 8 bundles to static assets. Cloudflare Workers serves them with no origin server.
+### 2026-06-04 — Frontend: React 19 + TypeScript + Vite 6 + Cloudflare Pages
+- **Why:** Discovery narrative requires state management for quiz/toggle interactions. React handles this naturally. Vite 6 bundles to static assets. Cloudflare Pages serves them with no origin server.
 - **Scope:** `frontend/`
 - **Do not:** Add a backend API. Frontend reads static JSON only.
 
