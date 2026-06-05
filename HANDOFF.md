@@ -9,6 +9,21 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-05 — First /improve pass complete
+
+**Started from:** Arc done, deployed, tagged v1.0.0. First-ever /improve for live-readiness.
+
+**Did:**
+- Full audit: 1 critical, 5 important, 2 nice-to-have findings
+- Fixed all 8: vitest CVE (3→4.1.8), meta/OG tags, README live URL, Workers→Pages in 3 files, Vite 8→6 in DECISIONS, latin-only font subsetting (CSS −42%), dep audits clean
+- Redeployed to Cloudflare Pages with all fixes live
+
+**State:** Stable. 81 tests pass, build clean, deployed, all docs accurate. No active arc.
+
+**Next:** No active work. Next /improve due 2026-07-05, next dep audit 2026-08-04.
+
+---
+
 ## 2026-06-04 — QA, compound, deploy complete — arc done
 
 **Started from:** Code review complete, all 17 findings resolved, 99 tests green.
