@@ -43,3 +43,4 @@ logs/
 
 # Claude
 .claude-project-url
+.claude/
