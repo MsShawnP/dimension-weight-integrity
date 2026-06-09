@@ -25,7 +25,7 @@ PRODUCT_MASTER_QUERY = """
         case_length_in,
         case_width_in,
         case_height_in
-    from product_master
+    from raw.product_master
     where sku like 'CHP-%%'
     order by sku
 """
