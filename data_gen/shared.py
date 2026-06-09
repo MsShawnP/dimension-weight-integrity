@@ -1,5 +1,6 @@
 """Constants, RNG helpers, and DB connection for data generation."""
 
+import decimal
 import os
 import pathlib
 
@@ -11,8 +12,8 @@ SEED = 42
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
 DATA_DIR = PROJECT_ROOT / "data" / "generated"
 
-HERO_SKU_ID = "CHP-0009"
-HERO_SKU_DISPLAY_NAME = "Cinderhaven Spicy Marinara (16 oz)"
+HERO_SKU_ID = "CHP-AS-002"
+HERO_SKU_DISPLAY_NAME = "Roasted Garlic Marinara"
 
 PRODUCT_MASTER_QUERY = """
     select
@@ -41,11 +42,24 @@ def get_db_connection():
     )
 
 
+def _coerce_numerics(row):
+    """Convert Decimal/int to float for downstream arithmetic compatibility."""
+    out = {}
+    for k, v in row.items():
+        if isinstance(v, decimal.Decimal):
+            out[k] = float(v)
+        elif k == "case_pack_qty" and v is not None:
+            out[k] = int(v)
+        else:
+            out[k] = v
+    return out
+
+
 def fetch_product_master():
     conn = get_db_connection()
     try:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
             cur.execute(PRODUCT_MASTER_QUERY)
-            return [dict(row) for row in cur.fetchall()]
+            return [_coerce_numerics(row) for row in cur.fetchall()]
     finally:
         conn.close()

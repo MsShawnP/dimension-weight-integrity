@@ -1,65 +1,144 @@
 {
   "hero_sku": {
-    "sku": "CHP-0009",
-    "product_name": "Cinderhaven Spicy Marinara (16 oz)",
+    "sku": "CHP-AS-002",
+    "product_name": "Roasted Garlic Marinara",
     "measurement_of_record": {
       "source": "wms",
       "case_gross_weight_lb": 21.5,
       "case_length_in": 11.25,
       "case_width_in": 8.5,
       "case_height_in": 5.25,
-      "case_cube_ft3": 0.29053,
-      "density_lb_per_ft3": 74.0,
-      "freight_class": 50
+      "case_cube_ft3": 0.29052734375,
+      "density_lb_per_ft3": 74.00336134453782,
+      "freight_class": 50.0
     },
     "systems": [
       {
         "system": "erp",
         "divergences": [
-          { "field": "case_gross_weight_lb", "system_value": 20.0, "mor_value": 21.5, "abs_delta": 1.5, "pct_delta": 0.0698, "flagged": true },
-          { "field": "case_length_in", "system_value": 11.0, "mor_value": 11.25, "abs_delta": 0.25, "pct_delta": 0.0222, "flagged": false },
-          { "field": "case_width_in", "system_value": 8.0, "mor_value": 8.5, "abs_delta": 0.5, "pct_delta": 0.0588, "flagged": false },
-          { "field": "case_height_in", "system_value": 5.0, "mor_value": 5.25, "abs_delta": 0.25, "pct_delta": 0.0476, "flagged": false }
+          {
+            "field": "case_gross_weight_lb",
+            "system_value": 20.0,
+            "mor_value": 21.5,
+            "abs_delta": 1.5,
+            "pct_delta": 0.06976744186046512,
+            "flagged": true
+          },
+          {
+            "field": "case_length_in",
+            "system_value": 11.0,
+            "mor_value": 11.25,
+            "abs_delta": 0.25,
+            "pct_delta": 0.022222222222222223,
+            "flagged": false
+          },
+          {
+            "field": "case_width_in",
+            "system_value": 8.0,
+            "mor_value": 8.5,
+            "abs_delta": 0.5,
+            "pct_delta": 0.058823529411764705,
+            "flagged": false
+          },
+          {
+            "field": "case_height_in",
+            "system_value": 5.0,
+            "mor_value": 5.25,
+            "abs_delta": 0.25,
+            "pct_delta": 0.047619047619047616,
+            "flagged": false
+          }
         ]
       },
       {
         "system": "wms",
         "divergences": [
-          { "field": "case_gross_weight_lb", "system_value": 21.5, "mor_value": 21.5, "abs_delta": 0.0, "pct_delta": 0.0, "flagged": false }
+          {
+            "field": "case_gross_weight_lb",
+            "system_value": 21.5,
+            "mor_value": 21.5,
+            "abs_delta": 0.0,
+            "pct_delta": 0.0,
+            "flagged": false
+          }
         ]
       },
       {
         "system": "gdsn",
         "divergences": [
-          { "field": "case_gross_weight_lb", "system_value": 22.0, "mor_value": 21.5, "abs_delta": 0.5, "pct_delta": 0.0233, "flagged": false },
-          { "field": "case_length_in", "system_value": 13.0, "mor_value": 11.25, "abs_delta": 1.75, "pct_delta": 0.1556, "flagged": true },
-          { "field": "case_width_in", "system_value": 11.0, "mor_value": 8.5, "abs_delta": 2.5, "pct_delta": 0.2941, "flagged": true },
-          { "field": "case_height_in", "system_value": 7.0, "mor_value": 5.25, "abs_delta": 1.75, "pct_delta": 0.3333, "flagged": true }
+          {
+            "field": "case_gross_weight_lb",
+            "system_value": 22.0,
+            "mor_value": 21.5,
+            "abs_delta": 0.5,
+            "pct_delta": 0.023255813953488372,
+            "flagged": false
+          },
+          {
+            "field": "case_length_in",
+            "system_value": 13.0,
+            "mor_value": 11.25,
+            "abs_delta": 1.75,
+            "pct_delta": 0.15555555555555556,
+            "flagged": true
+          },
+          {
+            "field": "case_width_in",
+            "system_value": 11.0,
+            "mor_value": 8.5,
+            "abs_delta": 2.5,
+            "pct_delta": 0.29411764705882354,
+            "flagged": true
+          },
+          {
+            "field": "case_height_in",
+            "system_value": 7.0,
+            "mor_value": 5.25,
+            "abs_delta": 1.75,
+            "pct_delta": 0.3333333333333333,
+            "flagged": true
+          }
         ]
       },
       {
         "system": "shopify",
         "divergences": [
-          { "field": "ship_weight_lb", "system_value": 1.0, "mor_value": 2.05, "abs_delta": 1.05, "pct_delta": 0.5122, "flagged": true }
+          {
+            "field": "ship_weight_lb",
+            "system_value": 1.0,
+            "mor_value": 2.05,
+            "abs_delta": 1.05,
+            "pct_delta": 0.5121951219512195,
+            "flagged": true
+          }
         ]
       }
     ],
     "freight_by_system": {
-      "erp": { "density": 48.41, "freight_class": 55 },
-      "wms": { "density": 74.0, "freight_class": 50 },
-      "gdsn": { "density": 37.98, "freight_class": 55 }
+      "erp": {
+        "density": 78.54545454545455,
+        "freight_class": 50.0
+      },
+      "wms": {
+        "density": 74.00336134453782,
+        "freight_class": 50.0
+      },
+      "gdsn": {
+        "density": 37.97802197802198,
+        "freight_class": 55.0
+      }
     }
   },
   "cost": {
     "ltl_reclass": {
       "per_unit_delta": 0.39,
       "annual_units": 52,
-      "annual_cost": 20.28,
+      "annual_cost": 20.12,
       "basis": {
-        "gdsn_class": 55,
         "mor_class": 50,
-        "gdsn_density": 37.98,
+        "gdsn_class": 55,
         "mor_density": 74.0,
+        "gdsn_density": 37.98,
         "case_weight_lb": 21.5
       }
     },
@@ -68,9 +147,9 @@
       "annual_units": 200,
       "annual_cost": 394.0,
       "basis": {
-        "billable_weight_lb": 3,
-        "shopify_weight_lb": 1.0,
         "dim_weight_lb": 1.554,
+        "shopify_weight_lb": 1.0,
+        "billable_weight_lb": 3,
         "dtc_parcel_gross_lb": 2.05
       }
     },
@@ -80,14 +159,39 @@
       "annual_cost": 600.0,
       "basis": {
         "reason": "dimension_mismatch",
-        "gdsn_class": 55,
-        "mor_class": 50
+        "mor_class": 50,
+        "gdsn_class": 55
       }
     }
   },
   "rate_tables": {
-    "ltl_rate_per_cwt": { "50": 18.0, "55": 19.8 },
-    "parcel_rate_per_lb": { "1": 9.8, "2": 10.96, "3": 11.77, "4": 12.41, "5": 12.97 },
+    "ltl_rate_per_cwt": {
+      "50": 18.0,
+      "55": 19.8,
+      "60": 21.78,
+      "65": 23.96,
+      "70": 26.35,
+      "77.5": 28.99,
+      "85": 31.89,
+      "92.5": 35.08,
+      "100": 38.59,
+      "110": 42.44,
+      "125": 46.69,
+      "150": 51.36,
+      "175": 56.49,
+      "200": 62.14,
+      "250": 68.36,
+      "300": 75.19,
+      "400": 82.71,
+      "500": 90.98
+    },
+    "parcel_rate_per_lb": {
+      "1": 9.8,
+      "2": 10.96,
+      "3": 11.77,
+      "4": 12.41,
+      "5": 12.97
+    },
     "dim_divisor": 139
   },
   "paradox": {

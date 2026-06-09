@@ -41,18 +41,20 @@ def fill_missing_fields(products, rng):
     """Fill NULL case weights and dimensions with plausible synthetic values."""
     for p in products:
         unit_wt = p.get("unit_weight_lbs") or 0.75
+        p["unit_weight_lbs"] = unit_wt
         pack_qty = p.get("case_pack_qty") or 12
+        p["case_pack_qty"] = pack_qty
 
         if p.get("case_weight_lbs") is None:
             packaging_factor = 1.10 + rng.uniform(0, 0.10)
             p["case_weight_lbs"] = round(unit_wt * pack_qty * packaging_factor, 2)
 
-        if p.get("case_length_in") is None:
+        if any(p.get(k) is None for k in ("case_length_in", "case_width_in", "case_height_in")):
             base = TYPICAL_CASE_DIMS.get(pack_qty, DEFAULT_CASE_DIMS)
             jitter = lambda dim: round(dim * rng.uniform(0.90, 1.10), 2)
-            p["case_length_in"] = jitter(base["length"])
-            p["case_width_in"] = jitter(base["width"])
-            p["case_height_in"] = jitter(base["height"])
+            p["case_length_in"] = p.get("case_length_in") or jitter(base["length"])
+            p["case_width_in"] = p.get("case_width_in") or jitter(base["width"])
+            p["case_height_in"] = p.get("case_height_in") or jitter(base["height"])
 
     return products
 
