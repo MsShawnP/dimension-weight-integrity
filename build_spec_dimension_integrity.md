@@ -88,14 +88,14 @@ Parcel rate table `# PARAM`: 1 lb = \$8.50, 2 lb = \$9.75, 3 lb = \$11.00.
 
 **(C) Compliance chargeback attribution (retail).** Published dims/TiHi ≠ physical → retailer DC flags.
 - `chargeback_per_event` `# PARAM` (e.g. \$250 flat, retailer-specific)
-- `events_per_year` = attributed subset of Cinderhaven's 864 chargebacks coded to dimension/pallet-config `# PARAM` (e.g. 14% → ~121) — **must be added to the dataset and reconciled against the ~$3.5M/yr all-in trade spend (10.8% of scan revenue, trailing 52 weeks)**. Illustrative only — base 864 is canonical; 14% attribution and $250/event are UNCALIBRATED placeholders, calibrate at build. Not canonical figures.
+- `events_per_year` = attributed subset of Cinderhaven's 6,563 chargebacks coded to dimension/pallet-config `# PARAM` (e.g. 14% → ~121) — **must be added to the dataset and reconciled against the $3.7M/yr all-in trade spend (10.8% of scan revenue, trailing 52 weeks)**. Illustrative only — base 6,563 is canonical; 14% attribution and $250/event are UNCALIBRATED placeholders, calibrate at build. Not canonical figures.
 - 121 × \$250 = **\$30,250 / yr** (illustrative — see note above)
 
 All annual totals are placeholders until params are calibrated; the **per-unit math (Δ\$15.48/pallet, \$2.50/order) and the physical math must reconcile exactly** to §2.1–2.2.
 
-### 2.4 Scaling to the 90-SKU master
+### 2.4 Scaling to the 50-SKU master
 
-`generate_dimension_mess.py` applies the same divergence *rules* (not the same numbers) to all 90 SKUs from a seeded RNG so it's deterministic and reproducible:
+`generate_dimension_mess.py` applies the same divergence *rules* (not the same numbers) to all 50 SKUs from a seeded RNG so it's deterministic and reproducible:
 - ERP: weight biased low 3–8%, dims rounded to nearest inch, random ~20% have unit/case confusion.
 - WMS: truth ± small scan noise (≤1%); always the MoR source.
 - GDSN: dims inflated to a "safe outer box" (+10–25% per axis on a random subset), weight rounded up to nearest 0.5–1 lb; ti/hi sometimes off by one.
@@ -293,7 +293,7 @@ dimension-integrity/
 ## 9. Params to lock before/at build (carried from open items)
 
 - `annual_dtc_orders` per SKU — **pull from DTC Channel Intelligence dataset; do not invent a second DTC profile.**
-- `annual_pallets`, `chargeback_per_event`, `events_per_year` (dimension-coded subset of 864 chargebacks) — set in `cost_params.yml`, reconcile against the ~$3.5M/yr all-in trade / 864-chargeback canon.
+- `annual_pallets`, `chargeback_per_event`, `events_per_year` (dimension-coded subset of 6,563 chargebacks) — set in `cost_params.yml`, reconcile against the $3.7M/yr all-in trade / 6,563-chargeback canon.
 - Calibrate the LTL `$/cwt` and parcel `$/lb` tables to plausible current rates (these are modeled stand-ins).
 - Confirm hero-SKU final specs (above are defensible working values; adjust once, then lock — every number downstream keys off them).
 
