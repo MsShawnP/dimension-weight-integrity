@@ -871,3 +871,19 @@ body {
     transition: none;
   }
 }
+
+/* Site disclosure footer */
+.site-disclosure {
+  max-width: var(--content-max-width);
+  margin: var(--section-gap) auto 0;
+  padding: 24px 16px 32px;
+  border-top: 1px solid var(--gridline);
+  text-align: center;
+}
+
+.site-disclosure p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--reference);
+  line-height: 1.5;
+}

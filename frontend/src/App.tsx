@@ -53,6 +53,12 @@ export default function App() {
         )}
         {active === 'portfolio' && <PortfolioView data={allSkusData} />}
       </main>
+      <footer className="site-disclosure">
+        <p>
+          Built on the Cinderhaven synthetic dataset — a modeled ~$25M specialty
+          food portfolio. Data is synthetic; methodology and cost models are real.
+        </p>
+      </footer>
     </div>
   )
 }
