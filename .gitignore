@@ -44,3 +44,7 @@ logs/
 # Claude
 .claude-project-url
 .claude/
+
+# Security - secret leak prevention
+*.pem
+secrets.*
