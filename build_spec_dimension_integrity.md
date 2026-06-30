@@ -88,7 +88,7 @@ Parcel rate table `# PARAM`: 1 lb = \$8.50, 2 lb = \$9.75, 3 lb = \$11.00.
 
 **(C) Compliance chargeback attribution (retail).** Published dims/TiHi ≠ physical → retailer DC flags.
 - `chargeback_per_event` `# PARAM` (e.g. \$250 flat, retailer-specific)
-- `events_per_year` = attributed subset of Cinderhaven's 3,363 chargebacks (2,879 retailer + 484 distributor) coded to dimension/pallet-config `# PARAM` (e.g. 14% → ~121) — **must be added to the dataset and reconciled against the ~$3.6M/yr all-in trade spend (11.0% of scan revenue, trailing 52 weeks)**. Illustrative only — base 3,363 is canonical; 14% attribution and $250/event are UNCALIBRATED placeholders, calibrate at build. Not canonical figures.
+- `events_per_year` = attributed subset of Cinderhaven's 3,357 chargebacks (2,873 retailer + 484 distributor) coded to dimension/pallet-config `# PARAM` (e.g. 14% → ~121) — **must be added to the dataset and reconciled against the ~$3.6M/yr all-in trade spend (11.0% of scan revenue, trailing 52 weeks)**. Illustrative only — base 3,357 is canonical; 14% attribution and $250/event are UNCALIBRATED placeholders, calibrate at build. Not canonical figures.
 - 121 × \$250 = **\$30,250 / yr** (illustrative — see note above)
 
 All annual totals are placeholders until params are calibrated; the **per-unit math (Δ\$15.48/pallet, \$2.50/order) and the physical math must reconcile exactly** to §2.1–2.2.
@@ -293,7 +293,7 @@ dimension-integrity/
 ## 9. Params to lock before/at build (carried from open items)
 
 - `annual_dtc_orders` per SKU — **pull from DTC Channel Intelligence dataset; do not invent a second DTC profile.**
-- `annual_pallets`, `chargeback_per_event`, `events_per_year` (dimension-coded subset of 3,363 chargebacks) — set in `cost_params.yml`, reconcile against the ~$3.6M/yr all-in trade / 3,363-chargeback canon.
+- `annual_pallets`, `chargeback_per_event`, `events_per_year` (dimension-coded subset of 3,357 chargebacks) — set in `cost_params.yml`, reconcile against the ~$3.6M/yr all-in trade / 3,357-chargeback canon.
 - Calibrate the LTL `$/cwt` and parcel `$/lb` tables to plausible current rates (these are modeled stand-ins).
 - Confirm hero-SKU final specs (above are defensible working values; adjust once, then lock — every number downstream keys off them).
 
