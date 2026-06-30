@@ -48,3 +48,6 @@ logs/
 # Security - secret leak prevention
 *.pem
 secrets.*
+
+# dbt local user config
+dbt/.user.yml
