@@ -49,6 +49,10 @@ vars:
   # Compliance chargebacks
   chargeback_per_event_cost: 200.00
   annual_chargeback_events_per_sku: 3
+  # Fraction of divergent SKUs that actually incur chargebacks. Scales the
+  # expected chargeback events per SKU (mirrors config/cost_params.yml
+  # chargebacks.affected_sku_pct — keep the two in sync).
+  chargeback_affected_sku_pct: 0.40
   # Divergence tolerances
   divergence_tolerance_lb: 0.50
   divergence_tolerance_in: 0.50

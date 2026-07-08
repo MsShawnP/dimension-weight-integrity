@@ -2,7 +2,13 @@
 #
 # Every value in this file is a calibratable business parameter.
 # Physics (cube, density, freight class) are computed in dbt macros, never here.
-# This file is the single source for all rate tables, volumes, and tolerances.
+#
+# Consumers of these values:
+#   - The frontend JSON export (scripts/export_frontend_json.py) reads its rate
+#     tables directly from this file.
+#   - The dbt models read a mirrored copy from dbt/dbt_project.yml (vars:).
+#     This file is the documented source of record; dbt_project.yml mirrors it,
+#     and the two MUST be kept in sync.
 #
 # PARAM tags mark each value as a tunable business parameter.
 # Source citations document the basis for each value.
@@ -62,7 +68,7 @@ chargebacks:
   per_event_cost: 200.00  # PARAM — $/event, modeled from Walmart SQEP base
   per_pallet_surcharge: 4.00  # PARAM — $/non-compliant pallet (Walmart SQEP)
   annual_events_per_sku: 3  # PARAM — estimated annual chargeback events per affected SKU
-  affected_sku_pct: 0.40  # PARAM — fraction of SKUs likely to trigger dimension chargebacks
+  affected_sku_pct: 0.40  # PARAM — fraction of divergent SKUs that actually incur chargebacks. Mirrored in dbt_project.yml as chargeback_affected_sku_pct and applied in fct_dimension_cost.sql to scale expected chargeback events (3 -> 1.2).
 
 # --- Divergence Tolerances ---
 # Thresholds for flagging system divergence

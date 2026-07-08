@@ -42,19 +42,29 @@ with test_cases as (
         55 as expected
 
     union all select
-        'nmfc class 77.5 — mid range (13.0)' as test_name,
+        'nmfc class 60 — 30 pcf boundary (restored breakpoint)' as test_name,
+        ({{ density_to_nmfc_class('30.0') }})::numeric as actual,
+        60 as expected
+
+    union all select
+        'nmfc class 70 — 15 pcf boundary (was wrongly 65)' as test_name,
+        ({{ density_to_nmfc_class('15.0') }})::numeric as actual,
+        70 as expected
+
+    union all select
+        'nmfc class 85 — mid range (13.0)' as test_name,
         ({{ density_to_nmfc_class('13.0') }})::numeric as actual,
-        77.5 as expected
+        85 as expected
 
     union all select
-        'nmfc class 200 — low density (3.5)' as test_name,
+        'nmfc class 250 — low density (3.5)' as test_name,
         ({{ density_to_nmfc_class('3.5') }})::numeric as actual,
-        200 as expected
+        250 as expected
 
     union all select
-        'nmfc class 400 — lowest (0.5)' as test_name,
-        ({{ density_to_nmfc_class('0.5') }})::numeric as actual,
-        400 as expected
+        'nmfc class 500 — below 1 pcf (0.7, was wrongly 400)' as test_name,
+        ({{ density_to_nmfc_class('0.7') }})::numeric as actual,
+        500 as expected
 
     -- dim_weight_lb tests (per-dimension ceiling before division)
     union all select
