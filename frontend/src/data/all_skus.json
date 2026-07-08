@@ -20,7 +20,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -39,7 +39,7 @@
           "ltl_reclass": {
             "per_unit_delta": 0.39,
             "annual_units": 52,
-            "annual_cost": 20.12
+            "annual_cost": 20.28
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.97,
@@ -48,11 +48,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1014.12
+        "total_annual_cost": 654.28
       },
       "divergence_count": 5
     },
@@ -61,7 +61,7 @@
       "product_name": "Spicy Habanero Hot Sauce",
       "case_gross_weight_lb": 26.87,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 51.796092643104295,
+      "density_lb_per_ft3": 51.79609264310431,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -76,7 +76,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -88,14 +88,14 @@
       "sku": "CHP-AS-004",
       "product_name": "Sweet Thai Chili Sauce",
       "case_gross_weight_lb": 5.6,
-      "freight_class": 110.0,
-      "density_lb_per_ft3": 7.454546505866441,
+      "freight_class": 125.0,
+      "density_lb_per_ft3": 7.45454650586644,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.5,
+            "per_unit_delta": 0.55,
             "annual_units": 52,
-            "annual_cost": 25.98
+            "annual_cost": 28.6
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -104,11 +104,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 857.98
+        "total_annual_cost": 500.6
       },
       "divergence_count": 5
     },
@@ -116,8 +116,8 @@
       "sku": "CHP-AS-005",
       "product_name": "Classic Tomato Basil",
       "case_gross_weight_lb": 9.49,
-      "freight_class": 70.0,
-      "density_lb_per_ft3": 13.72290584847681,
+      "freight_class": 77.5,
+      "density_lb_per_ft3": 13.722905848476811,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -132,7 +132,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -149,9 +149,9 @@
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.42,
+            "per_unit_delta": 0.89,
             "annual_units": 52,
-            "annual_cost": 21.95
+            "annual_cost": 46.28
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -160,11 +160,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 783.95
+        "total_annual_cost": 448.28
       },
       "divergence_count": 5
     },
@@ -173,13 +173,13 @@
       "product_name": "Lemon Herb Chimichurri",
       "case_gross_weight_lb": 24.23,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 62.37841186914693,
+      "density_lb_per_ft3": 62.37841186914694,
       "cost": {
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.44,
             "annual_units": 52,
-            "annual_cost": 22.68
+            "annual_cost": 22.88
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -188,11 +188,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 784.6800000000001
+        "total_annual_cost": 424.88
       },
       "divergence_count": 8
     },
@@ -201,13 +201,13 @@
       "product_name": "Mango Jalape\u00f1o Salsa",
       "case_gross_weight_lb": 22.03,
       "freight_class": 55.0,
-      "density_lb_per_ft3": 35.66302749179612,
+      "density_lb_per_ft3": 35.66302749179613,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.92,
+            "per_unit_delta": 1.44,
             "annual_units": 52,
-            "annual_cost": 47.66
+            "annual_cost": 74.88
           },
           "parcel_reweigh": {
             "per_unit_delta": 2.01,
@@ -216,11 +216,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1049.6599999999999
+        "total_annual_cost": 716.88
       },
       "divergence_count": 5
     },
@@ -228,7 +228,7 @@
       "sku": "CHP-AS-009",
       "product_name": "Truffle Mushroom Sauce",
       "case_gross_weight_lb": 15.76,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 15.672234651549939,
       "cost": {
         "drivers": {
@@ -244,7 +244,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -256,14 +256,14 @@
       "sku": "CHP-AS-010",
       "product_name": "Carolina Gold BBQ",
       "case_gross_weight_lb": 21.81,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 20.65463100444889,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 1.1,
+            "per_unit_delta": 1.21,
             "annual_units": 52,
-            "annual_cost": 57.05
+            "annual_cost": 62.92
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -272,11 +272,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 819.05
+        "total_annual_cost": 464.92
       },
       "divergence_count": 5
     },
@@ -284,8 +284,8 @@
       "sku": "CHP-DG-001",
       "product_name": "Wild Rice Blend",
       "case_gross_weight_lb": 20.36,
-      "freight_class": 65.0,
-      "density_lb_per_ft3": 20.593543366721793,
+      "freight_class": 70.0,
+      "density_lb_per_ft3": 20.59354336672179,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -300,7 +300,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -312,14 +312,14 @@
       "sku": "CHP-DG-002",
       "product_name": "Quinoa Medley",
       "case_gross_weight_lb": 5.07,
-      "freight_class": 110.0,
-      "density_lb_per_ft3": 7.283766111733439,
+      "freight_class": 125.0,
+      "density_lb_per_ft3": 7.28376611173344,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.2,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -10.15
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -328,11 +328,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 821.85
+        "total_annual_cost": 472.0
       },
       "divergence_count": 2
     },
@@ -341,7 +341,7 @@
       "product_name": "Steel Cut Oats",
       "case_gross_weight_lb": 45.09,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 77.86803233621582,
+      "density_lb_per_ft3": 77.86803233621583,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -356,7 +356,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -369,13 +369,13 @@
       "product_name": "Organic Lentils",
       "case_gross_weight_lb": 45.88,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 58.8742135254245,
+      "density_lb_per_ft3": 58.87421352542451,
       "cost": {
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.83,
             "annual_units": 52,
-            "annual_cost": 42.94
+            "annual_cost": 43.16
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -384,11 +384,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 804.94
+        "total_annual_cost": 445.15999999999997
       },
       "divergence_count": 6
     },
@@ -396,14 +396,14 @@
       "sku": "CHP-DG-005",
       "product_name": "Sun-Dried Tomatoes",
       "case_gross_weight_lb": 10.49,
-      "freight_class": 77.5,
-      "density_lb_per_ft3": 13.30135411520219,
+      "freight_class": 85.0,
+      "density_lb_per_ft3": 13.301354115202189,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.28,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -14.4
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -412,11 +412,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 817.6
+        "total_annual_cost": 472.0
       },
       "divergence_count": 2
     },
@@ -424,8 +424,8 @@
       "sku": "CHP-DG-006",
       "product_name": "Roasted Chickpeas",
       "case_gross_weight_lb": 14.55,
-      "freight_class": 65.0,
-      "density_lb_per_ft3": 18.16322071150879,
+      "freight_class": 70.0,
+      "density_lb_per_ft3": 18.163220711508785,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -440,7 +440,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -452,14 +452,14 @@
       "sku": "CHP-DG-007",
       "product_name": "Trail Mix Premium",
       "case_gross_weight_lb": 13.68,
-      "freight_class": 65.0,
-      "density_lb_per_ft3": 18.279446368246145,
+      "freight_class": 70.0,
+      "density_lb_per_ft3": 18.27944636824614,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 1.52,
+            "per_unit_delta": 1.67,
             "annual_units": 52,
-            "annual_cost": 79.1
+            "annual_cost": 86.84
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -468,11 +468,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 841.1
+        "total_annual_cost": 488.84000000000003
       },
       "divergence_count": 6
     },
@@ -480,14 +480,14 @@
       "sku": "CHP-DG-008",
       "product_name": "Dried Mango Slices",
       "case_gross_weight_lb": 9.1,
-      "freight_class": 92.5,
-      "density_lb_per_ft3": 9.600078418222976,
+      "freight_class": 100.0,
+      "density_lb_per_ft3": 9.600078418222978,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 1.06,
+            "per_unit_delta": 1.16,
             "annual_units": 52,
-            "annual_cost": 54.94
+            "annual_cost": 60.32
           },
           "parcel_reweigh": {
             "per_unit_delta": 3.17,
@@ -496,11 +496,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1288.94
+        "total_annual_cost": 934.32
       },
       "divergence_count": 5
     },
@@ -508,14 +508,14 @@
       "sku": "CHP-DG-009",
       "product_name": "Coconut Flakes Unsweetened",
       "case_gross_weight_lb": 13.91,
-      "freight_class": 60.0,
-      "density_lb_per_ft3": 27.14746819794816,
+      "freight_class": 65.0,
+      "density_lb_per_ft3": 27.147468197948168,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.3,
+            "per_unit_delta": 0.33,
             "annual_units": 52,
-            "annual_cost": 15.77
+            "annual_cost": 17.16
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -524,11 +524,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 777.77
+        "total_annual_cost": 419.16
       },
       "divergence_count": 5
     },
@@ -536,8 +536,8 @@
       "sku": "CHP-DG-010",
       "product_name": "Mixed Nut Butter Granola",
       "case_gross_weight_lb": 11.83,
-      "freight_class": 65.0,
-      "density_lb_per_ft3": 19.249058903259243,
+      "freight_class": 70.0,
+      "density_lb_per_ft3": 19.24905890325924,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -552,7 +552,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -565,7 +565,7 @@
       "product_name": "Stone Ground Mustard",
       "case_gross_weight_lb": 19.38,
       "freight_class": 55.0,
-      "density_lb_per_ft3": 44.53669300404217,
+      "density_lb_per_ft3": 44.536693004042164,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -580,7 +580,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -592,14 +592,14 @@
       "sku": "CHP-PS-002",
       "product_name": "Wildflower Honey",
       "case_gross_weight_lb": 6.65,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 15.075647128765128,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.74,
+            "per_unit_delta": 0.81,
             "annual_units": 52,
-            "annual_cost": 38.45
+            "annual_cost": 42.12
           },
           "parcel_reweigh": {
             "per_unit_delta": 3.17,
@@ -608,11 +608,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1272.45
+        "total_annual_cost": 916.12
       },
       "divergence_count": 5
     },
@@ -636,7 +636,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -648,14 +648,14 @@
       "sku": "CHP-PS-004",
       "product_name": "Extra Virgin Olive Oil",
       "case_gross_weight_lb": 5.19,
-      "freight_class": 100.0,
-      "density_lb_per_ft3": 8.37438207543388,
+      "freight_class": 110.0,
+      "density_lb_per_ft3": 8.374382075433884,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.18,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -9.47
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -664,11 +664,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 822.53
+        "total_annual_cost": 472.0
       },
       "divergence_count": 1
     },
@@ -676,8 +676,8 @@
       "sku": "CHP-PS-005",
       "product_name": "Sea Salt Blend",
       "case_gross_weight_lb": 17.11,
-      "freight_class": 60.0,
-      "density_lb_per_ft3": 24.932822454442856,
+      "freight_class": 65.0,
+      "density_lb_per_ft3": 24.932822454442853,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -692,7 +692,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -705,13 +705,13 @@
       "product_name": "Cracked Black Pepper",
       "case_gross_weight_lb": 49.63,
       "freight_class": 55.0,
-      "density_lb_per_ft3": 48.296534907163895,
+      "density_lb_per_ft3": 48.2965349071639,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.89,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -46.45
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 2.01,
@@ -720,11 +720,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 955.55
+        "total_annual_cost": 642.0
       },
       "divergence_count": 2
     },
@@ -748,7 +748,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -765,9 +765,9 @@
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.96,
+            "per_unit_delta": 1.51,
             "annual_units": 52,
-            "annual_cost": 49.73
+            "annual_cost": 78.52
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -776,11 +776,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 881.73
+        "total_annual_cost": 550.52
       },
       "divergence_count": 5
     },
@@ -789,13 +789,13 @@
       "product_name": "Maple Syrup Grade A",
       "case_gross_weight_lb": 22.51,
       "freight_class": 60.0,
-      "density_lb_per_ft3": 34.20498297158639,
+      "density_lb_per_ft3": 34.20498297158638,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.45,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -23.18
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -804,11 +804,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 738.8199999999999
+        "total_annual_cost": 402.0
       },
       "divergence_count": 1
     },
@@ -817,7 +817,7 @@
       "product_name": "Raw Agave Nectar",
       "case_gross_weight_lb": 23.47,
       "freight_class": 55.0,
-      "density_lb_per_ft3": 40.764640972741255,
+      "density_lb_per_ft3": 40.76464097274125,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -832,7 +832,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -844,8 +844,8 @@
       "sku": "CHP-SB-001",
       "product_name": "Dark Chocolate Sea Salt Bites",
       "case_gross_weight_lb": 12.85,
-      "freight_class": 70.0,
-      "density_lb_per_ft3": 13.901793475605237,
+      "freight_class": 77.5,
+      "density_lb_per_ft3": 13.901793475605235,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -860,7 +860,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -873,13 +873,13 @@
       "product_name": "Almond Butter Protein Bites",
       "case_gross_weight_lb": 45.07,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 79.37546417907272,
+      "density_lb_per_ft3": 79.37546417907274,
       "cost": {
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.81,
             "annual_units": 52,
-            "annual_cost": 42.19
+            "annual_cost": 42.12
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -888,11 +888,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 804.19
+        "total_annual_cost": 444.12
       },
       "divergence_count": 5
     },
@@ -900,14 +900,14 @@
       "sku": "CHP-SB-003",
       "product_name": "Coconut Cashew Clusters",
       "case_gross_weight_lb": 9.4,
-      "freight_class": 85.0,
+      "freight_class": 92.5,
       "density_lb_per_ft3": 11.37613644263731,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 1.39,
+            "per_unit_delta": 1.53,
             "annual_units": 52,
-            "annual_cost": 72.34
+            "annual_cost": 79.56
           },
           "parcel_reweigh": {
             "per_unit_delta": 3.17,
@@ -916,11 +916,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1306.3400000000001
+        "total_annual_cost": 953.56
       },
       "divergence_count": 6
     },
@@ -929,7 +929,7 @@
       "product_name": "Spicy Sriracha Crackers",
       "case_gross_weight_lb": 29.23,
       "freight_class": 55.0,
-      "density_lb_per_ft3": 36.67754406446228,
+      "density_lb_per_ft3": 36.677544064462275,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -944,7 +944,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -956,7 +956,7 @@
       "sku": "CHP-SB-005",
       "product_name": "Rosemary Olive Oil Crisps",
       "case_gross_weight_lb": 13.91,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 19.59903532597841,
       "cost": {
         "drivers": {
@@ -972,7 +972,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -985,13 +985,13 @@
       "product_name": "Honey Walnut Bites",
       "case_gross_weight_lb": 19.63,
       "freight_class": 60.0,
-      "density_lb_per_ft3": 31.634498616413154,
+      "density_lb_per_ft3": 31.63449861641315,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.43,
+            "per_unit_delta": 0.9,
             "annual_units": 52,
-            "annual_cost": 22.25
+            "annual_cost": 46.8
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -1000,11 +1000,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 784.25
+        "total_annual_cost": 448.8
       },
       "divergence_count": 6
     },
@@ -1028,7 +1028,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1040,8 +1040,8 @@
       "sku": "CHP-SB-008",
       "product_name": "Maple Pecan Clusters",
       "case_gross_weight_lb": 8.9,
-      "freight_class": 70.0,
-      "density_lb_per_ft3": 14.00213006420306,
+      "freight_class": 77.5,
+      "density_lb_per_ft3": 14.002130064203062,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -1056,7 +1056,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1068,14 +1068,14 @@
       "sku": "CHP-SB-009",
       "product_name": "Everything Seasoning Pretzels",
       "case_gross_weight_lb": 20.18,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 16.411374106950436,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 2.24,
+            "per_unit_delta": 2.47,
             "annual_units": 52,
-            "annual_cost": 116.69
+            "annual_cost": 128.44
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1084,11 +1084,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 948.69
+        "total_annual_cost": 600.44
       },
       "divergence_count": 5
     },
@@ -1096,7 +1096,7 @@
       "sku": "CHP-SB-010",
       "product_name": "Tahini Date Energy Bites",
       "case_gross_weight_lb": 16.03,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 17.7042829758492,
       "cost": {
         "drivers": {
@@ -1112,7 +1112,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1124,7 +1124,7 @@
       "sku": "CHP-SC-001",
       "product_name": "Bourbon Bacon Jam",
       "case_gross_weight_lb": 16.35,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 21.509206236495864,
       "cost": {
         "drivers": {
@@ -1140,7 +1140,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1152,14 +1152,14 @@
       "sku": "CHP-SC-002",
       "product_name": "Caramelized Onion Spread",
       "case_gross_weight_lb": 12.99,
-      "freight_class": 70.0,
-      "density_lb_per_ft3": 14.926841670191777,
+      "freight_class": 77.5,
+      "density_lb_per_ft3": 14.926841670191779,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 1.13,
+            "per_unit_delta": 1.25,
             "annual_units": 52,
-            "annual_cost": 58.97
+            "annual_cost": 65.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 2.01,
@@ -1168,11 +1168,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 1060.97
+        "total_annual_cost": 707.0
       },
       "divergence_count": 5
     },
@@ -1180,14 +1180,14 @@
       "sku": "CHP-SC-003",
       "product_name": "Pickled Jalape\u00f1o Relish",
       "case_gross_weight_lb": 6.84,
-      "freight_class": 77.5,
-      "density_lb_per_ft3": 12.472831076222743,
+      "freight_class": 85.0,
+      "density_lb_per_ft3": 12.472831076222741,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.92,
+            "per_unit_delta": 1.01,
             "annual_units": 52,
-            "annual_cost": 47.84
+            "annual_cost": 52.52
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1196,11 +1196,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 879.84
+        "total_annual_cost": 524.52
       },
       "divergence_count": 5
     },
@@ -1209,7 +1209,7 @@
       "product_name": "Sun-Dried Tomato Tapenade",
       "case_gross_weight_lb": 20.91,
       "freight_class": 50.0,
-      "density_lb_per_ft3": 59.0073964850957,
+      "density_lb_per_ft3": 59.007396485095704,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -1224,7 +1224,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1236,14 +1236,14 @@
       "sku": "CHP-SC-005",
       "product_name": "Roasted Red Pepper Hummus",
       "case_gross_weight_lb": 25.3,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 19.74244624488556,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.6,
+            "per_unit_delta": 0.67,
             "annual_units": 52,
-            "annual_cost": 31.44
+            "annual_cost": 34.84
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.45,
@@ -1252,11 +1252,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 921.44
+        "total_annual_cost": 564.84
       },
       "divergence_count": 5
     },
@@ -1264,8 +1264,8 @@
       "sku": "CHP-SC-006",
       "product_name": "Artichoke Spinach Dip",
       "case_gross_weight_lb": 5.31,
-      "freight_class": 125.0,
-      "density_lb_per_ft3": 6.130029351411725,
+      "freight_class": 150.0,
+      "density_lb_per_ft3": 6.130029351411723,
       "cost": {
         "drivers": {
           "ltl_reclass": {
@@ -1280,7 +1280,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1292,7 +1292,7 @@
       "sku": "CHP-SC-007",
       "product_name": "Everything Bagel Spread",
       "case_gross_weight_lb": 10.35,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 19.64241301649185,
       "cost": {
         "drivers": {
@@ -1308,7 +1308,7 @@
           },
           "compliance_cb": {
             "per_unit_delta": 0.0,
-            "annual_units": 3,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           }
         },
@@ -1320,14 +1320,14 @@
       "sku": "CHP-SC-008",
       "product_name": "Herb Compound Butter",
       "case_gross_weight_lb": 7.03,
-      "freight_class": 125.0,
-      "density_lb_per_ft3": 6.865223899499665,
+      "freight_class": 150.0,
+      "density_lb_per_ft3": 6.865223899499664,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.3,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -15.54
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -1336,11 +1336,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 746.46
+        "total_annual_cost": 402.0
       },
       "divergence_count": 3
     },
@@ -1348,14 +1348,14 @@
       "sku": "CHP-SC-009",
       "product_name": "Raspberry Chipotle Glaze",
       "case_gross_weight_lb": 15.22,
-      "freight_class": 70.0,
-      "density_lb_per_ft3": 14.978488515453332,
+      "freight_class": 77.5,
+      "density_lb_per_ft3": 14.978488515453334,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": -0.36,
+            "per_unit_delta": 0.0,
             "annual_units": 52,
-            "annual_cost": -18.92
+            "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -1364,11 +1364,11 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 743.0799999999999
+        "total_annual_cost": 402.0
       },
       "divergence_count": 2
     },
@@ -1376,14 +1376,14 @@
       "sku": "CHP-SC-010",
       "product_name": "Lemon Curd",
       "case_gross_weight_lb": 11.17,
-      "freight_class": 65.0,
+      "freight_class": 70.0,
       "density_lb_per_ft3": 21.414043380452135,
       "cost": {
         "drivers": {
           "ltl_reclass": {
-            "per_unit_delta": 0.56,
+            "per_unit_delta": 0.62,
             "annual_units": 52,
-            "annual_cost": 29.22
+            "annual_cost": 32.24
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1392,17 +1392,17 @@
           },
           "compliance_cb": {
             "per_unit_delta": 200.0,
-            "annual_units": 3,
-            "annual_cost": 600.0
+            "annual_units": 1.2,
+            "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 861.22
+        "total_annual_cost": 504.24
       },
       "divergence_count": 5
     }
   ],
   "aggregate": {
-    "total_annual_cost": 29627.2,
+    "total_annual_cost": 20213.48,
     "skus_with_class_mismatch": 20,
     "total_skus": 50
   }

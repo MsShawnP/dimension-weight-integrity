@@ -20,8 +20,8 @@ describe('ParadoxToggle', () => {
     expect(screen.getByText('$20.28')).toBeInTheDocument()
     // Parcel reweigh cost should be present ($394)
     expect(screen.getByText('$394')).toBeInTheDocument()
-    // Compliance chargebacks ($600)
-    expect(screen.getByText('$600')).toBeInTheDocument()
+    // Compliance chargebacks, risk-adjusted by affected_sku_pct ($240)
+    expect(screen.getByText('$240')).toBeInTheDocument()
   })
 
   it('Fix Retail (Ops) clears retail channel, parcel remains', async () => {
@@ -57,7 +57,7 @@ describe('ParadoxToggle', () => {
 
     // LTL cost and chargebacks should remain
     expect(screen.getByText('$20.28')).toBeInTheDocument()
-    expect(screen.getByText('$600')).toBeInTheDocument()
+    expect(screen.getByText('$240')).toBeInTheDocument()
   })
 
   it('no toggle state shows both channels as Fixed simultaneously', async () => {
@@ -102,7 +102,7 @@ describe('ParadoxToggle', () => {
     expect(screen.getByText('Fixed')).toBeInTheDocument()
     expect(screen.getByText('Unresolved')).toBeInTheDocument()
     expect(screen.getByText('$20.28')).toBeInTheDocument()
-    expect(screen.getByText('$600')).toBeInTheDocument()
+    expect(screen.getByText('$240')).toBeInTheDocument()
     expect(screen.getAllByText('$0')).toHaveLength(1)
   })
 })

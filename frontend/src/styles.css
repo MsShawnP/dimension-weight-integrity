@@ -113,6 +113,28 @@ body {
   }
 }
 
+.app-lede {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  max-width: 620px;
+  margin: 16px auto 0;
+  text-align: center;
+}
+
+.app-lede strong {
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .app-lede {
+    font-size: 15px;
+  }
+}
+
 /* Chapter Nav */
 .chapter-nav {
   display: flex;

@@ -6,12 +6,15 @@ export function densityLbPerFt3(weightLb: number, cubeFt3: number): number {
   return weightLb / cubeFt3
 }
 
+// NMFC density-based classification — the 18 standard freight classes.
+// Lower-bound (>=) breakpoints, density in lb/ft^3 (pcf). Must stay in
+// lockstep with dbt/macros/density_to_nmfc_class.sql.
 const NMFC_BANDS: [number, number][] = [
-  [50.0, 50], [35.0, 55], [22.5, 60], [15.0, 65],
-  [13.5, 70], [12.0, 77.5], [10.5, 85], [9.0, 92.5],
-  [8.0, 100], [7.0, 110], [6.0, 125], [5.0, 150],
-  [4.0, 175], [3.0, 200], [2.0, 250], [1.0, 300],
-  [0.5, 400],
+  [50.0, 50], [35.0, 55], [30.0, 60], [22.5, 65],
+  [15.0, 70], [13.5, 77.5], [12.0, 85], [10.5, 92.5],
+  [9.0, 100], [8.0, 110], [7.0, 125], [6.0, 150],
+  [5.0, 175], [4.0, 200], [3.0, 250], [2.0, 300],
+  [1.0, 400],
 ]
 
 export function densityToNmfcClass(density: number): number {
@@ -42,7 +45,9 @@ export function computeLtlDelta(
   if (gdsnClass === morClass) return 0
   const gdsnRate = lookupRate(rates, gdsnClass)
   const morRate = lookupRate(rates, morClass)
-  return (caseWeightLb / 100) * (gdsnRate - morRate)
+  // Floor at 0: a downward class shift triggers a carrier reweigh/back-bill,
+  // never a saving. Never book a negative reclassification cost.
+  return Math.max(0, (caseWeightLb / 100) * (gdsnRate - morRate))
 }
 
 export function computeParcelDelta(

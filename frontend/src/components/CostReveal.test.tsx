@@ -19,9 +19,9 @@ describe('CostReveal', () => {
     expect(screen.getByText(/\$1\.97/)).toBeInTheDocument()
     expect(screen.getByText(/\$394\/yr/)).toBeInTheDocument()
 
-    // Compliance: $200/event, $600/yr
+    // Compliance: $200/event, risk-adjusted to 1.2 expected events/yr → $240/yr
     expect(screen.getByText(/\$200/)).toBeInTheDocument()
-    expect(screen.getByText(/\$600\/yr/)).toBeInTheDocument()
+    expect(screen.getByText(/\$240\/yr/)).toBeInTheDocument()
   })
 
   it('shows class 50 vs class 55 comparison in LTL section', () => {
@@ -38,16 +38,16 @@ describe('CostReveal', () => {
     expect(parcelSection.textContent).toContain('3 lb')
   })
 
-  it('shows total annual cost of $1,014.28', () => {
+  it('shows total annual cost of $654.28', () => {
     render(<CostReveal data={data} onComplete={vi.fn()} />)
-    expect(screen.getByText(/\$1,014\.28/)).toBeInTheDocument()
+    expect(screen.getByText(/\$654\.28/)).toBeInTheDocument()
   })
 
   it('formats cost values correctly without trailing zeros beyond cents', () => {
     render(<CostReveal data={data} onComplete={vi.fn()} />)
-    // $394 not $394.00, $600 not $600.00, $200 not $200.00
+    // $394 not $394.00, $240 not $240.00, $200 not $200.00
     expect(screen.getByText(/\$394\/yr/)).toBeInTheDocument()
-    expect(screen.getByText(/\$600\/yr/)).toBeInTheDocument()
+    expect(screen.getByText(/\$240\/yr/)).toBeInTheDocument()
     // $20.28 keeps its cents, $0.39 keeps its cents
     expect(screen.getByText(/\$20\.28\/yr/)).toBeInTheDocument()
     expect(screen.getByText(/\$0\.39/)).toBeInTheDocument()

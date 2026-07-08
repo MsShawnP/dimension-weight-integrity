@@ -29,16 +29,38 @@ describe('densityToNmfcClass', () => {
     expect(densityToNmfcClass(50.0)).toBe(50)
   })
 
-  it('returns class 55 for density >= 35', () => {
+  it('returns class 55 for density in [35, 50)', () => {
     expect(densityToNmfcClass(37.98)).toBe(55)
+    expect(densityToNmfcClass(49.99)).toBe(55)
   })
 
-  it('returns class 500 for very low density', () => {
+  it('returns class 60 for density in [30, 35)', () => {
+    // NMFC standard breakpoint the pre-fix table dropped entirely
+    expect(densityToNmfcClass(30.0)).toBe(60)
+    expect(densityToNmfcClass(34.99)).toBe(60)
+  })
+
+  it('returns class 65 for density in [22.5, 30)', () => {
+    expect(densityToNmfcClass(22.5)).toBe(65)
+    expect(densityToNmfcClass(29.99)).toBe(65)
+  })
+
+  it('returns class 70 for density in [15, 22.5)', () => {
+    // NMFC standard: 15 pcf is class 70 (pre-fix table wrongly returned 65)
+    expect(densityToNmfcClass(15.0)).toBe(70)
+    expect(densityToNmfcClass(20.0)).toBe(70)
+  })
+
+  it('returns class 400 for density in [1, 2)', () => {
+    expect(densityToNmfcClass(1.0)).toBe(400)
+    expect(densityToNmfcClass(1.5)).toBe(400)
+  })
+
+  it('returns class 500 for density below 1', () => {
+    // NMFC standard: below 1 pcf is class 500 (pre-fix table wrongly returned
+    // 400 for [0.5, 1) via a spurious >=0.5 breakpoint)
+    expect(densityToNmfcClass(0.7)).toBe(500)
     expect(densityToNmfcClass(0.3)).toBe(500)
-  })
-
-  it('returns class 400 for density >= 0.5', () => {
-    expect(densityToNmfcClass(0.5)).toBe(400)
   })
 })
 
@@ -68,6 +90,13 @@ describe('computeLtlDelta', () => {
     const rates = { '50': 18.0, '55': 19.8 }
     const delta = computeLtlDelta(55, 50, 21.5, rates)
     expect(delta).toBeCloseTo((21.5 / 100) * (19.8 - 18.0), 4)
+  })
+
+  it('floors a downward class shift at 0 (never a saving)', () => {
+    const rates = { '50': 18.0, '55': 19.8 }
+    // GDSN class 50 below MoR class 55 would imply a "saving", but a downward
+    // reclass triggers a carrier reweigh/back-bill, so cost floors at 0.
+    expect(computeLtlDelta(50, 55, 21.5, rates)).toBe(0)
   })
 })
 

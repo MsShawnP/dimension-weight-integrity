@@ -120,8 +120,12 @@ export default function PortfolioView({ data }: PortfolioViewProps) {
 }
 
 function SkuRow({ sku, isExpanded, onToggle }: { sku: SkuSummary; isExpanded: boolean; onToggle: () => void }) {
+  // Show every driver that contributes to the row total (nonzero) so the
+  // expanded breakdown always reconciles to the total shown in the row. A
+  // negative driver (should one ever appear) is displayed, not hidden while
+  // still counting toward the total.
   const activeDrivers = Object.entries(sku.cost.drivers).filter(
-    ([, d]) => d.annual_cost > 0,
+    ([, d]) => d.annual_cost !== 0,
   )
 
   return (

@@ -37,6 +37,13 @@ export default function App() {
       <header className="app-header">
         <h1 className="brand-title">Dimension &amp; Weight Integrity</h1>
         <p className="brand-subtitle">Cinderhaven Foods</p>
+        <p className="app-lede">
+          Case weights and dimensions disagree across four systems &mdash;
+          NetSuite, the WMS, GDSN, and Shopify. The mismatches silently
+          reclassify freight, trigger parcel back-bills, and draw retailer
+          chargebacks: about <strong>$20,000 a year</strong> across this 50-SKU
+          portfolio.
+        </p>
       </header>
       <ChapterNav active={active} furthest={furthest} onNavigate={navigate} />
       <main className="chapter-content">
