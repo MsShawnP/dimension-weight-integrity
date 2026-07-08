@@ -79,7 +79,7 @@ Specialty food brands manage product physical attributes across four systems (ER
 
 ### External References
 
-- **NMFC density-class table**: NMFTA Docket 2025-1 (effective July 2025). Published standard. 18 classes from 50 (≥50 lb/ft³) to 500 (<1 lb/ft³). Classes 50 and 55 added in 2025.
+- **NMFC density-class table**: NMFTA Docket 2025-1 (effective July 2025). Published standard. 18 classes from 50 (≥50 lb/ft³) to 500 (<1 lb/ft³). ~~Classes 50 and 55 added in 2025.~~ [superseded 2026-07: historically false — classes 50 and 55 are long-standing members of the standard 18-class NMFC density scale, not 2025 additions. Shipped code comment corrected accordingly.]
 - **Parcel rates**: FedEx Ground Zone 5 2026 list rates — 1 lb: $14.00, 2 lb: $15.66, 3 lb: $16.81, 4 lb: $17.73, 5 lb: $18.53. Source: Quadient/FedEx Rate Guide 2026.
 - **DIM divisors**: FedEx and UPS both use 139 (all domestic). USPS changing from 166 to 139 in July 2026. Source: carrier official documentation.
 - **DIM rounding**: As of August 2025, FedEx and UPS round each fractional dimension up to nearest whole inch before computing DIM weight.
