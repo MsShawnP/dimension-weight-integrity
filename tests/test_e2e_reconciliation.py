@@ -71,8 +71,10 @@ class TestCostMath:
         assert math.isclose(cb["annual_cost"], expected, rel_tol=1e-3)
 
     def test_total_annual_cost(self, hero):
+        # 20.28 LTL + 394.00 parcel + 240.00 chargeback (200 x 1.2 expected
+        # events, risk-adjusted by affected_sku_pct) = 654.28.
         total = sum(d["annual_cost"] for d in hero["cost"].values())
-        assert math.isclose(total, 1014.28, rel_tol=1e-3)
+        assert math.isclose(total, 654.28, rel_tol=1e-3)
 
 
 # --- AE4: Rate tables present ---
