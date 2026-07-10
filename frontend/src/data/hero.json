@@ -107,7 +107,7 @@
             "field": "ship_weight_lb",
             "system_value": 1.0,
             "mor_value": 2.05,
-            "abs_delta": 1.0499999999999998,
+            "abs_delta": 1.05,
             "pct_delta": 0.5121951219512195,
             "flagged": true
           }
@@ -116,7 +116,7 @@
     ],
     "freight_by_system": {
       "erp": {
-        "density": 78.54545454545453,
+        "density": 78.54545454545455,
         "freight_class": 50.0
       },
       "wms": {
@@ -132,7 +132,7 @@
   "cost": {
     "ltl_reclass": {
       "per_unit_delta": 0.39,
-      "annual_units": 52,
+      "annual_units": 52.0,
       "annual_cost": 20.28,
       "basis": {
         "mor_class": 50,
@@ -144,7 +144,7 @@
     },
     "parcel_reweigh": {
       "per_unit_delta": 1.97,
-      "annual_units": 200,
+      "annual_units": 200.0,
       "annual_cost": 394.0,
       "basis": {
         "dim_weight_lb": 1.554,

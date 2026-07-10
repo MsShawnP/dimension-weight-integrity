@@ -79,7 +79,7 @@ models:
       - name: per_unit_delta
         data_type: numeric
       - name: annual_units
-        data_type: integer
+        data_type: numeric
       - name: annual_cost
         data_type: numeric
       - name: basis
