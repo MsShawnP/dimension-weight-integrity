@@ -121,6 +121,7 @@ def build_all_skus_json(cur):
     masters = query_mart(cur, MART_GOVERNED_MASTER)
     costs = query_mart(cur, MART_COSTS)
     divergences = query_mart(cur, MART_DIVERGENCE)
+    freight = query_mart(cur, MART_FREIGHT_CLASS)
 
     cost_by_sku = {}
     for row in costs:
@@ -133,6 +134,11 @@ def build_all_skus_json(cur):
             "annual_cost": row["annual_cost"],
         }
         cost_by_sku[sku]["total_annual_cost"] += float(row["annual_cost"] or 0)
+
+    # GDSN freight class per SKU, for the true class-mismatch count below.
+    gdsn_class_by_sku = {
+        row["sku"]: row["freight_class"] for row in freight if row["system"] == "gdsn"
+    }
 
     div_by_sku = {}
     for row in divergences:
@@ -160,14 +166,22 @@ def build_all_skus_json(cur):
             "divergence_count": len([d for d in div_by_sku.get(sku, []) if d["flagged"]]),
         })
 
+    # Count every SKU whose GDSN-published freight class differs from the
+    # measurement-of-record class — not just the ones that cost money. A
+    # DOWNWARD class shift is a real data mismatch but its LTL cost floors at 0
+    # (fct_dimension_cost.sql), so counting cost > 0 undercounts mismatches and
+    # contradicts the "SKUs with freight class mismatch" label the UI shows.
+    class_mismatch_count = sum(
+        1 for m in masters
+        if gdsn_class_by_sku.get(m["sku"]) is not None
+        and gdsn_class_by_sku[m["sku"]] != m["freight_class"]
+    )
+
     return {
         "skus": skus,
         "aggregate": {
             "total_annual_cost": sum(s["cost"]["total_annual_cost"] for s in skus),
-            "skus_with_class_mismatch": sum(
-                1 for s in skus
-                if s["cost"]["drivers"].get("ltl_reclass", {}).get("annual_cost", 0) > 0
-            ),
+            "skus_with_class_mismatch": class_mismatch_count,
             "total_skus": len(skus),
         },
     }

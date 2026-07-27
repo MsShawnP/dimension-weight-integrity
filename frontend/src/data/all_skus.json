@@ -1403,7 +1403,7 @@
   ],
   "aggregate": {
     "total_annual_cost": 17533.48,
-    "skus_with_class_mismatch": 20,
+    "skus_with_class_mismatch": 27,
     "total_skus": 50
   }
 }

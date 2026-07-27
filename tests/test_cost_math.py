@@ -180,6 +180,44 @@ def test_dbt_macro_nmfc_table_matches_canonical():
 # --- Divergence flagging honors the tolerance rule (shipped-data check) ---
 
 
+def test_published_class_mismatch_count_is_the_true_count():
+    """aggregate.skus_with_class_mismatch must count EVERY SKU whose GDSN class
+    differs from the measurement-of-record class — including downward shifts,
+    whose LTL cost floors at 0. Counting only costly mismatches undercounts and
+    contradicts the "SKUs with freight class mismatch" label the UI shows."""
+    import csv
+
+    all_skus = json.loads((REPO_ROOT / "frontend" / "src" / "data" / "all_skus.json").read_text())
+    mor_class = {s["sku"]: s["freight_class"] for s in all_skus["skus"]}
+
+    expected = 0
+    with open(REPO_ROOT / "data" / "generated" / "gdsn_published.csv") as f:
+        for row in csv.DictReader(f):
+            try:
+                cube = cube_ft3(
+                    float(row["case_length_in"]),
+                    float(row["case_width_in"]),
+                    float(row["case_height_in"]),
+                )
+            except (ValueError, KeyError):
+                continue  # no published dims -> no comparable GDSN class
+            if cube <= 0 or row["sku"] not in mor_class:
+                continue
+            gdsn = density_to_nmfc_class(density_lb_per_ft3(float(row["case_gross_weight_lb"]), cube))
+            if gdsn != mor_class[row["sku"]]:
+                expected += 1
+
+    assert all_skus["aggregate"]["skus_with_class_mismatch"] == expected
+
+    # And it must be strictly greater than the costly-only count, which is the
+    # bug this guards against (downward shifts cost $0 but are real mismatches).
+    costly = sum(
+        1 for s in all_skus["skus"]
+        if s["cost"]["drivers"].get("ltl_reclass", {}).get("annual_cost", 0) > 0
+    )
+    assert expected > costly, "fixture no longer exercises the downward-shift case"
+
+
 def test_hero_flagged_matches_tolerance_rule(config):
     """Every flagged value in the exported hero data must follow the dbt rule:
     weight fields flag above the lb tolerance, '*_in' fields above the inch
