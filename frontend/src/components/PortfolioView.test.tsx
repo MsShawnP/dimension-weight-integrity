@@ -155,4 +155,51 @@ describe('PortfolioView', () => {
     const zeroRow = screen.getByText('CHP-0050').closest('tr')!
     expect(within(zeroRow).getByText('$0')).toBeInTheDocument()
   })
+
+  it('sorts by keyboard alone: headers are focusable buttons that respond to Enter', async () => {
+    const user = userEvent.setup()
+    render(<PortfolioView data={makeData()} />)
+
+    const costHeader = screen.getByRole('button', { name: /Annual Cost/ })
+    costHeader.focus()
+    expect(costHeader).toHaveFocus()
+
+    await user.keyboard('{Enter}')
+
+    const rows = screen.getAllByRole('row').slice(1)
+    // Enter toggled desc -> asc, so the cheapest SKU is now first.
+    expect(within(rows[0]!).getByText('CHP-0050')).toBeInTheDocument()
+    expect(within(rows[2]!).getByText('CHP-0009')).toBeInTheDocument()
+  })
+
+  it('expands a row by keyboard alone and exposes aria-expanded state', async () => {
+    const user = userEvent.setup()
+    render(<PortfolioView data={makeData()} />)
+
+    const heroRow = screen.getByText('CHP-0009').closest('tr')!
+    expect(heroRow).toHaveAttribute('aria-expanded', 'false')
+
+    heroRow.focus()
+    expect(heroRow).toHaveFocus()
+
+    await user.keyboard('{Enter}')
+    expect(screen.getByText('LTL Reclassification')).toBeInTheDocument()
+    expect(screen.getByText('CHP-0009').closest('tr')!).toHaveAttribute('aria-expanded', 'true')
+
+    await user.keyboard(' ')
+    expect(screen.queryByText('LTL Reclassification')).not.toBeInTheDocument()
+  })
+
+  it('announces the active sort column via aria-sort', async () => {
+    const user = userEvent.setup()
+    render(<PortfolioView data={makeData()} />)
+
+    const costHeader = screen.getByRole('button', { name: /Annual Cost/ }).closest('th')!
+    expect(costHeader).toHaveAttribute('aria-sort', 'descending')
+
+    await user.click(screen.getByRole('button', { name: /^SKU/ }))
+    expect(screen.getByRole('button', { name: /^SKU/ }).closest('th')!)
+      .toHaveAttribute('aria-sort', 'descending')
+    expect(costHeader).toHaveAttribute('aria-sort', 'none')
+  })
 })

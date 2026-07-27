@@ -42,6 +42,32 @@ function SortArrow({ column, sortColumn, sortDirection }: { column: SortColumn; 
   return <span className="pv-sort-arrow" aria-hidden="true">{sortDirection === 'asc' ? ' ▲' : ' ▼'}</span>
 }
 
+// The sort control is a real <button> so it is focusable and operable by
+// keyboard (Enter/Space) for free; aria-sort announces the current order.
+function SortableHeader({
+  column, label, sortColumn, sortDirection, onSort, align,
+}: {
+  column: SortColumn
+  label: string
+  sortColumn: SortColumn
+  sortDirection: SortDirection
+  onSort: (column: SortColumn) => void
+  align?: 'right'
+}) {
+  const isActive = column === sortColumn
+  return (
+    <th
+      className={align === 'right' ? 'pv-th pv-th--right' : 'pv-th'}
+      aria-sort={isActive ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
+    >
+      <button type="button" className="pv-th-button" onClick={() => onSort(column)}>
+        {label}
+        <SortArrow column={column} sortColumn={sortColumn} sortDirection={sortDirection} />
+      </button>
+    </th>
+  )
+}
+
 export default function PortfolioView({ data }: PortfolioViewProps) {
   const [sortColumn, setSortColumn] = useState<SortColumn>('annual_cost')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
@@ -83,24 +109,30 @@ export default function PortfolioView({ data }: PortfolioViewProps) {
         <table className="pv-table">
           <thead>
             <tr>
-              <th className="pv-th" onClick={() => handleSort('sku')}>
-                SKU<SortArrow column="sku" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
-              <th className="pv-th" onClick={() => handleSort('product_name')}>
-                Product Name<SortArrow column="product_name" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
-              <th className="pv-th" onClick={() => handleSort('case_gross_weight_lb')}>
-                MoR Weight (lb)<SortArrow column="case_gross_weight_lb" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
-              <th className="pv-th" onClick={() => handleSort('freight_class')}>
-                Freight Class<SortArrow column="freight_class" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
-              <th className="pv-th" onClick={() => handleSort('divergence_count')}>
-                Divergence Count<SortArrow column="divergence_count" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
-              <th className="pv-th pv-th--right" onClick={() => handleSort('annual_cost')}>
-                Annual Cost<SortArrow column="annual_cost" sortColumn={sortColumn} sortDirection={sortDirection} />
-              </th>
+              {([
+                ['sku', 'SKU'],
+                ['product_name', 'Product Name'],
+                ['case_gross_weight_lb', 'MoR Weight (lb)'],
+                ['freight_class', 'Freight Class'],
+                ['divergence_count', 'Divergence Count'],
+              ] as [SortColumn, string][]).map(([column, label]) => (
+                <SortableHeader
+                  key={column}
+                  column={column}
+                  label={label}
+                  sortColumn={sortColumn}
+                  sortDirection={sortDirection}
+                  onSort={handleSort}
+                />
+              ))}
+              <SortableHeader
+                column="annual_cost"
+                label="Annual Cost"
+                sortColumn={sortColumn}
+                sortDirection={sortDirection}
+                onSort={handleSort}
+                align="right"
+              />
             </tr>
           </thead>
           <tbody>
@@ -130,7 +162,20 @@ function SkuRow({ sku, isExpanded, onToggle }: { sku: SkuSummary; isExpanded: bo
 
   return (
     <>
-      <tr className="pv-row" onClick={onToggle} style={{ cursor: 'pointer' }}>
+      <tr
+        className="pv-row"
+        onClick={onToggle}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onToggle()
+          }
+        }}
+        tabIndex={0}
+        aria-expanded={isExpanded}
+        aria-label={`${sku.sku} ${sku.product_name}, cost breakdown`}
+        style={{ cursor: 'pointer' }}
+      >
         <td className="pv-td">{sku.sku}</td>
         <td className="pv-td">{sku.product_name}</td>
         <td className="pv-td">{formatWeight(sku.case_gross_weight_lb)}</td>

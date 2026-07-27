@@ -855,15 +855,38 @@ body {
 .pv-th {
   font-weight: 600;
   text-align: left;
-  padding: 10px 12px;
+  padding: 0;
   border-bottom: 2px solid var(--gridline);
-  cursor: pointer;
   white-space: nowrap;
   user-select: none;
 }
 
 .pv-th--right {
   text-align: right;
+}
+
+/* The sort control is a real button (keyboard-operable); strip the native
+   chrome so it reads as a table header. */
+.pv-th-button {
+  font: inherit;
+  color: inherit;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 10px 12px;
+  width: 100%;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.pv-th-button:hover {
+  color: var(--navy);
+}
+
+.pv-th-button:focus-visible,
+.pv-row:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
 }
 
 .pv-sort-arrow {
