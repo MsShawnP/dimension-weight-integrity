@@ -24,7 +24,7 @@ const DRIVER_SECTIONS: DriverSection[] = [
     unitLabel: '/case',
     volumeLabel: 'pallet shipments/yr',
     source:
-      'LTL rates: Red Stag Fulfillment rate index, class 50=$18.00/cwt, class 55=$19.80/cwt',
+      'LTL rates: modeled stand-in — class 50=$18.00/cwt, class 55=$19.80/cwt. Per-class step sized from published 15–25%-per-step benchmarks (Red Stag, Jansson LLC).',
   },
   {
     key: 'parcel_reweigh',
@@ -34,7 +34,7 @@ const DRIVER_SECTIONS: DriverSection[] = [
     unitLabel: '/shipment',
     volumeLabel: 'DTC orders/yr',
     source:
-      'Parcel rates: FedEx/UPS 2026 standard list less 30% volume discount',
+      'Parcel rates: FedEx Ground Zone 5 2026 published list, modeled at a ~30% negotiated discount',
   },
   {
     key: 'compliance_cb',
