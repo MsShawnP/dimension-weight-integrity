@@ -59,6 +59,7 @@ parcel:
     5: 18.53
   dim_divisor: 139  # PARAM — FedEx/UPS domestic standard (USPS moves to 139 July 2026)
   annual_dtc_orders_per_sku: 200  # PARAM — estimated annual DTC orders per SKU
+  dtc_parcel_box_in: 6.0  # PARAM — per-unit DTC shipping box (inches, cube). A DTC order ships one unit, not a case, so parcel DIM weight uses this box — never the retail case dimensions.
 
 # --- Compliance Chargebacks ---
 # Source: Walmart SQEP ($200 base + $4/non-compliant pallet), Costco (2% of invoice)

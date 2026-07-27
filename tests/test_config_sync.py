@@ -52,6 +52,7 @@ def test_scalar_parameters_match(cost_params, dbt_vars):
     # (cost_params path, dbt var name)
     mirrored = [
         (cost_params["parcel"]["dim_divisor"], dbt_vars["dim_divisor"]),
+        (cost_params["parcel"]["dtc_parcel_box_in"], dbt_vars["dtc_parcel_box_in"]),
         (cost_params["ltl"]["annual_pallet_shipments_per_sku"], dbt_vars["annual_pallet_shipments_per_sku"]),
         (cost_params["parcel"]["annual_dtc_orders_per_sku"], dbt_vars["annual_dtc_orders_per_sku"]),
         (cost_params["chargebacks"]["per_event_cost"], dbt_vars["chargeback_per_event_cost"]),

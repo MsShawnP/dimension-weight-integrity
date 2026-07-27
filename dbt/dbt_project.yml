@@ -58,6 +58,9 @@ vars:
   divergence_tolerance_in: 0.50
   # DIM weight divisor (industry standard)
   dim_divisor: 139
+  # Per-unit DTC shipping box (inches, cube) — a DTC order ships one unit,
+  # not a retail case, so parcel DIM weight uses this box.
+  dtc_parcel_box_in: 6.0
   # Packaging offset (unit net weight → DTC parcel gross)
   packaging_offset_lb: 1.05
 
