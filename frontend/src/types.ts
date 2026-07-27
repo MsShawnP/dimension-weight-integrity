@@ -81,3 +81,7 @@ export interface AllSkusData {
 export type Chapter = 'quiz' | 'cost' | 'paradox' | 'resolution' | 'portfolio'
 
 export const CHAPTER_ORDER: Chapter[] = ['quiz', 'cost', 'paradox', 'resolution', 'portfolio']
+
+export function chapterIndex(ch: Chapter): number {
+  return CHAPTER_ORDER.indexOf(ch)
+}

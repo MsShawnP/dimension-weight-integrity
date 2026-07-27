@@ -1,5 +1,5 @@
 import type { Chapter } from '../types'
-import { CHAPTER_ORDER } from '../types'
+import { chapterIndex } from '../types'
 
 const CHAPTERS: { key: Chapter; label: string }[] = [
   { key: 'quiz', label: 'The Quiz' },
@@ -13,10 +13,6 @@ interface ChapterNavProps {
   active: Chapter
   furthest: Chapter
   onNavigate: (chapter: Chapter) => void
-}
-
-function chapterIndex(ch: Chapter): number {
-  return CHAPTER_ORDER.indexOf(ch)
 }
 
 export default function ChapterNav({ active, furthest, onNavigate }: ChapterNavProps) {
