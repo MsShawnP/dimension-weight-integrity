@@ -145,10 +145,10 @@ def test_nmfc_class_500_below_1():
 
 # --- NMFC cross-implementation agreement (drift guard) ---
 #
-# The freight-class table is reimplemented in three places that MUST agree:
-# this Python reference, dbt/macros/density_to_nmfc_class.sql, and
-# frontend/src/domain.ts. A stale copy here once passed green while asserting
-# wrong classes; these tests fail the moment any copy drifts.
+# The freight-class table is reimplemented in two places that MUST agree:
+# this Python reference and dbt/macros/density_to_nmfc_class.sql. A stale copy
+# here once passed green while asserting wrong classes; these tests fail the
+# moment either copy drifts.
 
 CANONICAL_NMFC_BANDS = [
     (50.0, 50), (35.0, 55), (30.0, 60), (22.5, 65),
@@ -175,18 +175,6 @@ def test_dbt_macro_nmfc_table_matches_canonical():
     expected = [(float(t), float(c)) for t, c in CANONICAL_NMFC_BANDS]
     assert pairs == expected, "dbt macro NMFC table drifted from canonical"
     assert re.search(rf"else\s+{NMFC_FALLBACK_CLASS}\b", macro), "dbt macro fallback drifted"
-
-
-def test_domain_ts_nmfc_table_matches_canonical():
-    ts = (REPO_ROOT / "frontend" / "src" / "domain.ts").read_text()
-    body = re.search(r"NMFC_BANDS[^=]*=\s*\[(.*?)\n\]", ts, re.S).group(1)
-    pairs = [
-        (float(t), float(c))
-        for t, c in re.findall(r"\[\s*([0-9.]+)\s*,\s*([0-9.]+)\s*\]", body)
-    ]
-    expected = [(float(t), float(c)) for t, c in CANONICAL_NMFC_BANDS]
-    assert pairs == expected, "domain.ts NMFC_BANDS drifted from canonical"
-    assert re.search(rf"return\s+{NMFC_FALLBACK_CLASS}\b", ts), "domain.ts fallback drifted"
 
 
 # --- Divergence flagging honors the tolerance rule (shipped-data check) ---

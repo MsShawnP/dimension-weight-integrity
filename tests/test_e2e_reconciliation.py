@@ -77,17 +77,3 @@ class TestCostMath:
         assert math.isclose(total, 654.28, rel_tol=1e-3)
 
 
-# --- AE4: Rate tables present ---
-
-class TestRateTables:
-    def test_ltl_rates_present(self, hero):
-        rates = hero["rate_tables"]["ltl_rate_per_cwt"]
-        assert "50" in rates
-        assert "55" in rates
-
-    def test_parcel_rates_present(self, hero):
-        rates = hero["rate_tables"]["parcel_rate_per_lb"]
-        assert len(rates) >= 2
-
-    def test_dim_divisor(self, hero):
-        assert hero["rate_tables"]["dim_divisor"] == 139

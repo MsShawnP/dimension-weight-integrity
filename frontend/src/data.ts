@@ -4,8 +4,8 @@ import allSkusJson from './data/all_skus.json'
 
 function assertHeroData(data: unknown): asserts data is HeroData {
   const obj = data as Record<string, unknown>
-  if (!obj.hero_sku || !obj.cost || !obj.rate_tables || !obj.paradox) {
-    throw new Error('hero.json missing required keys: hero_sku, cost, rate_tables, paradox')
+  if (!obj.hero_sku || !obj.cost || !obj.paradox) {
+    throw new Error('hero.json missing required keys: hero_sku, cost, paradox')
   }
 }
 

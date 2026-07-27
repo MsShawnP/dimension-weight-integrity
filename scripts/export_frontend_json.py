@@ -15,7 +15,6 @@ import os
 import pathlib
 
 import psycopg2.extras
-import yaml
 
 from data_gen.shared import get_db_connection
 
@@ -25,12 +24,6 @@ class DecimalEncoder(json.JSONEncoder):
         if isinstance(obj, decimal.Decimal):
             return float(obj)
         return super().default(obj)
-
-
-def load_config():
-    config_path = pathlib.Path(__file__).parent.parent / "config" / "cost_params.yml"
-    with open(config_path) as f:
-        return yaml.safe_load(f)
 
 
 MART_GOVERNED_MASTER = "public_marts.fct_governed_product_master"
@@ -53,7 +46,7 @@ def query_mart(cur, table, sku=None):
     return [dict(row) for row in cur.fetchall()]
 
 
-def build_hero_json(cur, hero_sku, config):
+def build_hero_json(cur, hero_sku):
     master = query_mart(cur, MART_GOVERNED_MASTER, hero_sku)
     if not master:
         raise ValueError(f"Hero SKU {hero_sku} not found in governed master")
@@ -111,11 +104,6 @@ def build_hero_json(cur, hero_sku, config):
             "freight_by_system": freight_by_system,
         },
         "cost": cost_by_driver,
-        "rate_tables": {
-            "ltl_rate_per_cwt": config["ltl"]["rate_per_cwt"],
-            "parcel_rate_per_lb": config["parcel"]["rate_per_lb"],
-            "dim_divisor": config["parcel"]["dim_divisor"],
-        },
         "paradox": {
             "ops_fix": {
                 "description": "Align GDSN dimensions to physical case measurements",
@@ -129,7 +117,7 @@ def build_hero_json(cur, hero_sku, config):
     }
 
 
-def build_all_skus_json(cur, config):
+def build_all_skus_json(cur):
     masters = query_mart(cur, MART_GOVERNED_MASTER)
     costs = query_mart(cur, MART_COSTS)
     divergences = query_mart(cur, MART_DIVERGENCE)
@@ -186,13 +174,12 @@ def build_all_skus_json(cur, config):
 
 
 def export(output_dir, hero_sku):
-    config = load_config()
     conn = get_db_connection()
 
     try:
         with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
-            hero_data = build_hero_json(cur, hero_sku, config)
-            all_skus_data = build_all_skus_json(cur, config)
+            hero_data = build_hero_json(cur, hero_sku)
+            all_skus_data = build_all_skus_json(cur)
     finally:
         conn.close()
 

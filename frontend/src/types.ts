@@ -43,12 +43,6 @@ export interface HeroSku {
   freight_by_system: Record<string, FreightBySystem>
 }
 
-export interface RateTables {
-  ltl_rate_per_cwt: Record<string, number>
-  parcel_rate_per_lb: Record<string, number>
-  dim_divisor: number
-}
-
 export interface Paradox {
   ops_fix: { description: string; effect: string }
   dtc_fix: { description: string; effect: string }
@@ -57,7 +51,6 @@ export interface Paradox {
 export interface HeroData {
   hero_sku: HeroSku
   cost: Record<string, CostDriver>
-  rate_tables: RateTables
   paradox: Paradox
 }
 
