@@ -135,6 +135,72 @@ body {
   }
 }
 
+/* Hero stat — the finding, led with the number */
+.hero-stat {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.hero-stat-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-stat-value {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.hero-stat-label {
+  font-family: var(--font-sans);
+  font-size: 17px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 640px) {
+  .hero-stat-value {
+    font-size: 44px;
+  }
+  .hero-stat-label {
+    font-size: 15px;
+  }
+}
+
+/* Why four systems diverge — the mechanism, up front */
+.why-diverge {
+  max-width: 620px;
+  margin: 28px auto 0;
+  text-align: left;
+  border-top: 1px solid var(--gridline);
+  padding-top: 20px;
+}
+
+.why-diverge__q {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.why-diverge__body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
 /* Chapter Nav */
 .chapter-nav {
   display: flex;

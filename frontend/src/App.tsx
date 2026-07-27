@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Chapter } from './types'
 import { CHAPTER_ORDER, chapterIndex } from './types'
 import { heroData, allSkusData } from './data'
+import { formatCurrency } from './utils/format'
 import ChapterNav from './components/ChapterNav'
 import QuizView from './components/QuizView'
 import CostReveal from './components/CostReveal'
@@ -31,15 +32,38 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="brand-title">Dimension &amp; Weight Integrity</h1>
         <p className="brand-subtitle">Cinderhaven Foods</p>
+        <h1 className="brand-title">Dimension &amp; Weight Integrity</h1>
+
+        <div className="hero-stat">
+          <p className="hero-stat-eyebrow">Annual cost of divergence</p>
+          <span className="hero-stat-value">
+            {formatCurrency(Math.round(allSkusData.aggregate.total_annual_cost))}
+          </span>
+          <p className="hero-stat-label">
+            leaks from this 50-SKU portfolio every year.
+          </p>
+        </div>
+
         <p className="app-lede">
-          Case weights and dimensions disagree across four systems &mdash;
-          NetSuite, the WMS, GDSN, and Shopify. The mismatches silently
-          reclassify freight, trigger parcel back-bills, and draw retailer
-          chargebacks: about <strong>$20,000 a year</strong> across this 50-SKU
-          portfolio.
+          Four systems &mdash; NetSuite, the WMS, GDSN, and Shopify &mdash;
+          disagree on what each product weighs and measures. The mismatches
+          reclassify freight, trigger parcel reweigh back-bills, and draw
+          retailer chargebacks.
         </p>
+
+        <div className="why-diverge">
+          <p className="why-diverge__q">Why would four systems disagree?</p>
+          <p className="why-diverge__body">
+            Because each was built to answer a different question. NetSuite
+            records a weight at item setup; the warehouse measures the physical
+            case at receiving; the GDSN feed publishes a padded outer box for
+            retailers; Shopify carries the weight of a single unit as it ships
+            to a customer. Every value is right for its own purpose &mdash;
+            which is exactly why no one team ever reconciles them, and the gap
+            keeps costing money.
+          </p>
+        </div>
       </header>
       <ChapterNav active={active} furthest={furthest} onNavigate={navigate} />
       <main className="chapter-content">
