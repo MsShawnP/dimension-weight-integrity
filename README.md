@@ -19,7 +19,7 @@ The four steps run as a Dagster asset graph: `generate_source_extracts → load_
 
 ## Why it matters
 
-Each cost lane is billed by a different party, so no single report ever shows the total. For the hero SKU (CHP-0009, Calabrian Chili Marinara), which carries four conflicting physical representations across four systems:
+Each cost lane is billed by a different party, so no single report ever shows the total. For the hero SKU (CHP-AS-002, Roasted Garlic Marinara), which carries four conflicting physical representations across four systems:
 
 - **LTL freight reclassification.** GDSN publishes inflated dimensions yielding density 37.98 lb/ft³ and freight class 55 instead of the correct class 50. Cost: $0.39/case × 52 pallets/yr = $20.28/yr.
 - **Parcel reweigh back-billing.** Shopify lists ship weight as 1.00 lb (unit net weight). The actual parcel weighs 2.05 lb, billable at 3 lb. Cost: $1.97/shipment × 200 orders/yr = $394/yr.
