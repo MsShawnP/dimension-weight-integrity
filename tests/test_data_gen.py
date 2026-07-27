@@ -45,7 +45,11 @@ def _make_products(n=50):
         }
         products.append(p)
 
-    hero_idx = next(i for i, p in enumerate(products) if p["sku"] == HERO_SKU_ID)
+    # Stamp the hero SKU onto a fixed product so hero-override tests have a
+    # target. HERO_SKU_ID ("CHP-AS-002") never matches the CHP-{i:04d} SKUs
+    # this helper generates, so it must be assigned explicitly.
+    hero_idx = 9
+    products[hero_idx]["sku"] = HERO_SKU_ID
     products[hero_idx]["product_name"] = "Calabrian Chili Marinara"
     return products
 
