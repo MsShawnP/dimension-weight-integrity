@@ -9,6 +9,26 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-07-27 — /improve + code review + UI review (12 items fixed)
+
+**Started from:** Stable v1.0.0, deployed. User asked to run improve + code review + UI review together. Concerns: CEO/CFO must get the purpose in ≤30s; unsure of AI-written code quality; do NOT touch the Postgres source-of-truth DB.
+
+**Did:**
+- Ran 4 parallel reviewers (correctness, maintainability, testing, security) + manual audit + UI review. Security clean.
+- Fixed 12 items across 12 commits (54b114d → f767971). Highlights: restored a pre-existing broken Python baseline (test_data_gen StopIteration), fixed a stale NMFC table asserting wrong physics, removed a whole dead client-side physics layer + rate_tables payload, deduped load logic, added drift-guard + config-sync tests, `npm audit fix` (→0 vulns), pinned requirements.txt, and reworked the hero to lead with a 64px cost number + a "why 4 systems diverge" explainer.
+- Verified: Python 51 pass, frontend 38 pass, build clean, npm audit 0, hero checked desktop + mobile.
+
+**Postgres note:** Local PG was down and Docker Desktop wouldn't start headlessly, so the pipeline could not be rebuilt this session.
+
+**State:** All 12 items committed on main (not pushed). Working tree otherwise clean. Tests green.
+
+**Next:**
+- **Rebuild the pipeline** to realize the #2 parcel-dims fix: start Postgres, then `dbt build` + `python scripts/export_frontend_json.py`. This will lower the shipped `$20,213` aggregate (single-jar parcels no longer DIM-weighted as cases) and update hero.json/all_skus.json. The hero number is data-bound, so it updates automatically.
+- Redeploy to Cloudflare Pages after the rebuild.
+- Consider pushing to GitHub.
+
+---
+
 ## 2026-06-05 — First /improve pass complete
 
 **Started from:** Arc done, deployed, tagged v1.0.0. First-ever /improve for live-readiness.
