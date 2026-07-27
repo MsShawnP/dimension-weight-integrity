@@ -1,12 +1,15 @@
 """Tests for cost parameter loading and physical computation math."""
 
+import json
 import math
 import pathlib
+import re
 
 import pytest
 import yaml
 
-CONFIG_PATH = pathlib.Path(__file__).parent.parent / "config" / "cost_params.yml"
+REPO_ROOT = pathlib.Path(__file__).parent.parent
+CONFIG_PATH = REPO_ROOT / "config" / "cost_params.yml"
 
 
 @pytest.fixture
@@ -44,12 +47,6 @@ def test_parcel_rate_table_has_weight_tiers(config):
 
 def test_dim_divisor_is_139(config):
     assert config["parcel"]["dim_divisor"] == 139
-
-
-def test_config_missing_key_raises_clear_error():
-    bad_config = {"ltl": {}}
-    with pytest.raises(KeyError):
-        _ = bad_config["ltl"]["rate_per_cwt"]
 
 
 # --- Physical Computation Math (Python equivalents of dbt macros) ---
@@ -144,6 +141,80 @@ def test_nmfc_class_500_below_1():
     # Below 1 pcf is class 500 — the stale table wrongly returned 400 here.
     assert density_to_nmfc_class(0.5) == 500
     assert density_to_nmfc_class(0.3) == 500
+
+
+# --- NMFC cross-implementation agreement (drift guard) ---
+#
+# The freight-class table is reimplemented in three places that MUST agree:
+# this Python reference, dbt/macros/density_to_nmfc_class.sql, and
+# frontend/src/domain.ts. A stale copy here once passed green while asserting
+# wrong classes; these tests fail the moment any copy drifts.
+
+CANONICAL_NMFC_BANDS = [
+    (50.0, 50), (35.0, 55), (30.0, 60), (22.5, 65),
+    (15.0, 70), (13.5, 77.5), (12.0, 85), (10.5, 92.5),
+    (9.0, 100), (8.0, 110), (7.0, 125), (6.0, 150),
+    (5.0, 175), (4.0, 200), (3.0, 250), (2.0, 300),
+    (1.0, 400),
+]
+NMFC_FALLBACK_CLASS = 500
+
+
+def test_python_nmfc_table_is_canonical():
+    for threshold, expected_class in CANONICAL_NMFC_BANDS:
+        assert density_to_nmfc_class(threshold) == expected_class
+    assert density_to_nmfc_class(0.9) == NMFC_FALLBACK_CLASS
+
+
+def test_dbt_macro_nmfc_table_matches_canonical():
+    macro = (REPO_ROOT / "dbt" / "macros" / "density_to_nmfc_class.sql").read_text()
+    pairs = [
+        (float(t), float(c))
+        for t, c in re.findall(r">=\s*([0-9.]+)\s*then\s*([0-9.]+)", macro)
+    ]
+    expected = [(float(t), float(c)) for t, c in CANONICAL_NMFC_BANDS]
+    assert pairs == expected, "dbt macro NMFC table drifted from canonical"
+    assert re.search(rf"else\s+{NMFC_FALLBACK_CLASS}\b", macro), "dbt macro fallback drifted"
+
+
+def test_domain_ts_nmfc_table_matches_canonical():
+    ts = (REPO_ROOT / "frontend" / "src" / "domain.ts").read_text()
+    body = re.search(r"NMFC_BANDS[^=]*=\s*\[(.*?)\n\]", ts, re.S).group(1)
+    pairs = [
+        (float(t), float(c))
+        for t, c in re.findall(r"\[\s*([0-9.]+)\s*,\s*([0-9.]+)\s*\]", body)
+    ]
+    expected = [(float(t), float(c)) for t, c in CANONICAL_NMFC_BANDS]
+    assert pairs == expected, "domain.ts NMFC_BANDS drifted from canonical"
+    assert re.search(rf"return\s+{NMFC_FALLBACK_CLASS}\b", ts), "domain.ts fallback drifted"
+
+
+# --- Divergence flagging honors the tolerance rule (shipped-data check) ---
+
+
+def test_hero_flagged_matches_tolerance_rule(config):
+    """Every flagged value in the exported hero data must follow the dbt rule:
+    weight fields flag above the lb tolerance, '*_in' fields above the inch
+    tolerance, everything else stays unflagged."""
+    tol_lb = config["tolerances"]["weight_lb"]
+    tol_in = config["tolerances"]["dimension_in"]
+    hero = json.loads((REPO_ROOT / "frontend" / "src" / "data" / "hero.json").read_text())
+
+    checked = 0
+    for system in hero["hero_sku"]["systems"]:
+        for d in system["divergences"]:
+            field, abs_delta, flagged = d["field"], d["abs_delta"], d["flagged"]
+            if abs_delta is None:
+                expected = False
+            elif "weight" in field:
+                expected = abs_delta > tol_lb
+            elif field.endswith("_in"):
+                expected = abs_delta > tol_in
+            else:
+                expected = False
+            assert flagged == expected, f"{system['system']}.{field}: flagged={flagged}, expected {expected}"
+            checked += 1
+    assert checked > 0, "no divergences found to check"
 
 
 # DIM weight per-dimension rounding
