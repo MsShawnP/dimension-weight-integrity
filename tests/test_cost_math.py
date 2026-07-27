@@ -64,12 +64,14 @@ def density_lb_per_ft3(weight_lb, cube):
 
 
 def density_to_nmfc_class(density):
+    # Canonical NMFC density scale. Must match dbt/macros/density_to_nmfc_class.sql
+    # and frontend/src/domain.ts exactly (see test_nmfc_matches_canonical_table).
     bands = [
-        (50.0, 50), (35.0, 55), (22.5, 60), (15.0, 65),
-        (13.5, 70), (12.0, 77.5), (10.5, 85), (9.0, 92.5),
-        (8.0, 100), (7.0, 110), (6.0, 125), (5.0, 150),
-        (4.0, 175), (3.0, 200), (2.0, 250), (1.0, 300),
-        (0.5, 400),
+        (50.0, 50), (35.0, 55), (30.0, 60), (22.5, 65),
+        (15.0, 70), (13.5, 77.5), (12.0, 85), (10.5, 92.5),
+        (9.0, 100), (8.0, 110), (7.0, 125), (6.0, 150),
+        (5.0, 175), (4.0, 200), (3.0, 250), (2.0, 300),
+        (1.0, 400),
     ]
     for threshold, nmfc_class in bands:
         if density >= threshold:
@@ -130,15 +132,17 @@ def test_nmfc_just_below_50():
     assert density_to_nmfc_class(49.99) == 55
 
 
-def test_nmfc_low_density_200():
-    assert density_to_nmfc_class(3.5) == 200
+def test_nmfc_low_density_250():
+    assert density_to_nmfc_class(3.5) == 250
 
 
 def test_nmfc_class_400():
-    assert density_to_nmfc_class(0.5) == 400
+    assert density_to_nmfc_class(1.5) == 400
 
 
-def test_nmfc_class_500_below_half():
+def test_nmfc_class_500_below_1():
+    # Below 1 pcf is class 500 — the stale table wrongly returned 400 here.
+    assert density_to_nmfc_class(0.5) == 500
     assert density_to_nmfc_class(0.3) == 500
 
 
