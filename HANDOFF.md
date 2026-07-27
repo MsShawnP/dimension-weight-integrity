@@ -18,14 +18,14 @@ For things that didn't work, see FAILURES.md.
 - Fixed 12 items across 12 commits (54b114d → f767971). Highlights: restored a pre-existing broken Python baseline (test_data_gen StopIteration), fixed a stale NMFC table asserting wrong physics, removed a whole dead client-side physics layer + rate_tables payload, deduped load logic, added drift-guard + config-sync tests, `npm audit fix` (→0 vulns), pinned requirements.txt, and reworked the hero to lead with a 64px cost number + a "why 4 systems diverge" explainer.
 - Verified: Python 51 pass, frontend 38 pass, build clean, npm audit 0, hero checked desktop + mobile.
 
-**Postgres note:** Local PG was down and Docker Desktop wouldn't start headlessly, so the pipeline could not be rebuilt this session.
+**Pipeline rebuild (done):** Docker is broken on this machine (memory: crash-loops on stale sockets). Used the documented workaround — native pg16 at `C:\Users\mssha\tools\pg16` on **port 5433**. Created a **throwaway `dwi_rebuild` DB** (to leave the real `cinderhaven` SSOT untouched), loaded the 4 committed raw CSVs, `dbt build` (PASS=47, ERROR=0), re-exported JSON, then dropped the DB and stopped pg16 (it wasn't running before). dbt only sources the 4 raw system tables, so no product_master / Fly DB needed — the rebuild is fully offline from committed CSVs.
+- Result: #2 fix realized. Portfolio aggregate `$20,213 → $17,533`. Only `all_skus.json` changed; hero.json untouched (hero unaffected). Data-bound hero now shows $17,533.
 
-**State:** All 12 items committed on main (not pushed). Working tree otherwise clean. Tests green.
+**State:** All 12 items + the #2 data regen committed on main (not pushed). Working tree clean. Python 51 + frontend 38 tests green, build clean, 0 npm vulns.
 
 **Next:**
-- **Rebuild the pipeline** to realize the #2 parcel-dims fix: start Postgres, then `dbt build` + `python scripts/export_frontend_json.py`. This will lower the shipped `$20,213` aggregate (single-jar parcels no longer DIM-weighted as cases) and update hero.json/all_skus.json. The hero number is data-bound, so it updates automatically.
-- Redeploy to Cloudflare Pages after the rebuild.
-- Consider pushing to GitHub.
+- Redeploy to Cloudflare Pages (the corrected all_skus.json needs to ship).
+- Push commits to GitHub (`dc78b12..HEAD`, 13 commits).
 
 ---
 
