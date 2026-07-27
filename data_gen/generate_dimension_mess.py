@@ -13,7 +13,6 @@ import argparse
 import copy
 import csv
 import math
-import pathlib
 import random
 
 from data_gen.shared import DATA_DIR, HERO_SKU_ID, SEED
@@ -279,9 +278,8 @@ def main():
         if not cache_path.exists():
             print(f"Error: cached file not found at {cache_path}")
             raise SystemExit(1)
-        import csv as csv_mod
         with open(cache_path) as f:
-            reader = csv_mod.DictReader(f)
+            reader = csv.DictReader(f)
             products = []
             for row in reader:
                 for key in ("unit_weight_lbs", "case_weight_lbs", "case_length_in", "case_width_in", "case_height_in"):

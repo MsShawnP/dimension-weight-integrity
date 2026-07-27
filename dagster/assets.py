@@ -3,28 +3,17 @@
 Asset graph: generate_source_extracts → load_raw → dbt_build → export_frontend_json
 """
 
-import csv
-import os
 import pathlib
 import subprocess
 
 from dagster import asset, AssetExecutionContext
-from psycopg2 import sql
 
-from data_gen.shared import get_db_connection
+from data_gen.shared import get_db_connection, load_csvs_to_raw, RAW_TABLES, DATA_DIR
 
 
 PROJECT_ROOT = pathlib.Path(__file__).parent.parent
-DATA_DIR = PROJECT_ROOT / "data" / "generated"
 DBT_DIR = PROJECT_ROOT / "dbt"
 FRONTEND_DATA_DIR = PROJECT_ROOT / "frontend" / "src" / "data"
-
-RAW_TABLES = {
-    "netsuite_items": "netsuite_items.csv",
-    "wms_dimensions": "wms_dimensions.csv",
-    "gdsn_published": "gdsn_published.csv",
-    "shopify_products": "shopify_products.csv",
-}
 
 
 
@@ -44,36 +33,10 @@ def generate_source_extracts(context: AssetExecutionContext):
 def load_raw(context: AssetExecutionContext):
     conn = get_db_connection()
     try:
-        with conn.cursor() as cur:
-            for table_name, csv_file in RAW_TABLES.items():
-                csv_path = DATA_DIR / csv_file
-                context.log.info(f"Loading {csv_path} → {table_name}")
-
-                with open(csv_path) as f:
-                    reader = csv.DictReader(f)
-                    columns = reader.fieldnames
-                    tbl = sql.Identifier(table_name)
-                    col_ids = sql.SQL(", ").join(sql.Identifier(c) for c in columns)
-                    col_defs = sql.SQL(", ").join(
-                        sql.SQL("{} text").format(sql.Identifier(c)) for c in columns
-                    )
-
-                    cur.execute(sql.SQL("drop table if exists {}").format(tbl))
-                    cur.execute(sql.SQL("create table {} ({})").format(tbl, col_defs))
-
-                    placeholders = sql.SQL(", ").join(sql.Placeholder() * len(columns))
-                    insert_stmt = sql.SQL("insert into {} ({}) values ({})").format(
-                        tbl, col_ids, placeholders
-                    )
-                    for row in reader:
-                        cur.execute(insert_stmt, [row[c] for c in columns])
-
-                conn.commit()
-                context.log.info(f"Loaded {table_name}")
-
-            context.log.info(f"Loaded {len(RAW_TABLES)} raw tables")
+        load_csvs_to_raw(conn, DATA_DIR, RAW_TABLES, log=context.log.info)
     finally:
         conn.close()
+    context.log.info(f"Loaded {len(RAW_TABLES)} raw tables")
 
 
 @asset(deps=[load_raw], description="Run dbt build (models + tests)")

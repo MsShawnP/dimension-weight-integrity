@@ -33,55 +33,35 @@ def load_config():
         return yaml.safe_load(f)
 
 
-def query_governed_master(cur, sku=None):
-    sql = "select * from public_marts.fct_governed_product_master"
+MART_GOVERNED_MASTER = "public_marts.fct_governed_product_master"
+MART_DIVERGENCE = "public_marts.fct_attribute_divergence"
+MART_FREIGHT_CLASS = "public_marts.fct_freight_class_by_system"
+MART_COSTS = "public_marts.fct_dimension_cost"
+
+
+def query_mart(cur, table, sku=None):
+    """Select all rows from a mart table, optionally filtered to one SKU.
+
+    `table` is a trusted internal constant (one of the MART_* names), not
+    user input, so interpolating it into the query is safe.
+    """
+    query = f"select * from {table}"
     if sku:
-        sql += " where sku = %s"
-        cur.execute(sql, (sku,))
+        cur.execute(query + " where sku = %s", (sku,))
     else:
-        cur.execute(sql)
-    return [dict(row) for row in cur.fetchall()]
-
-
-def query_divergence(cur, sku=None):
-    sql = "select * from public_marts.fct_attribute_divergence"
-    if sku:
-        sql += " where sku = %s"
-        cur.execute(sql, (sku,))
-    else:
-        cur.execute(sql)
-    return [dict(row) for row in cur.fetchall()]
-
-
-def query_freight_class(cur, sku=None):
-    sql = "select * from public_marts.fct_freight_class_by_system"
-    if sku:
-        sql += " where sku = %s"
-        cur.execute(sql, (sku,))
-    else:
-        cur.execute(sql)
-    return [dict(row) for row in cur.fetchall()]
-
-
-def query_costs(cur, sku=None):
-    sql = "select * from public_marts.fct_dimension_cost"
-    if sku:
-        sql += " where sku = %s"
-        cur.execute(sql, (sku,))
-    else:
-        cur.execute(sql)
+        cur.execute(query)
     return [dict(row) for row in cur.fetchall()]
 
 
 def build_hero_json(cur, hero_sku, config):
-    master = query_governed_master(cur, hero_sku)
+    master = query_mart(cur, MART_GOVERNED_MASTER, hero_sku)
     if not master:
         raise ValueError(f"Hero SKU {hero_sku} not found in governed master")
     master = master[0]
 
-    divergence = query_divergence(cur, hero_sku)
-    freight = query_freight_class(cur, hero_sku)
-    costs = query_costs(cur, hero_sku)
+    divergence = query_mart(cur, MART_DIVERGENCE, hero_sku)
+    freight = query_mart(cur, MART_FREIGHT_CLASS, hero_sku)
+    costs = query_mart(cur, MART_COSTS, hero_sku)
 
     systems = {}
     for row in divergence:
@@ -150,9 +130,9 @@ def build_hero_json(cur, hero_sku, config):
 
 
 def build_all_skus_json(cur, config):
-    masters = query_governed_master(cur)
-    costs = query_costs(cur)
-    divergences = query_divergence(cur)
+    masters = query_mart(cur, MART_GOVERNED_MASTER)
+    costs = query_mart(cur, MART_COSTS)
+    divergences = query_mart(cur, MART_DIVERGENCE)
 
     cost_by_sku = {}
     for row in costs:
