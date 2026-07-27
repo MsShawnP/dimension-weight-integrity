@@ -9,6 +9,26 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-07-27 — Post-change re-review (3 more fixes, incl. a wrong live KPI)
+
+**Started from:** All 12 improvement items shipped and deployed. User asked to re-run improve + code review + UI review now that the data and dbt had changed.
+
+**Did:**
+- Ran a 35-agent workflow: 7 review dimensions, every finding adversarially verified, then synthesized. **27 raised → 14 refuted → 13 survived.** Verified the top 3 myself before acting.
+- Walked the full chapter flow in the browser: quiz reveal, both paradox toggles (mirror-image behavior confirmed), resolution, portfolio, nav locking, mobile. **All 50 portfolio rows sum to exactly $17,533.48**, matching the hero.
+- Fixed 3 important findings (one commit each):
+  1. **`skus_with_class_mismatch` published 20; truth is 27.** It counted costly mismatches only — 7 downward class shifts floor to $0 but are real mismatches. Now counted from the freight-class mart; marts rebuilt (throwaway pg16, dbt PASS=47 ERROR=0); exactly one line of `all_skus.json` changed.
+  2. **"Red Stag Fulfillment rate index"** removed — config says those rates are a modeled stand-in. Parcel discount now labelled modeled too.
+  3. **Portfolio table keyboard access** — headers are real buttons with `aria-sort`, rows focusable with Enter/Space + `aria-expanded`, focus ring added, 3 tests.
+
+**Caveat found and recorded:** `dtc_parcel_box_in` is currently inert — max unit weight is 1.99 lb, so actual parcel weight always dominates the 1.554 lb DIM weight (the param only binds at ~7in). The earlier fix's value was removing the case dimensions, not the specific 6.0.
+
+**Note on tooling:** the Browser pane isn't compositing in this session, so screenshots and synthetic key presses don't work. Keyboard operability was proven instead with real tests (`userEvent.keyboard`), which is durable anyway.
+
+**State:** 52 Python + 41 frontend tests pass, build clean. Commits 185d562, ead74cb, 2652c3f.
+
+---
+
 ## 2026-07-27 — /improve + code review + UI review (12 items fixed)
 
 **Started from:** Stable v1.0.0, deployed. User asked to run improve + code review + UI review together. Concerns: CEO/CFO must get the purpose in ≤30s; unsure of AI-written code quality; do NOT touch the Postgres source-of-truth DB.

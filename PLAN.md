@@ -81,5 +81,15 @@ at a time?
   - **#10** New test enforces `cost_params.yml` ↔ `dbt_project.yml` stay in sync.
   - **#11** `npm audit fix` (7 dev-only advisories → 0); added pinned `requirements.txt`.
   - **#4/#6/#12** Reworked hero: annual cost is now a 64px headline number (bound to data), Red-42 eyebrow, leads with the finding, and a new "Why would four systems disagree?" explainer up front (the user's #12 addition). Verified desktop + mobile against Lailara design system.
-- **Deferred:** None — all 12 items resolved, including #2's rebuild (done via throwaway pg16 DB same session). Remaining action is operational: redeploy to Cloudflare Pages and push commits.
+- **Deferred:** None — all 12 items resolved, including #2's rebuild (done via throwaway pg16 DB same session).
 - **Next review:** 2026-10-25 (project is stable/shipped — 90-day cadence)
+
+### 2026-07-27 — Post-change re-review (workflow: 35 agents)
+- **Trigger:** User asked to re-run improve + code review + UI review after the dbt/data/frontend changes landed.
+- **Method:** 7 parallel reviewers (data integrity, dbt correctness, Python, frontend, tests, security, narrative), every finding adversarially verified by an independent skeptic, then synthesized. **27 findings raised, 14 refuted, 13 survived** (7 severities corrected downward). Browser flow verified separately by hand.
+- **Confirmed clean:** aggregate reconciles to the cent (50 SKU totals = 17533.48; 0 mismatches across 150 driver rows); the parcel fix is surgical (exactly 9 rows changed, summing to exactly $2,680.00); billable-weight distribution {2:20, 3:28, 4:2} with nothing at 5 lb (no case-box residue); physics computed not asserted; like-to-like holds; zero nulls/NaN/negatives. Full chapter flow, both paradox toggles, nav locking, and mobile all verified live.
+- **What was fixed (3 important):**
+  - **KPI was wrong on the live site.** `skus_with_class_mismatch` counted costly mismatches (20) not actual ones (**27**) — 7 downward class shifts are real mismatches floored to $0. Now counted from `fct_freight_class_by_system`, with a test recomputing it from the GDSN CSV.
+  - **Modeled rates attributed to a third party.** CostReveal claimed a "Red Stag Fulfillment rate index"; config calls those rates a modeled stand-in. Corrected (and the parcel discount is now labelled modeled).
+  - **Portfolio table was mouse-only.** Sorting/row-expansion had no keyboard path (WCAG 2.1.1). Headers are now real buttons with `aria-sort`; rows are focusable with Enter/Space and `aria-expanded`. 3 tests added.
+- **Known, not fixed (nice-to-have):** `dtc_parcel_box_in` is currently inert (max unit weight 1.99 lb means actual weight always dominates the 1.554 lb DIM weight; the param only binds at ~7in) — the fix's value was removing the case dims, not the 6.0 value. NMFC drift guard's regex is a whitelist scan that could theoretically pass a false green. `all_skus.json` has thin test coverage. `dagster-dbt`/`dagster-postgres` pinned but unimported. `weight_pct`/`dimension_pct` PARAMs wired to nothing. NULL density falls through to class 500 untested.
