@@ -49,7 +49,13 @@ npm run dev
 
 ### Full pipeline (requires PostgreSQL)
 
-Python dependencies: `dagster`, `dbt-postgres`, `psycopg2`, `pyyaml`. Postgres connection is configured by environment variables `CINDERHAVEN_DB_HOST` / `CINDERHAVEN_DB_PORT` / `CINDERHAVEN_DB_USER` / `CINDERHAVEN_DB_PASSWORD` / `CINDERHAVEN_DB_NAME` (defaults: `localhost:5432`, user `postgres`, database `cinderhaven`).
+Python dependencies are pinned in `requirements.txt` (`dbt-postgres`, `dagster`, `psycopg2`, `pyyaml`, `pytest`):
+
+```
+python -m pip install -r requirements.txt
+```
+
+Postgres connection is configured by environment variables `CINDERHAVEN_DB_HOST` / `CINDERHAVEN_DB_PORT` / `CINDERHAVEN_DB_USER` / `CINDERHAVEN_DB_PASSWORD` / `CINDERHAVEN_DB_NAME` (defaults: `localhost:5432`, user `postgres`, database `cinderhaven`).
 
 From the repo root:
 
