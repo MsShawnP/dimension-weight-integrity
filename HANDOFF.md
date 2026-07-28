@@ -212,3 +212,57 @@ brainstorm.
 **Next:** Run `/ce:brainstorm` to challenge and refine the build spec.
 
 ---
+
+---
+
+## 2026-07-28 — Tier C fix list: LTL unit mismatch, UTF-8 IO, UI/doc sweep
+
+**Started from:** Clean tree at `cffdd59`, two strict-xfail tests waiting on
+the "LTL priced on a case, not a pallet" defect in PLAN.md.
+
+**Did (4 commits):**
+
+1. `5e6d600` — **UTF-8 IO.** The generator wrote `data/generated/*.csv` with
+   the platform default (cp1252 on Windows), so "Mango Jalapeño Salsa" held a
+   lone `0xf1` byte that failed to decode anywhere defaulting to UTF-8 —
+   including `load_csvs_to_raw`, the production loader. Every CSV/JSON read and
+   write is now explicit; the four local CSVs were transcoded in place. Two
+   guards added, both verified against the pre-fix bytes.
+
+2. `879bb40` — **The LTL fix, and the recorded diagnosis was wrong.** See
+   PLAN.md for the full correction. Short version: `per_unit_delta` is $/case
+   and was multiplied by a *pallet* count. The fix list said to reprice onto a
+   pallet weight and generate a `ti`/`hi` field; but LTL bills per
+   hundredweight, so `cases_per_pallet` cancels out and `per_unit_delta` was
+   already right. Only the multiplier was wrong. Annual cases are now derived
+   ($25M ÷ 50 SKUs ÷ `wholesale_price_per_unit` $3.84 ÷ `case_pack_qty`),
+   replacing two unsourced pallet counts with one sourced price.
+   **Hero $654.28 → $4,865.89. Portfolio $17,533.48 → $208,310.87.**
+   Rebuilt offline via throwaway pg16 (dbt PASS=47 ERROR=0); rows reconcile to
+   the aggregate to the cent, no negatives, class-mismatch KPI still 27.
+
+3. `804ed91` — **UI.** Content width 900→1200px and body 620→660px per the
+   Lailara contract. Both status pills failed AA at 12px (4.02:1 and 2.53:1);
+   fixed to 6.18:1 and 5.33:1. Synthetic-data disclosure moved from the footer
+   up beside the headline stat.
+
+4. `f0f5903` — **Docs.** Three stale references corrected.
+
+**Two review claims that did not survive checking:**
+- *"All four committed CSVs break any Linux/macOS checkout."* `data/generated/`
+  is gitignored and was never committed — a fresh checkout has no CSVs at all.
+  The encoding fix is still right, but the stated blast radius was not.
+- *"Status pills should use HK-5 text on HK-35."* That measures **3.03:1**,
+  worse than the 4.02:1 white it would replace. Darkening the fill to HK-25
+  and keeping white text is what actually resolves it.
+
+**State:** 72 Python + 42 frontend tests pass, build clean, tree clean.
+Verified live at 1440px and 375px — no horizontal scroll, pill contrast
+confirmed from computed styles, cost line reads
+"$0.39/case × 10,851 cases/yr = $4,231.89/yr".
+
+**Next:** Not deployed. The corrected `all_skus.json`/`hero.json` and the
+$208K headline need a Cloudflare Pages redeploy, and nothing is pushed to
+GitHub yet (`5e6d600..f0f5903`). The largest remaining soft spot is the even
+revenue split across 50 SKUs — real per-SKU velocity would redistribute the
+portfolio total without changing its size much.
