@@ -15,7 +15,7 @@ const SYSTEM_DISPLAY_NAMES: Record<string, string> = {
 }
 
 const ANNOTATIONS: Record<string, string> = {
-  erp: 'Net weight stored in gross field — biased low',
+  erp: 'Weight understated ~7%; dimensions rounded to whole inches',
   wms: 'Physical measurement at receiving — the measurement of record',
   gdsn: 'Outer-box dims inflated for safe transit — overstates density',
   shopify: 'Unit net weight, not case gross — wildly understated',

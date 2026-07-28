@@ -20,7 +20,7 @@ describe('QuizView', () => {
 
     await userEvent.click(screen.getByRole('button', { name: /reveal/i }))
     expect(
-      screen.getByText('Net weight stored in gross field — biased low'),
+      screen.getByText('Weight understated ~7%; dimensions rounded to whole inches'),
     ).toBeInTheDocument()
   })
 
@@ -53,7 +53,7 @@ describe('QuizView', () => {
     await userEvent.click(screen.getByRole('button', { name: /reveal/i }))
 
     expect(
-      screen.getByText('Net weight stored in gross field — biased low'),
+      screen.getByText('Weight understated ~7%; dimensions rounded to whole inches'),
     ).toBeInTheDocument()
     expect(
       screen.getByText(
