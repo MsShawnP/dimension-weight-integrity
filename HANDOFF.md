@@ -25,7 +25,11 @@ For things that didn't work, see FAILURES.md.
 
 **Note on tooling:** the Browser pane isn't compositing in this session, so screenshots and synthetic key presses don't work. Keyboard operability was proven instead with real tests (`userEvent.keyboard`), which is durable anyway.
 
-**State:** 52 Python + 41 frontend tests pass, build clean. Commits 185d562, ead74cb, 2652c3f.
+**Then swept all remaining nice-to-haves** (5 more commits, 87824e7..feb8efc): dead import + stale docstring + 2 unused pinned deps removed; 4 unwired PARAMs relabelled REFERENCE ONLY; parcel-box cliff and one-unit-per-order assumption documented in config; NMFC drift guard hardened (now checks the compared expression, branch count, and ordering — verified against 3 sabotaged macros); 5 new tests over all_skus.json; data.ts guards deepened; ERP quiz annotation corrected; cost-driver prose bound to `driver.basis` so copy can't drift from data again.
+
+**Answered along the way — should `dtc_parcel_box_in` change?** No. DIM weight only bills below 12.43 lb/ft³ (1728/139) and these jars run 11.6–24.4, so actual weight correctly wins. It's a cliff: 5in and 6in both yield $9,988; 7in $13,228; 8in $19,372. The shipped number is the conservative floor. Left at 6.0 and documented rather than changed, since moving it without evidence would manufacture cost. The bigger uncertainty is the one-unit-per-DTC-order assumption.
+
+**State:** 57 Python + 41 frontend tests pass, build clean. Commits 185d562, ead74cb, 2652c3f, then 87824e7..feb8efc.
 
 ---
 
