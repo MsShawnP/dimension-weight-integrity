@@ -66,10 +66,15 @@ defect is resolved, shipped, and verified live. No open tasks; the project is
 in maintenance. Next scheduled `/improve` is 2026-10-25.
 
 Highest-leverage open assumption is `annual_wholesale_revenue_per_sku`, which
-spreads $25M evenly across 50 SKUs. Real per-SKU velocity would redistribute
-the portfolio total without much changing its size — worth calibrating before
-quoting per-SKU figures to a client. Second is `annual_dtc_orders_per_sku`
-(one unit per DTC order), which moves the parcel lane.
+spreads $25M evenly across 50 SKUs. This is **not** size-neutral to redistribute,
+as first assumed. Only 20 of 50 SKUs carry any LTL cost and their cost-per-
+revenue-dollar spans 5.1x, so against an 80/20 Pareto split the total ranges
+$48k–$548k (0.25x–2.86x) depending on whether volume lands on divergent or
+clean SKUs — and even at zero correlation the realized total carries a 30%
+standard deviation ($101k–$291k at the 5th–95th percentile). The mean is
+preserved only in expectation. Measure the volume/divergence correlation before
+quoting the portfolio figure. Second is `annual_dtc_orders_per_sku` (one unit
+per DTC order), which moves the parcel lane.
 
 ## Out of scope for this arc
 
