@@ -15,6 +15,7 @@
   --gridline: #d9d9d9;
   --reference: #666666;
   --disabled: #b3b3b3;
+  --london-95: #f2f2f2; /* DS soft card surface */
 
   /* Chicago (accent blue) */
   --navy: #1f2e7a;
@@ -322,7 +323,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: #ffffff;
+  background: var(--london-95);
   border: 1px solid var(--gridline);
   border-radius: var(--radius);
   padding: 20px;
