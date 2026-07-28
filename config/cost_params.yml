@@ -38,7 +38,34 @@ ltl:
     400: 82.71
     500: 90.98
   reclassification_inspection_fee: 112.50  # REFERENCE ONLY (not read by any model) — $/shipment, source: industry $75-$150 range midpoint. The cost engine bills the class-rate delta, not an inspection fee.
-  annual_pallet_shipments_per_sku: 52  # PARAM — weekly pallet shipment per SKU, annualized
+
+  # --- LTL annual volume: annual CASES, not pallets ---
+  #
+  # LTL bills per hundredweight, so a reclassification penalty falls on the
+  # tonnage shipped, not on how that tonnage is stacked. cases_per_pallet
+  # cancels out of the cost entirely:
+  #
+  #   (cases_per_pallet x case_lb / 100) x rate_delta x pallets_per_year
+  #     == (case_lb / 100) x rate_delta x (cases_per_pallet x pallets_per_year)
+  #     == (case_lb / 100) x rate_delta x ANNUAL CASES
+  #
+  # The engine therefore prices a $/case delta against an annual case count.
+  # It does NOT need ti/hi or cases_per_pallet, and no such field exists.
+  #
+  # This replaces a free-floating `annual_pallet_shipments_per_sku` (shipped
+  # at 52; the build spec illustrated 520). Both were asserted pallet counts
+  # with no source, and the 10x spread between them moved the headline 10x.
+  # Annual cases are instead DERIVED from figures the Cinderhaven dataset
+  # already publishes, leaving exactly one new calibratable price:
+  #
+  #   annual_cases_per_sku
+  #     = annual_wholesale_revenue_per_sku / wholesale_price_per_unit
+  #       / case_pack_qty          <- per-SKU, already in the measurement of record
+  #
+  # DTC is not netted out: at 200 orders/SKU/yr it is ~0.2% of unit volume,
+  # well inside the rounding on the revenue figure itself.
+  annual_wholesale_revenue_per_sku: 500000.00  # DERIVED — $25M annual revenue / 50 SKUs (CINDERHAVEN_CANONICAL.md: "Annual revenue ~$25M", "SKU count 50"). Assumes revenue is spread evenly across the catalog.
+  wholesale_price_per_unit: 3.84  # PARAM — $/unit. Catalog mean MSRP $7.67 x blended non-DTC wholesale multiplier 0.5000 (mean of the 9 retail+distributor rates in the Cinderhaven seed catalog: Walmart .50, Costco .48, Whole Foods .58, Sprouts .55, Kroger .52, Regional .52, UNFI .45, KeHE .46, DPI .44). DTC excluded — it sells at MSRP and does not ship LTL.
 
 # --- Parcel Rates ---
 # Source: FedEx Ground Zone 5, 2026 list rates (Quadient/FedEx Rate Guide)

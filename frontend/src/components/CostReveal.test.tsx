@@ -3,25 +3,29 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import CostReveal from './CostReveal'
 import heroJson from '../data/hero.json'
+import { formatCurrency } from '../utils/format'
 import type { HeroData } from '../types'
 
 const data = heroJson as HeroData
+
+// Derived from the shipped data, never frozen as literals. Hard-coded totals
+// here previously outlived a defect in the pipeline: the suite stayed green
+// while the LTL driver was priced against a pallet count instead of cases.
+const ltl = data.cost.ltl_reclass!
+const parcel = data.cost.parcel_reweigh!
+const chargeback = data.cost.compliance_cb!
+const total = Object.values(data.cost).reduce((s, d) => s + d.annual_cost, 0)
 
 describe('CostReveal', () => {
   it('renders three cost driver sections with correct per-unit and annual amounts', () => {
     render(<CostReveal data={data} onComplete={vi.fn()} />)
 
-    // LTL: $0.39/case, $20.28/yr
-    expect(screen.getByText(/\$0\.39/)).toBeInTheDocument()
-    expect(screen.getByText(/\$20\.28\/yr/)).toBeInTheDocument()
-
-    // Parcel: $1.97/shipment, $394/yr
-    expect(screen.getByText(/\$1\.97/)).toBeInTheDocument()
-    expect(screen.getByText(/\$394\/yr/)).toBeInTheDocument()
-
-    // Compliance: $200/event, risk-adjusted to 1.2 expected events/yr → $240/yr
-    expect(screen.getByText(/\$200/)).toBeInTheDocument()
-    expect(screen.getByText(/\$240\/yr/)).toBeInTheDocument()
+    for (const driver of [ltl, parcel, chargeback]) {
+      const card = screen
+        .getByText(`${formatCurrency(driver.annual_cost)}/yr`)
+        .closest('section')!
+      expect(card.textContent).toContain(formatCurrency(driver.per_unit_delta))
+    }
   })
 
   it('shows class 50 vs class 55 comparison in LTL section', () => {
@@ -38,19 +42,32 @@ describe('CostReveal', () => {
     expect(parcelSection.textContent).toContain('3 lb')
   })
 
-  it('shows total annual cost of $654.28', () => {
+  it('shows the total annual cost as the sum of its drivers', () => {
     render(<CostReveal data={data} onComplete={vi.fn()} />)
-    expect(screen.getByText(/\$654\.28/)).toBeInTheDocument()
+    expect(
+      screen.getByText(`${formatCurrency(total)} per year`),
+    ).toBeInTheDocument()
+  })
+
+  it('prices the LTL driver per case against an annual case volume', () => {
+    render(<CostReveal data={data} onComplete={vi.fn()} />)
+    const ltlSection = screen
+      .getByText('LTL Freight Reclassification')
+      .closest('section')!
+    // A pallet count would be a unit mismatch against a $/case delta.
+    expect(ltlSection.textContent).toContain('cases/yr')
+    expect(ltlSection.textContent).not.toContain('pallet')
+    expect(ltl.annual_units).toBeGreaterThan(1000)
   })
 
   it('formats cost values correctly without trailing zeros beyond cents', () => {
     render(<CostReveal data={data} onComplete={vi.fn()} />)
-    // $394 not $394.00, $240 not $240.00, $200 not $200.00
-    expect(screen.getByText(/\$394\/yr/)).toBeInTheDocument()
-    expect(screen.getByText(/\$240\/yr/)).toBeInTheDocument()
-    // $20.28 keeps its cents, $0.39 keeps its cents
-    expect(screen.getByText(/\$20\.28\/yr/)).toBeInTheDocument()
-    expect(screen.getByText(/\$0\.39/)).toBeInTheDocument()
+    // Whole-dollar amounts drop the cents; fractional amounts keep them.
+    expect(formatCurrency(394)).toBe('$394')
+    expect(formatCurrency(240)).toBe('$240')
+    expect(formatCurrency(20.28)).toBe('$20.28')
+    expect(screen.getByText(`${formatCurrency(parcel.annual_cost)}/yr`)).toBeInTheDocument()
+    expect(screen.getByText(`${formatCurrency(chargeback.annual_cost)}/yr`)).toBeInTheDocument()
   })
 
   it('calls onComplete when Continue button is clicked', async () => {

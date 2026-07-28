@@ -11,7 +11,7 @@
 Be honest about this split in code and comments — it's the credibility core.
 
 - **Exact (hard-coded, unit-tested):** cube math, density math, the density→NMFC class table, DIM-weight formula, billable-weight rule (greater-of, round up), and all reconciliation invariants. These are physics/standard tables and must be *computed*, never asserted.
-- **Parameter (config, calibrate later, flagged `# PARAM`):** LTL $/cwt rate table, parcel $/lb rate table, chargeback $/event, annual pallet-shipment count, annual DTC order volume (← from DTC Channel Intelligence dataset), DIM divisor (carrier-specific), drift tolerance.
+- **Parameter (config, calibrate later, flagged `# PARAM`):** LTL $/cwt rate table, parcel $/lb rate table, chargeback $/event, wholesale $/unit (sets annual case volume — see §2.3A; this replaced an asserted annual pallet-shipment count), annual DTC order volume (← from DTC Channel Intelligence dataset), DIM divisor (carrier-specific), drift tolerance.
 
 Put all parameters in one `config/cost_params.yml`. Nothing magic-numbered in model logic.
 
@@ -57,7 +57,24 @@ Runtime principle: the deployed front-end consumes a **static JSON exported by a
 | `case_cube_ft3` | 0.29053  (= 11.25·8.5·5.25 / 1728) |
 | `case_density_lb_ft3` | **74.00** (= 21.50 / 0.29053) |
 | `freight_class` | **50** (density ≥ 50 → class 50) |
-| `ti` / `hi` | 8 / 5 → 40 cases/pallet |
+| `ti` / `hi` | ~~8 / 5 → 40 cases/pallet~~ — **withdrawn, see note** |
+
+> **Note (2026-07-28): `ti`/`hi` are not used, and the 8/5 figure was wrong.**
+>
+> *Not used:* the cost engine never needs a pallet packout. LTL bills per
+> hundredweight, so a reclassification penalty falls on annual tonnage
+> shipped and `cases_per_pallet` cancels out of the arithmetic:
+> `(cases_per_pallet × case_lb/100) × rate_delta × pallets_per_year`
+> `== (case_lb/100) × rate_delta × annual_cases`. No `ti`/`hi` column is
+> generated or modelled anywhere. §3.2's schema line is aspirational.
+>
+> *Wrong:* an 11.25 × 8.50 case tiles 4 × 4 = 16 per layer on a 48 × 40 deck,
+> not 8 — `ti` = 8 leaves ~60% of the deck empty and contradicts the case
+> dimensions listed four rows above it. The stack is also weight-bound, not
+> height-bound, for a 74 pcf product: 16 × 8 layers would weigh 2,752 lb,
+> past what a carrier will accept on one pallet.
+>
+> Neither point changes any cost, because the term cancels.
 
 ### 2.2 What each system actually stores (the divergence)
 
@@ -72,11 +89,27 @@ The reveal for the "pick the true number" interaction: **none of ERP / GDSN / Sh
 
 ### 2.3 The three cost drivers, computed
 
-**(A) LTL freight reclass (retail).** Shipment basis = 1 pallet = 40 × 21.50 = 860 lb = 8.60 cwt.
+**(A) LTL freight reclass (retail).** Billing basis = 1 case = 21.50 lb = 0.2150 cwt.
 Rate table `# PARAM`: class 50 = \$18.00/cwt, class 55 = \$19.80/cwt.
-- True (class 50): 8.60 × 18.00 = **\$154.80 / pallet**
-- Published-driven (class 55): 8.60 × 19.80 = **\$170.28 / pallet**
-- **Δ = \$15.48 / pallet** → × `annual_pallets` `# PARAM` (e.g. 520) = **\$8,049.60 / yr**
+- True (class 50): 0.2150 × 18.00 = **\$3.87 / case**
+- Published-driven (class 55): 0.2150 × 19.80 = **\$4.26 / case**
+- **Δ = \$0.39 / case** → × `annual_cases` = **\$4,231.89 / yr**
+
+LTL is priced per hundredweight, so the reclassification penalty falls on the
+tonnage shipped, not on how it is stacked — `cases_per_pallet` cancels between
+the two factors and the driver needs no pallet packout at all:
+
+```
+(cases_per_pallet × case_lb/100) × rate_delta × pallets_per_year
+  == (case_lb/100) × rate_delta × annual_cases
+```
+
+`annual_cases` is derived, not asserted — `annual_wholesale_revenue_per_sku`
+(\$25M ÷ 50 SKUs, per CINDERHAVEN_CANONICAL.md) ÷ `wholesale_price_per_unit`
+`# PARAM` ÷ the SKU's own `case_pack_qty`, giving 10,851 cases/yr for the hero.
+This supersedes the earlier "\$15.48 / pallet × 520 pallets" line, whose two
+free-floating pallet counts (52 shipped, 520 illustrated) were the only thing
+setting the size of this driver.
 
 **(B) Parcel reweigh back-bill (DTC).** Carrier bills the greater of actual and DIM weight, rounded up to the next whole lb.
 DIM `# PARAM divisor = 139`: 6·6·6 / 139 = 1.554 lb. Actual 2.05 > DIM 1.554 → bill on 2.05 → **billable 3 lb**.
@@ -91,7 +124,7 @@ Parcel rate table `# PARAM`: 1 lb = \$8.50, 2 lb = \$9.75, 3 lb = \$11.00.
 - `events_per_year` = attributed subset of Cinderhaven's 3,357 chargebacks (2,873 retailer + 484 distributor) coded to dimension/pallet-config `# PARAM` (e.g. 14% → ~121) — **must be added to the dataset and reconciled against the ~$3.6M/yr all-in trade spend (11.0% of scan revenue, trailing 52 weeks)**. Illustrative only — base 3,357 is canonical; 14% attribution and $250/event are UNCALIBRATED placeholders, calibrate at build. Not canonical figures.
 - 121 × \$250 = **\$30,250 / yr** (illustrative — see note above)
 
-All annual totals are placeholders until params are calibrated; the **per-unit math (Δ\$15.48/pallet, \$2.50/order) and the physical math must reconcile exactly** to §2.1–2.2.
+All annual totals are placeholders until params are calibrated; the **per-unit math (Δ\$0.39/case, \$2.50/order) and the physical math must reconcile exactly** to §2.1–2.2.
 
 ### 2.4 Scaling to the 50-SKU master
 
@@ -237,7 +270,7 @@ Front-end is presentation + one live toggle. **All dollars come from the JSON.**
     ]
   },
   "cost": {
-    "ltl_reclass":   { "per_pallet_delta":15.48, "annual_pallets":520, "annual":8049.60 },
+    "ltl_reclass":   { "per_case_delta":0.39, "annual_cases":10851, "annual":4231.89 },
     "parcel_reweigh":{ "per_order_leak":2.50, "annual_orders":6000, "annual":15000.0 },
     "compliance_cb": { "per_event":250, "events":65, "annual":16250.0 }
   },
@@ -248,7 +281,7 @@ Front-end is presentation + one live toggle. **All dollars come from the JSON.**
   },
   "paradox": {
     "ops_fix": { "action":"raise GDSN dims to safe outer box",
-      "retail_effect":"class 50→55, +$15.48/pallet", "dtc_effect":"none directly",
+      "retail_effect":"class 50→55, +$0.39/case", "dtc_effect":"none directly",
       "note":"density falls, class rises across all distributors" },
     "dtc_fix": { "action":"lower Shopify weight to net",
       "retail_effect":"none directly", "dtc_effect":"carrier reweigh back-bill on every order" }
@@ -265,7 +298,7 @@ Views:
 ## 7. Acceptance criteria (definition of done)
 
 1. `dbt build` passes; macro unit tests green; divergence monitor emits `warn` for ERP/GDSN/Shopify on the hero SKU and not for WMS.
-2. Reconciliation invariants hold exactly: cube 0.29053, density 74.0, class 50 for MoR; GDSN density 37.98 → class 55; LTL Δ = \$15.48/pallet; parcel billable = 3 lb, leak = \$2.50/order.
+2. Reconciliation invariants hold exactly: cube 0.29053, density 74.0, class 50 for MoR; GDSN density 37.98 → class 55; LTL Δ = \$0.39/case; parcel billable = 3 lb, leak = \$2.50/order.
 3. `fct_dimension_cost` rows for all three drivers, `annual_cost = per_unit_delta × annual_units`, with `basis` populated.
 4. Exactly one system (WMS) equals the MoR in `fct_attribute_divergence` for the hero SKU; DTC comparison is parcel-gross vs ship-weight (not gross vs net).
 5. Dagster `export_frontend_json` produces `hero.json` matching §6; front-end renders both views offline from it; paradox toggle is live and never reaches an all-clean state.
@@ -293,7 +326,7 @@ dimension-integrity/
 ## 9. Params to lock before/at build (carried from open items)
 
 - `annual_dtc_orders` per SKU — **pull from DTC Channel Intelligence dataset; do not invent a second DTC profile.**
-- `annual_pallets`, `chargeback_per_event`, `events_per_year` (dimension-coded subset of 3,357 chargebacks) — set in `cost_params.yml`, reconcile against the ~$3.6M/yr all-in trade / 3,357-chargeback canon.
+- `wholesale_price_per_unit` (sets `annual_cases`), `chargeback_per_event`, `events_per_year` (dimension-coded subset of 3,357 chargebacks) — set in `cost_params.yml`, reconcile against the ~$3.6M/yr all-in trade / 3,357-chargeback canon.
 - Calibrate the LTL `$/cwt` and parcel `$/lb` tables to plausible current rates (these are modeled stand-ins).
 - Confirm hero-SKU final specs (above are defensible working values; adjust once, then lock — every number downstream keys off them).
 

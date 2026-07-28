@@ -1,5 +1,5 @@
 import type { HeroData, CostDriver } from '../types'
-import { formatCurrency, formatDimension, formatWeight } from '../utils/format'
+import { formatCount, formatCurrency, formatDimension, formatWeight } from '../utils/format'
 
 interface CostRevealProps {
   data: HeroData
@@ -52,7 +52,9 @@ const DRIVER_SECTIONS: DriverSection[] = [
       ].join(' ')
     },
     unitLabel: '/case',
-    volumeLabel: 'pallet shipments/yr',
+    // LTL bills per hundredweight, so the reclass delta is priced per case
+    // against annual case volume. How cases stack on a pallet cancels out.
+    volumeLabel: 'cases/yr',
     source:
       'LTL rates: modeled stand-in — class 50=$18.00/cwt, class 55=$19.80/cwt. Per-class step sized from published 15–25%-per-step benchmarks (Red Stag, Jansson LLC).',
   },
@@ -97,7 +99,7 @@ function DriverCard({ section, driver, data }: { section: DriverSection; driver:
       <p className="cost-driver__explanation">{section.explain(driver.basis ?? {}, data)}</p>
       <p className="cost-driver__math">
         {formatCurrency(driver.per_unit_delta)}
-        {section.unitLabel} &times; {driver.annual_units} {section.volumeLabel} ={' '}
+        {section.unitLabel} &times; {formatCount(driver.annual_units)} {section.volumeLabel} ={' '}
         <span className="cost-driver__annual">{formatCurrency(driver.annual_cost)}/yr</span>
       </p>
       <p className="cost-driver__source">{section.source}</p>

@@ -53,7 +53,8 @@ def test_scalar_parameters_match(cost_params, dbt_vars):
     mirrored = [
         (cost_params["parcel"]["dim_divisor"], dbt_vars["dim_divisor"]),
         (cost_params["parcel"]["dtc_parcel_box_in"], dbt_vars["dtc_parcel_box_in"]),
-        (cost_params["ltl"]["annual_pallet_shipments_per_sku"], dbt_vars["annual_pallet_shipments_per_sku"]),
+        (cost_params["ltl"]["annual_wholesale_revenue_per_sku"], dbt_vars["annual_wholesale_revenue_per_sku"]),
+        (cost_params["ltl"]["wholesale_price_per_unit"], dbt_vars["wholesale_price_per_unit"]),
         (cost_params["parcel"]["annual_dtc_orders_per_sku"], dbt_vars["annual_dtc_orders_per_sku"]),
         (cost_params["chargebacks"]["per_event_cost"], dbt_vars["chargeback_per_event_cost"]),
         (cost_params["chargebacks"]["annual_events_per_sku"], dbt_vars["annual_chargeback_events_per_sku"]),

@@ -10,18 +10,18 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
+            "annual_cost": 0.0
+          },
+          "compliance_cb": {
+            "per_unit_delta": 0.0,
+            "annual_units": 1.2,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
             "annual_units": 200.0,
             "annual_cost": 162.0
-          },
-          "compliance_cb": {
-            "per_unit_delta": 0.0,
-            "annual_units": 1.2,
-            "annual_cost": 0.0
           }
         },
         "total_annual_cost": 162.0
@@ -38,8 +38,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.39,
-            "annual_units": 52.0,
-            "annual_cost": 20.28
+            "annual_units": 10851.0,
+            "annual_cost": 4231.89
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.97,
@@ -52,7 +52,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 654.28
+        "total_annual_cost": 4865.89
       },
       "divergence_count": 5
     },
@@ -66,7 +66,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -94,8 +94,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.55,
-            "annual_units": 52.0,
-            "annual_cost": 28.6
+            "annual_units": 10851.0,
+            "annual_cost": 5968.05
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -108,7 +108,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 500.6
+        "total_annual_cost": 6440.05
       },
       "divergence_count": 5
     },
@@ -122,7 +122,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -150,8 +150,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.89,
-            "annual_units": 52.0,
-            "annual_cost": 46.28
+            "annual_units": 10851.0,
+            "annual_cost": 9657.39
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -164,7 +164,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 448.28
+        "total_annual_cost": 10059.39
       },
       "divergence_count": 5
     },
@@ -178,8 +178,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.44,
-            "annual_units": 52.0,
-            "annual_cost": 22.88
+            "annual_units": 10851.0,
+            "annual_cost": 4774.44
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -192,7 +192,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 424.88
+        "total_annual_cost": 5176.44
       },
       "divergence_count": 8
     },
@@ -206,8 +206,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.44,
-            "annual_units": 52.0,
-            "annual_cost": 74.88
+            "annual_units": 10851.0,
+            "annual_cost": 15625.44
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -220,7 +220,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 476.88
+        "total_annual_cost": 16027.44
       },
       "divergence_count": 5
     },
@@ -234,7 +234,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -262,8 +262,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.21,
-            "annual_units": 52.0,
-            "annual_cost": 62.92
+            "annual_units": 10851.0,
+            "annual_cost": 13129.71
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -276,7 +276,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 464.92
+        "total_annual_cost": 13531.71
       },
       "divergence_count": 5
     },
@@ -290,7 +290,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -318,7 +318,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -346,7 +346,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -374,8 +374,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.83,
-            "annual_units": 52.0,
-            "annual_cost": 43.16
+            "annual_units": 5425.0,
+            "annual_cost": 4502.75
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -388,7 +388,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 445.15999999999997
+        "total_annual_cost": 4904.75
       },
       "divergence_count": 6
     },
@@ -402,7 +402,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -430,7 +430,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -458,8 +458,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.67,
-            "annual_units": 52.0,
-            "annual_cost": 86.84
+            "annual_units": 10851.0,
+            "annual_cost": 18121.17
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -472,7 +472,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 488.84000000000003
+        "total_annual_cost": 18523.17
       },
       "divergence_count": 6
     },
@@ -486,8 +486,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.16,
-            "annual_units": 52.0,
-            "annual_cost": 60.32
+            "annual_units": 10851.0,
+            "annual_cost": 12587.16
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -500,7 +500,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 532.3199999999999
+        "total_annual_cost": 13059.16
       },
       "divergence_count": 5
     },
@@ -514,8 +514,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.33,
-            "annual_units": 52.0,
-            "annual_cost": 17.16
+            "annual_units": 10851.0,
+            "annual_cost": 3580.83
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -528,7 +528,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 419.15999999999997
+        "total_annual_cost": 3982.83
       },
       "divergence_count": 5
     },
@@ -542,7 +542,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -570,7 +570,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -598,8 +598,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.81,
-            "annual_units": 52.0,
-            "annual_cost": 42.12
+            "annual_units": 10851.0,
+            "annual_cost": 8789.31
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -612,7 +612,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 514.12
+        "total_annual_cost": 9261.31
       },
       "divergence_count": 5
     },
@@ -626,7 +626,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -654,7 +654,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 21701.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -682,7 +682,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -710,7 +710,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -738,7 +738,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -766,8 +766,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.51,
-            "annual_units": 52.0,
-            "annual_cost": 78.52
+            "annual_units": 5425.0,
+            "annual_cost": 8191.75
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -780,7 +780,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 550.52
+        "total_annual_cost": 8663.75
       },
       "divergence_count": 5
     },
@@ -794,7 +794,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -822,7 +822,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -850,7 +850,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -878,8 +878,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.81,
-            "annual_units": 52.0,
-            "annual_cost": 42.12
+            "annual_units": 5425.0,
+            "annual_cost": 4394.25
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -892,7 +892,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 444.12
+        "total_annual_cost": 4796.25
       },
       "divergence_count": 5
     },
@@ -906,8 +906,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.53,
-            "annual_units": 52.0,
-            "annual_cost": 79.56
+            "annual_units": 10851.0,
+            "annual_cost": 16602.03
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -920,7 +920,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 551.56
+        "total_annual_cost": 17074.03
       },
       "divergence_count": 6
     },
@@ -934,7 +934,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -962,7 +962,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -990,8 +990,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.9,
-            "annual_units": 52.0,
-            "annual_cost": 46.8
+            "annual_units": 10851.0,
+            "annual_cost": 9765.9
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -1004,7 +1004,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 448.8
+        "total_annual_cost": 10167.9
       },
       "divergence_count": 6
     },
@@ -1018,7 +1018,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 5425.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1046,7 +1046,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1074,8 +1074,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 2.47,
-            "annual_units": 52.0,
-            "annual_cost": 128.44
+            "annual_units": 5425.0,
+            "annual_cost": 13399.75
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1088,7 +1088,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 600.44
+        "total_annual_cost": 13871.75
       },
       "divergence_count": 5
     },
@@ -1102,7 +1102,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1130,7 +1130,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1158,8 +1158,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.25,
-            "annual_units": 52.0,
-            "annual_cost": 65.0
+            "annual_units": 10851.0,
+            "annual_cost": 13563.75
           },
           "parcel_reweigh": {
             "per_unit_delta": 0.81,
@@ -1172,7 +1172,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 467.0
+        "total_annual_cost": 13965.75
       },
       "divergence_count": 5
     },
@@ -1186,8 +1186,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 1.01,
-            "annual_units": 52.0,
-            "annual_cost": 52.52
+            "annual_units": 10851.0,
+            "annual_cost": 10959.51
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1200,7 +1200,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 524.52
+        "total_annual_cost": 11431.51
       },
       "divergence_count": 5
     },
@@ -1214,7 +1214,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1242,8 +1242,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.67,
-            "annual_units": 52.0,
-            "annual_cost": 34.84
+            "annual_units": 10851.0,
+            "annual_cost": 7270.17
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.45,
@@ -1256,7 +1256,7 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 564.84
+        "total_annual_cost": 7800.17
       },
       "divergence_count": 5
     },
@@ -1270,7 +1270,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1298,7 +1298,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1326,7 +1326,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 21701.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1354,7 +1354,7 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.0,
-            "annual_units": 52.0,
+            "annual_units": 10851.0,
             "annual_cost": 0.0
           },
           "parcel_reweigh": {
@@ -1382,8 +1382,8 @@
         "drivers": {
           "ltl_reclass": {
             "per_unit_delta": 0.62,
-            "annual_units": 52.0,
-            "annual_cost": 32.24
+            "annual_units": 10851.0,
+            "annual_cost": 6727.62
           },
           "parcel_reweigh": {
             "per_unit_delta": 1.16,
@@ -1396,13 +1396,13 @@
             "annual_cost": 240.0
           }
         },
-        "total_annual_cost": 504.24
+        "total_annual_cost": 7199.62
       },
       "divergence_count": 5
     }
   ],
   "aggregate": {
-    "total_annual_cost": 17533.48,
+    "total_annual_cost": 208310.87,
     "skus_with_class_mismatch": 27,
     "total_skus": 50
   }

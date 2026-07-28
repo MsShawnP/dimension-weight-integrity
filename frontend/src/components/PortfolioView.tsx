@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { AllSkusData, SkuSummary } from '../types'
-import { formatCurrency, formatWeight, formatClass } from '../utils/format'
+import { formatCount, formatCurrency, formatWeight, formatClass } from '../utils/format'
 
 interface PortfolioViewProps {
   data: AllSkusData
@@ -195,7 +195,7 @@ function SkuRow({ sku, isExpanded, onToggle }: { sku: SkuSummary; isExpanded: bo
                 <div key={key} className="pv-driver-row">
                   <span className="pv-driver-name">{DRIVER_LABELS[key] ?? key}</span>
                   <span className="pv-driver-detail">
-                    {formatCurrency(driver.per_unit_delta)}/unit &times; {driver.annual_units} units
+                    {formatCurrency(driver.per_unit_delta)}/unit &times; {formatCount(driver.annual_units)} units
                   </span>
                   <span className="pv-driver-cost">{formatCurrency(driver.annual_cost)}/yr</span>
                 </div>

@@ -11,14 +11,28 @@ import math
 from pathlib import Path
 
 import pytest
+import yaml
 
-HERO_JSON = Path(__file__).resolve().parent.parent / "frontend" / "src" / "data" / "hero.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+HERO_JSON = REPO_ROOT / "frontend" / "src" / "data" / "hero.json"
+COST_PARAMS = REPO_ROOT / "config" / "cost_params.yml"
 
 
 @pytest.fixture
 def hero():
     with open(HERO_JSON, encoding="utf-8") as f:
         return json.load(f)
+
+
+@pytest.fixture
+def cost_params():
+    with open(COST_PARAMS, encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+@pytest.fixture
+def ltl_rate_per_cwt(cost_params):
+    return {float(k): float(v) for k, v in cost_params["ltl"]["rate_per_cwt"].items()}
 
 
 # --- AE1: Physical constants ---
@@ -76,51 +90,60 @@ class TestCostMath:
         expected = cb["per_unit_delta"] * cb["annual_units"]
         assert math.isclose(cb["annual_cost"], expected, rel_tol=1e-3)
 
-    # --- Un-pinned: the LTL basis is a case weight against pallet shipments ---
+    # --- The LTL driver must be $/case against an annual CASE count ---
     #
-    # test_total_annual_cost used to assert the portfolio total was exactly
-    # 654.28 (20.28 LTL + 394.00 parcel + 240.00 chargeback). That constant is
-    # downstream of the Critical in dbt/models/marts/fct_dimension_cost.sql:27,
-    # where per_unit_delta divides a CASE weight (21.5 lb) by 100 to get
-    # hundredweight and is then multiplied by 52 PALLET shipments. The rate
-    # delta is priced on 0.215 cwt when the shipped unit is 8.60 cwt --
-    # build_spec_dimension_integrity.md:75 gives 1 pallet = 40 x 21.50 lb =
-    # 8.60 cwt, delta $15.48/pallet. Freezing 654.28 made the wrong basis a
-    # requirement.
+    # These replaced a frozen `total == 654.28`, which had made a unit mismatch
+    # a requirement: per_unit_delta is a $/case figure (case cwt x rate delta)
+    # but was multiplied by a count of PALLET shipments, understating the
+    # driver by roughly a pallet's worth of cases.
     #
-    # Both replacements assert the corrected contract under xfail(strict=True):
-    # green now, and the marker XPASSes and fails the suite the moment the
-    # basis is fixed, so it cannot silently outlive the defect.
-    # Tracked in PLAN.md -- "LTL delta is priced on a case, not a pallet".
+    # The earlier framing of this defect -- that the delta should be repriced
+    # onto a pallet weight, needing a new ti/hi field -- was wrong. LTL bills
+    # per hundredweight, so the penalty falls on tonnage shipped and
+    # cases_per_pallet cancels out of the product entirely:
+    #
+    #   (cases_per_pallet x case_lb/100) x rate_delta x pallets_per_year
+    #     == (case_lb/100) x rate_delta x annual_cases
+    #
+    # So per_unit_delta was already correct and only the multiplier was wrong.
+    # These two tests pin that unit contract from both sides.
 
-    @pytest.mark.xfail(
-        strict=True,
-        reason="fct_dimension_cost.sql:27 prices the rate delta on a case weight",
-    )
-    def test_ltl_delta_is_priced_on_the_shipped_unit_not_a_case(self, hero):
+    def test_ltl_delta_is_priced_per_case(self, hero, ltl_rate_per_cwt):
+        """per_unit_delta = case hundredweight x the class rate delta."""
         ltl = hero["cost"]["ltl_reclass"]
         basis = ltl["basis"]
-        # annual_units counts pallet shipments, so the weight the rate delta is
-        # applied to has to be a pallet's weight. Today the only weight in the
-        # basis is case_weight_lb, which is what makes the figure ~40x light.
-        shipped_unit_lb = basis.get("shipped_unit_weight_lb")
-        assert shipped_unit_lb is not None, (
-            "LTL basis names no shipped-unit weight; it prices on "
-            f"case_weight_lb={basis.get('case_weight_lb')} while annual_units "
-            f"counts {ltl['annual_units']} pallet shipments"
+        case_lb = basis["case_weight_lb"]
+        delta_per_cwt = (
+            ltl_rate_per_cwt[float(basis["gdsn_class"])]
+            - ltl_rate_per_cwt[float(basis["mor_class"])]
         )
-        assert shipped_unit_lb > basis["case_weight_lb"], (
-            "shipped-unit weight is not heavier than one case"
+        expected = max(0.0, (case_lb / 100.0) * delta_per_cwt)
+        assert math.isclose(ltl["per_unit_delta"], round(expected, 2), abs_tol=0.01), (
+            f"LTL delta {ltl['per_unit_delta']} is not {case_lb} lb / 100 x "
+            f"{delta_per_cwt:.2f} $/cwt = {expected:.4f}"
         )
 
-    @pytest.mark.xfail(
-        strict=True,
-        reason="portfolio total inherits the case-weight LTL basis",
-    )
-    def test_total_annual_cost_is_not_the_case_weight_figure(self, hero):
-        total = sum(d["annual_cost"] for d in hero["cost"].values())
-        assert not math.isclose(total, 654.28, rel_tol=1e-3), (
-            "portfolio total still carries the case-weight LTL component"
+    def test_ltl_annual_units_is_a_case_count_not_a_pallet_count(self, hero, cost_params):
+        """The multiplier must be annual CASES, derived from revenue.
+
+        A pallet count here would be a unit mismatch against a $/case delta.
+        """
+        ltl = hero["cost"]["ltl_reclass"]
+        cfg = cost_params["ltl"]
+        case_pack = ltl["basis"]["case_pack_qty"]
+        expected = round(
+            cfg["annual_wholesale_revenue_per_sku"]
+            / cfg["wholesale_price_per_unit"]
+            / case_pack
+        )
+        assert ltl["annual_units"] == expected, (
+            f"LTL annual_units {ltl['annual_units']} is not the derived annual "
+            f"case count {expected} (revenue / unit price / case pack {case_pack})"
+        )
+        # Guard the specific regression: a weekly-pallet count is ~2 orders of
+        # magnitude too small to be a case volume for a $500k/yr SKU.
+        assert ltl["annual_units"] > 1000, (
+            "annual_units looks like a pallet count, not an annual case count"
         )
 
 

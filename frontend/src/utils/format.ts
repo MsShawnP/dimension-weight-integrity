@@ -17,6 +17,15 @@ export function formatCurrency(value: number): string {
   return currencyFmt.format(value)
 }
 
+/** Annual volume counts. Whole units get thousands separators; the
+ *  risk-adjusted chargeback count is fractional and keeps its decimal. */
+export function formatCount(value: number): string {
+  return value.toLocaleString('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  })
+}
+
 export function formatWeight(lb: number): string {
   return `${lb.toFixed(2)} lb`
 }

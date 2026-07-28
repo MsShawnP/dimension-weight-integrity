@@ -132,13 +132,14 @@
   "cost": {
     "ltl_reclass": {
       "per_unit_delta": 0.39,
-      "annual_units": 52.0,
-      "annual_cost": 20.28,
+      "annual_units": 10851.0,
+      "annual_cost": 4231.89,
       "basis": {
         "mor_class": 50,
         "gdsn_class": 55,
         "mor_density": 74.0,
         "gdsn_density": 37.98,
+        "case_pack_qty": 12,
         "case_weight_lb": 21.5
       }
     },

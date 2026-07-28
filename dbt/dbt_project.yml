@@ -44,7 +44,11 @@ vars:
     5: 12.97
   parcel_rate_fallback: 12.97
   # Annual volumes
-  annual_pallet_shipments_per_sku: 52
+  # LTL is priced per hundredweight, so the reclass delta is $/case against an
+  # annual CASE count -- cases_per_pallet cancels out. See config/cost_params.yml
+  # for the derivation; keep the two files in sync.
+  annual_wholesale_revenue_per_sku: 500000.00
+  wholesale_price_per_unit: 3.84
   annual_dtc_orders_per_sku: 200
   # Compliance chargebacks
   chargeback_per_event_cost: 200.00

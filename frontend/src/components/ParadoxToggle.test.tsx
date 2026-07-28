@@ -4,9 +4,18 @@ import { describe, it, expect, vi } from 'vitest'
 import ParadoxToggle from './ParadoxToggle'
 import GovernanceResolution from './GovernanceResolution'
 import heroJson from '../data/hero.json'
+import { formatCurrency } from '../utils/format'
 import type { HeroData } from '../types'
 
 const data = heroJson as HeroData
+
+// Derived from the shipped data, never frozen as literals. Hard-coded cost
+// constants here previously outlived a defect in the pipeline: the suite
+// stayed green while the LTL driver was priced against a pallet count.
+const money = (v: number) => formatCurrency(v)
+const ltlCost = money(data.cost.ltl_reclass!.annual_cost)
+const parcelCost = money(data.cost.parcel_reweigh!.annual_cost)
+const chargebackCost = money(data.cost.compliance_cb!.annual_cost)
 
 describe('ParadoxToggle', () => {
   it('shows base costs for both channels in Current State', () => {
@@ -16,12 +25,10 @@ describe('ParadoxToggle', () => {
     const statuses = screen.getAllByText('Unresolved')
     expect(statuses).toHaveLength(2)
 
-    // LTL reclass cost should be present ($20.28)
-    expect(screen.getByText('$20.28')).toBeInTheDocument()
-    // Parcel reweigh cost should be present ($394)
-    expect(screen.getByText('$394')).toBeInTheDocument()
-    // Compliance chargebacks, risk-adjusted by affected_sku_pct ($240)
-    expect(screen.getByText('$240')).toBeInTheDocument()
+    // Each driver's shipped annual cost should be on screen
+    expect(screen.getByText(ltlCost)).toBeInTheDocument()
+    expect(screen.getByText(parcelCost)).toBeInTheDocument()
+    expect(screen.getByText(chargebackCost)).toBeInTheDocument()
   })
 
   it('Fix Retail (Ops) clears retail channel, parcel remains', async () => {
@@ -38,8 +45,8 @@ describe('ParadoxToggle', () => {
     const zeros = screen.getAllByText('$0')
     expect(zeros.length).toBeGreaterThanOrEqual(2)
 
-    // Parcel cost should remain at $394 (in channel card and summary)
-    expect(screen.getAllByText('$394').length).toBeGreaterThanOrEqual(1)
+    // Parcel cost should remain (in channel card and summary)
+    expect(screen.getAllByText(parcelCost).length).toBeGreaterThanOrEqual(1)
   })
 
   it('Fix DTC clears parcel channel, retail remains', async () => {
@@ -56,8 +63,8 @@ describe('ParadoxToggle', () => {
     expect(screen.getAllByText('$0')).toHaveLength(1)
 
     // LTL cost and chargebacks should remain
-    expect(screen.getByText('$20.28')).toBeInTheDocument()
-    expect(screen.getByText('$240')).toBeInTheDocument()
+    expect(screen.getByText(ltlCost)).toBeInTheDocument()
+    expect(screen.getByText(chargebackCost)).toBeInTheDocument()
   })
 
   it('no toggle state shows both channels as Fixed simultaneously', async () => {
@@ -101,8 +108,8 @@ describe('ParadoxToggle', () => {
     // Should settle on DTC fix state
     expect(screen.getByText('Fixed')).toBeInTheDocument()
     expect(screen.getByText('Unresolved')).toBeInTheDocument()
-    expect(screen.getByText('$20.28')).toBeInTheDocument()
-    expect(screen.getByText('$240')).toBeInTheDocument()
+    expect(screen.getByText(ltlCost)).toBeInTheDocument()
+    expect(screen.getByText(chargebackCost)).toBeInTheDocument()
     expect(screen.getAllByText('$0')).toHaveLength(1)
   })
 })

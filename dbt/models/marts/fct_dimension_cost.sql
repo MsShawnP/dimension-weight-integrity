@@ -31,13 +31,24 @@ ltl_reclass as (
                 ))
             else 0
         end as per_unit_delta,
-        {{ var('annual_pallet_shipments_per_sku') }} as annual_units,
+        -- per_unit_delta above is $/CASE (case cwt x rate delta), so the
+        -- multiplier must be an annual CASE count. It was previously a count
+        -- of pallet SHIPMENTS (52/yr) -- a unit mismatch, and one that left
+        -- the size of this whole driver resting on an unsourced pallet count.
+        -- LTL bills by hundredweight, so how cases stack is irrelevant:
+        -- cases_per_pallet cancels between the two factors.
+        round(
+            {{ var('annual_wholesale_revenue_per_sku') }}
+            / {{ var('wholesale_price_per_unit') }}
+            / nullif(mor.case_pack_qty, 0)
+        ) as annual_units,
         jsonb_build_object(
             'gdsn_class', gdsn_class.gdsn_freight_class,
             'mor_class', mor.freight_class,
             'gdsn_density', round(gdsn_class.gdsn_density::numeric, 2),
             'mor_density', round(mor.density_lb_per_ft3::numeric, 2),
-            'case_weight_lb', mor.case_gross_weight_lb
+            'case_weight_lb', mor.case_gross_weight_lb,
+            'case_pack_qty', mor.case_pack_qty
         ) as basis
     from mor
     left join gdsn_class using (sku)

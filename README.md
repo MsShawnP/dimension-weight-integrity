@@ -21,11 +21,13 @@ The four steps run as a Dagster asset graph: `generate_source_extracts → load_
 
 Each cost lane is billed by a different party, so no single report ever shows the total. For the hero SKU (CHP-AS-002, Roasted Garlic Marinara), which carries four conflicting physical representations across four systems:
 
-- **LTL freight reclassification.** GDSN publishes inflated dimensions yielding density 37.98 lb/ft³ and freight class 55 instead of the correct class 50. Cost: $0.39/case × 52 pallets/yr = $20.28/yr.
+- **LTL freight reclassification.** GDSN publishes inflated dimensions yielding density 37.98 lb/ft³ and freight class 55 instead of the correct class 50. Cost: $0.39/case × 10,851 cases/yr = $4,231.89/yr.
 - **Parcel reweigh back-billing.** Shopify lists ship weight as 1.00 lb (unit net weight). The actual parcel weighs 2.05 lb, billable at 3 lb. Cost: $1.97/shipment × 200 orders/yr = $394/yr.
 - **Compliance chargebacks.** Published dimensions do not match physical measurement. Cost: $200/event × 1.2 expected events/yr = $240/yr, risk-adjusted for the ~40% of divergent SKUs that actually incur chargebacks.
 
-Total annual cost for one SKU: $654.28.
+Total annual cost for one SKU: $4,865.89. Across the 50-SKU portfolio: $208,310.87.
+
+LTL is billed per hundredweight, so the reclassification penalty falls on annual tonnage shipped — how cases stack on a pallet cancels out of the arithmetic entirely. The driver is therefore priced per case against an annual case volume, derived from disclosed catalog figures rather than an asserted pallet count (see `config/cost_params.yml`).
 
 The deeper finding is the **localization paradox**: fixing retail data (GDSN → physical) clears the LTL reclassification but leaves the DTC parcel leak. Fixing DTC data (Shopify → actual weight) clears parcel back-billing but leaves the LTL overcharge. No single-system toggle clears both — only a governed measurement of record does. The live frontend lets you flip each fix and watch the cost move.
 
