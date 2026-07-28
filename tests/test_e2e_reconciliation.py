@@ -17,7 +17,7 @@ HERO_JSON = Path(__file__).resolve().parent.parent / "frontend" / "src" / "data"
 
 @pytest.fixture
 def hero():
-    with open(HERO_JSON) as f:
+    with open(HERO_JSON, encoding="utf-8") as f:
         return json.load(f)
 
 

@@ -17,13 +17,13 @@ REPO_ROOT = pathlib.Path(__file__).parent.parent
 
 @pytest.fixture
 def cost_params():
-    with open(REPO_ROOT / "config" / "cost_params.yml") as f:
+    with open(REPO_ROOT / "config" / "cost_params.yml", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
 @pytest.fixture
 def dbt_vars():
-    with open(REPO_ROOT / "dbt" / "dbt_project.yml") as f:
+    with open(REPO_ROOT / "dbt" / "dbt_project.yml", encoding="utf-8") as f:
         return yaml.safe_load(f)["vars"]
 
 

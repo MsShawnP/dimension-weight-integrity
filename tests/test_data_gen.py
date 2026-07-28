@@ -16,7 +16,7 @@ from data_gen.generate_dimension_mess import (
     generate_wms,
     HERO_MOR,
 )
-from data_gen.shared import DATA_DIR, HERO_SKU_ID, SEED
+from data_gen.shared import DATA_DIR, HERO_SKU_ID, RAW_TABLES, SEED
 
 import random
 
@@ -192,3 +192,36 @@ def test_fill_missing_fields_handles_nulls():
     assert filled[0]["case_weight_lbs"] > 0
     assert filled[0]["case_length_in"] is not None
     assert filled[0]["case_length_in"] > 0
+
+
+class TestGeneratedCsvEncoding:
+    """The generated CSVs must be UTF-8, whatever platform wrote them.
+
+    `data/generated/` is gitignored, so these are local build artifacts rather
+    than committed fixtures -- but the pipeline still hands them between steps:
+    the generator writes them and `load_csvs_to_raw` reads them back. Both
+    sides used to rely on the platform default encoding, so a file written on
+    Windows (cp1252) put a lone 0xf1 byte in "Mango Jalapeno Salsa" and failed
+    to decode anywhere that defaults to UTF-8. Both sides are now explicit.
+    """
+
+    @staticmethod
+    def _require(csv_name):
+        path = DATA_DIR / csv_name
+        if not path.exists():
+            pytest.skip(f"{csv_name} not generated yet -- run data_gen first")
+        return path
+
+    @pytest.mark.parametrize("csv_name", sorted(RAW_TABLES.values()))
+    def test_generated_csv_decodes_as_utf8(self, csv_name):
+        raw = self._require(csv_name).read_bytes()
+        try:
+            raw.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            pytest.fail(f"{csv_name} is not valid UTF-8: {exc}")
+
+    def test_non_ascii_product_name_survives_a_round_trip(self):
+        """Guards the write side: the accented name must reload intact."""
+        with open(self._require("wms_dimensions.csv"), encoding="utf-8") as f:
+            names = {r["sku"]: r["product_name"] for r in csv.DictReader(f)}
+        assert names["CHP-AS-008"] == "Mango Jalape\u00f1o Salsa"

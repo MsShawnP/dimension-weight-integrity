@@ -240,7 +240,7 @@ def write_csv(rows, filename):
     if not rows:
         return path
     fieldnames = list(rows[0].keys())
-    with open(path, "w", newline="") as f:
+    with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
@@ -278,7 +278,7 @@ def main():
         if not cache_path.exists():
             print(f"Error: cached file not found at {cache_path}")
             raise SystemExit(1)
-        with open(cache_path) as f:
+        with open(cache_path, encoding="utf-8") as f:
             reader = csv.DictReader(f)
             products = []
             for row in reader:

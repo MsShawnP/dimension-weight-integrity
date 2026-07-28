@@ -201,11 +201,11 @@ def export(output_dir, hero_sku):
     output_path.mkdir(parents=True, exist_ok=True)
 
     hero_path = output_path / "hero.json"
-    with open(hero_path, "w") as f:
+    with open(hero_path, "w", encoding="utf-8") as f:
         json.dump(hero_data, f, cls=DecimalEncoder, indent=2)
 
     all_path = output_path / "all_skus.json"
-    with open(all_path, "w") as f:
+    with open(all_path, "w", encoding="utf-8") as f:
         json.dump(all_skus_data, f, cls=DecimalEncoder, indent=2)
 
     print(f"Exported hero.json ({hero_path.stat().st_size} bytes)")

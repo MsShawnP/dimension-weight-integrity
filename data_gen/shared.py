@@ -52,7 +52,7 @@ def load_csvs_to_raw(conn, data_dir, tables, log=print):
     """
     with conn.cursor() as cur:
         for table_name, csv_file in tables.items():
-            with open(pathlib.Path(data_dir) / csv_file) as f:
+            with open(pathlib.Path(data_dir) / csv_file, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 columns = reader.fieldnames
                 tbl = sql.Identifier(table_name)

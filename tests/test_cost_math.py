@@ -14,7 +14,7 @@ CONFIG_PATH = REPO_ROOT / "config" / "cost_params.yml"
 
 @pytest.fixture
 def config():
-    with open(CONFIG_PATH) as f:
+    with open(CONFIG_PATH, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
@@ -214,7 +214,7 @@ def test_published_class_mismatch_count_is_the_true_count():
     mor_class = {s["sku"]: s["freight_class"] for s in all_skus["skus"]}
 
     expected = 0
-    with open(REPO_ROOT / "data" / "generated" / "gdsn_published.csv") as f:
+    with open(REPO_ROOT / "data" / "generated" / "gdsn_published.csv", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             try:
                 cube = cube_ft3(
