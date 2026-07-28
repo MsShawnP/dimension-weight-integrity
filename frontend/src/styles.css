@@ -25,12 +25,14 @@
 
   /* Hong Kong (teal) */
   --hk-5: #063d32;
+  --hk-25: #0e6e5a;
   --hk-35: #158f75;
   --hk-55: #35b595;
   --hk-85: #b5e4d8;
   --hk-95: #e4f5f0;
 
   /* Singapore (orange) */
+  --sg-8: #4a2508;
   --sg-20: #7a3d10;
   --sg-55: #ee8a2a;
   --sg-95: #fdeee0;
@@ -48,7 +50,8 @@
   --font-sans: 'Source Sans 3', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   /* Layout */
-  --content-max-width: 900px;
+  --content-max-width: 1200px;
+  --body-max-width: 660px;
   --section-gap: 60px;
   --radius: 2px;
 }
@@ -119,7 +122,7 @@ body {
   font-size: 17px;
   line-height: 1.6;
   color: var(--text-primary);
-  max-width: 620px;
+  max-width: var(--body-max-width);
   margin: 16px auto 0;
   text-align: center;
 }
@@ -169,6 +172,17 @@ body {
   color: var(--text-secondary);
 }
 
+/* Sits with the headline number, not in the footer: a reader who sees the
+   figure has to see that the dataset behind it is synthetic. */
+.hero-stat-disclosure {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--reference);
+  max-width: var(--body-max-width);
+  margin-top: 10px;
+}
+
 @media (max-width: 640px) {
   .hero-stat-value {
     font-size: 44px;
@@ -180,7 +194,7 @@ body {
 
 /* Why four systems diverge — the mechanism, up front */
 .why-diverge {
-  max-width: 620px;
+  max-width: var(--body-max-width);
   margin: 28px auto 0;
   text-align: left;
   border-top: 1px solid var(--gridline);
@@ -651,14 +665,19 @@ body {
   border-radius: var(--radius);
 }
 
+/* Pill text is 12px, so both pills need the 4.5:1 normal-text ratio.
+   White on HK-35 measured 4.02:1 and white on Singapore-55 only 2.53:1.
+   Success moves one step darker and keeps white (HK-25, 6.18:1); warning
+   keeps its orange fill and takes dark text from the family's darkest stop,
+   per the design system's "steps 55+ get dark text" rule (5.33:1). */
 .paradox-channel--fixed .paradox-channel__status {
-  background: var(--hk-35);
+  background: var(--hk-25);
   color: #ffffff;
 }
 
 .paradox-channel--warning .paradox-channel__status {
   background: var(--sg-55);
-  color: #ffffff;
+  color: var(--sg-8);
 }
 
 .paradox-summary {

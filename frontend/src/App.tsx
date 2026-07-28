@@ -43,6 +43,10 @@ export default function App() {
           <p className="hero-stat-label">
             leaks from this 50-SKU portfolio every year.
           </p>
+          <p className="hero-stat-disclosure">
+            Synthetic dataset &mdash; a modeled ~$25M specialty food portfolio.
+            Data is synthetic; methodology and cost models are real.
+          </p>
         </div>
 
         <p className="app-lede">
@@ -82,8 +86,8 @@ export default function App() {
       </main>
       <footer className="site-disclosure">
         <p>
-          Built on the Cinderhaven synthetic dataset — a modeled ~$25M specialty
-          food portfolio. Data is synthetic; methodology and cost models are real.
+          Built on the Cinderhaven synthetic dataset. Cost models are computed
+          from physics and published rate benchmarks, not asserted.
         </p>
       </footer>
     </div>
