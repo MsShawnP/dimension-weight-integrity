@@ -9,6 +9,18 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-07-27 22:02
+
+**What changed:** Recorded the review pattern that actually works on this project — both wrong published numbers were found by verifying claims against the data, not by reading code.
+
+**Why:** The $20,213 overstatement and the 20-vs-27 KPI both survived multiple careful code reviews. Neither was a code defect a reader could spot; each was a mismatch between what the code computed and what the label or prose claimed. Recomputing the published figures independently from source data caught both in minutes.
+
+**State:** All fixes shipped and verified live. 57 Python + 41 frontend tests pass. Tree clean, main in sync with origin.
+
+**Next:** On the next review pass, start by recomputing every published figure from `data/generated/*.csv` before reading any code.
+
+---
+
 ## 2026-07-27 — SESSION CLOSE (wrap)
 
 **Started from:** Stable v1.0.0, deployed, `/improve` overdue since 2026-07-05, no active arc.
