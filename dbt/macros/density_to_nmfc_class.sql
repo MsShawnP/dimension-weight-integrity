@@ -2,7 +2,9 @@
 {# NMFC density-based classification — the 18 standard freight classes.
    Breakpoints are lower bounds (>=), density in lb/ft^3 (pcf).
    Matches the published NMFC density scale: class 50 at >=50 pcf down to
-   class 500 below 1 pcf. Keep in lockstep with frontend/src/domain.ts. #}
+   class 500 below 1 pcf. This macro is the only place the scale is encoded
+   in SQL; tests/test_cost_math.py holds the canonical copy and
+   test_dbt_macro_nmfc_table_matches_canonical guards the two against drift. #}
     case
         when {{ density_lb_per_ft3 }} >= 50.0  then 50
         when {{ density_lb_per_ft3 }} >= 35.0  then 55

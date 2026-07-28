@@ -62,7 +62,9 @@ def density_lb_per_ft3(weight_lb, cube):
 
 def density_to_nmfc_class(density):
     # Canonical NMFC density scale. Must match dbt/macros/density_to_nmfc_class.sql
-    # and frontend/src/domain.ts exactly (see test_nmfc_matches_canonical_table).
+    # exactly -- see test_python_nmfc_table_is_canonical and
+    # test_dbt_macro_nmfc_table_matches_canonical. The frontend no longer
+    # carries a copy; it renders costs precomputed by the pipeline.
     bands = [
         (50.0, 50), (35.0, 55), (30.0, 60), (22.5, 65),
         (15.0, 70), (13.5, 77.5), (12.0, 85), (10.5, 92.5),

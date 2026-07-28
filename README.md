@@ -83,7 +83,7 @@ cd frontend && npm test
 - **Pipeline:** Python 3.13, dbt-core, Dagster, PostgreSQL
 - **Frontend:** React 19, TypeScript 5.7, Vite 6
 - **Deployment:** Cloudflare Pages (frontend), Fly.io (pipeline)
-- **Design:** Lailara design system (Playfair Display + Source Sans 3, Economist-style charts)
+- **Design:** Lailara design system (Playfair Display + Source Sans 3)
 
 ## Project structure
 
