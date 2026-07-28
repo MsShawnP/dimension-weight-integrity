@@ -1,4 +1,9 @@
 {
+  // Normal deploys happen automatically: the Pages project is connected to
+  // the GitHub repo and publishes on every push to main. This config is only
+  // consulted by the `npm run deploy` direct-upload fallback, which needs an
+  // interactive `wrangler login` (or CLOUDFLARE_API_TOKEN) and fails in a
+  // non-interactive shell. See "Deploy" in the README.
   "name": "dimension-weight-integrity",
   "compatibility_date": "2026-06-01",
   "pages_build_output_dir": "dist"

@@ -78,6 +78,29 @@ python -m pytest tests/ -v
 cd frontend && npm test
 ```
 
+### Deploy
+
+**Pushing to `main` deploys the site.** The Cloudflare Pages project is
+connected to this GitHub repository, so it builds and publishes
+`dimensions.lailarallc.com` on every push. No manual step is required, and no
+credentials are needed locally.
+
+`frontend/package.json` also carries a `deploy` script
+(`wrangler pages deploy dist`) for a manual direct upload. **It requires an
+interactive terminal.** Wrangler authenticates through a browser OAuth flow,
+and its stored token expires; once it has, the script fails in any
+non-interactive shell — CI, a script, or an agent session — with:
+
+```
+Not logged in. Your auth token has expired and could not be refreshed,
+and the environment is non-interactive.
+```
+
+To use it, run `wrangler login` in a real terminal first (or set
+`CLOUDFLARE_API_TOKEN` in the environment). Because the Git integration
+already covers normal deploys, reach for this only to publish a build that
+is not on `main`.
+
 ## Tech stack
 
 - **Pipeline:** Python 3.13, dbt-core, Dagster, PostgreSQL
