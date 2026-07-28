@@ -149,3 +149,22 @@ PLAN.md defines the current arc of work. Read it at session start.
 - Default to answering, not offering to answer
 
 Never write secrets, tokens, or passwords into tracked files, READMEs, or commit messages — use environment variables and secret stores only.
+
+## Serif display sizes — documented deviation
+
+`frontend/src/styles.css` uses the Lailara type-scale steps almost everywhere:
+26px brand title, 64px hero stat, and 22px / 28px for section titles and
+benchmark values throughout. Two selectors deviate, deliberately:
+
+| Selector | Size | Nearest DS token | Status |
+|---|---|---|---|
+| `.why-diverge__q` (:190) | 18px | Section title mobile 18px | **Deviation.** A question subordinate to the 22px section title above it. |
+| `.quiz-card__name` (:361) | 18px | Section title mobile 18px | **Deviation.** Card heading inside a 22px-titled quiz block. |
+
+Both match the DS "card / sub-section head" 18–20 role. Promoting either to
+22px would collapse the level it exists to create.
+
+The frame's `.ll-*` display classes are not available here — this app does not
+vendor `lailara-frame.css`.
+
+Do not "fix" these to tokens mechanically.
