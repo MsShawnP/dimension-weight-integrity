@@ -29,6 +29,29 @@ at a time?
 - [x] Run `/ce:work` to implement (15 units: U1–U15)
 - [x] Run `/ce:review` — 17 findings, all resolved
 
+### Un-pinned defects — tests are waiting, fixes are not written
+
+Added 2026-07-28 by the FIX-LIST cross-repo test sweep. Strict-xfail tests
+assert the corrected behaviour, so the suite fails loudly the moment the fix
+lands and the marker has to come off. Do not remove a marker without doing
+the fix.
+
+- [ ] **LTL delta is priced on a case, not a pallet.**
+      `dbt/models/marts/fct_dimension_cost.sql:27` — `per_unit_delta`
+      divides a case weight (21.5 lb) by 100 for hundredweight and is then
+      multiplied by 52 *pallet* shipments, so the rate delta is applied to
+      0.215 cwt instead of 8.60 cwt. `build_spec_dimension_integrity.md:75`
+      gives the basis: 1 pallet = 40 × 21.50 lb = 8.60 cwt, Δ $15.48/pallet.
+      No `ti`/`hi`/`cases_per_pallet` column exists anywhere yet despite the
+      spec calling for them at line 142 — that field has to be generated
+      first. Fix `frontend/src/components/CostReveal.tsx:54-55` and
+      `README.md:24` in the same commit. Tests:
+      `tests/test_e2e_reconciliation.py` —
+      `test_ltl_delta_is_priced_on_the_shipped_unit_not_a_case`,
+      `test_total_annual_cost_is_not_the_case_weight_figure`.
+      Confirm alongside: `config/cost_params.yml:41` ships 52 pallets/yr
+      against the spec's illustrative 520 — the two compound.
+
 ## Out of scope for this arc
 
 - Real client data (synthetic only)
