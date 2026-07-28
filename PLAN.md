@@ -59,6 +59,18 @@ at a time?
       The two strict-xfail placeholders encoded the wrong diagnosis and
       were replaced by tests pinning the actual unit contract.
 
+## Arc status
+
+**Complete as of 2026-07-28.** All tasks above are done and the un-pinned
+defect is resolved, shipped, and verified live. No open tasks; the project is
+in maintenance. Next scheduled `/improve` is 2026-10-25.
+
+Highest-leverage open assumption is `annual_wholesale_revenue_per_sku`, which
+spreads $25M evenly across 50 SKUs. Real per-SKU velocity would redistribute
+the portfolio total without much changing its size — worth calibrating before
+quoting per-SKU figures to a client. Second is `annual_dtc_orders_per_sku`
+(one unit per DTC order), which moves the parcel lane.
+
 ## Out of scope for this arc
 
 - Real client data (synthetic only)

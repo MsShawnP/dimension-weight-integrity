@@ -215,7 +215,11 @@ brainstorm.
 
 ---
 
-## 2026-07-28 — Tier C fix list: LTL unit mismatch, UTF-8 IO, UI/doc sweep
+## 2026-07-28 18:11 — SESSION CLOSE (wrap): Tier C fix list
+
+*(Detail below; full journal in the wrap commit body.)*
+
+### Tier C fix list: LTL unit mismatch, UTF-8 IO, UI/doc sweep
 
 **Started from:** Clean tree at `cffdd59`, two strict-xfail tests waiting on
 the "LTL priced on a case, not a pallet" defect in PLAN.md.
@@ -261,8 +265,17 @@ Verified live at 1440px and 375px — no horizontal scroll, pill contrast
 confirmed from computed styles, cost line reads
 "$0.39/case × 10,851 cases/yr = $4,231.89/yr".
 
-**Next:** Not deployed. The corrected `all_skus.json`/`hero.json` and the
-$208K headline need a Cloudflare Pages redeploy, and nothing is pushed to
-GitHub yet (`5e6d600..f0f5903`). The largest remaining soft spot is the even
-revenue split across 50 SKUs — real per-SKU velocity would redistribute the
-portfolio total without changing its size much.
+**Then:** Pushed all 9 commits and confirmed the deploy. `npm run deploy`
+failed (wrangler OAuth expired, non-interactive shell) but proved redundant --
+the Pages project is Git-connected and had already shipped the push. Verified
+live: served asset hash matches the local build, bundle contains 208310.87 /
+cases/yr / 10851 and zero occurrences of 17533.48 or "pallet shipments".
+Documented that deploy path in the README and wrangler.jsonc (`6a59181`).
+
+**State:** 72 Python + 42 frontend tests pass, build clean, tree clean,
+`main` == `origin/main` at `6a59181`. Live and correct.
+
+**Next:** Nothing outstanding. Largest remaining soft spot is the even revenue
+split across 50 SKUs (`annual_wholesale_revenue_per_sku`) -- real per-SKU
+velocity would redistribute the portfolio total without much changing its
+size. Next `/improve` due 2026-10-25.

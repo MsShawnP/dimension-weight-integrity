@@ -152,6 +152,21 @@ Each entry:
 - **Scope:** `config/cost_params.yml`, `dbt/dbt_project.yml` vars
 - **Do not:** Change a PARAM value to make a number look better. Document the crossover math and the sensitivity range, and leave the value until real client data justifies a change. Tag values no model reads as REFERENCE ONLY so wiring gaps are distinguishable from intentional documentation.
 
+### 2026-07-28 — Verify a review finding's diagnosis before implementing its fix
+- **Why:** Three findings in one Tier C fix list were wrong in ways that would have shipped bad work. The Critical prescribed repricing the LTL delta onto a pallet weight and generating a `ti`/`hi` field — but LTL bills per hundredweight, so `cases_per_pallet` cancels out of the cost and `per_unit_delta` was already correct; only the multiplier was wrong. A second claimed "all four committed CSVs break any Linux checkout" when `data/generated/` is gitignored and was never committed. A third prescribed HK-5 text on HK-35 pills, which measures 3.03:1 — worse than the 4.02:1 it would replace. Each was refuted in under two minutes by computing the quantity directly (the algebra, `git ls-files`, a WCAG ratio). Findings are plausible and specific, which is exactly what makes them persuasive enough to implement unchecked.
+- **Scope:** Any handed-down fix list, review finding, or agent report on this project
+- **Do not:** Implement a finding's prescribed fix because its problem statement is convincing. Recompute the asserted quantity first, and verify the proposed fix is better than the status quo — not just that the status quo is broken. When a finding doesn't survive, say so plainly and record the correction beside the original.
+
+### 2026-07-28 — Annual volumes are derived from disclosed figures, not asserted
+- **Why:** The LTL driver's entire magnitude rested on `annual_pallet_shipments_per_sku`, an unsourced count shipped at 52 while the build spec illustrated 520 — a 10x spread with no basis for either, which compounded with a second unsourced choice into a ~400x range on the headline. Replacing it with a derivation from figures the Cinderhaven dataset already publishes ($25M revenue ÷ 50 SKUs ÷ a wholesale unit price ÷ the SKU's own `case_pack_qty`) reduced that to one calibratable price with a real source, and the price itself comes from the seed catalog (mean MSRP $7.67 × blended non-DTC wholesale multiplier 0.5000 = $3.84/unit).
+- **Scope:** `config/cost_params.yml`, `dbt/dbt_project.yml` vars — volume parameters in any cost driver
+- **Do not:** Introduce a free-floating annual volume count. Derive it from a canonical figure plus a sourced price, and if a volume genuinely must be asserted, say so in the comment and name what would calibrate it. Note `annual_dtc_orders_per_sku` is still asserted and flagged as the parcel lane's highest-leverage assumption.
+
+### 2026-07-28 — Check the billing unit before repricing a cost driver
+- **Why:** The defect was a unit mismatch — a $/case figure multiplied by a count of pallet shipments — not a wrong basis. It read as a basis error because the two factors were separated by 20 lines and neither named its unit. Writing the units out made both the fix and the cancellation obvious, and showed that the "52 vs 520 pallets" question was the wrong axis entirely.
+- **Scope:** `dbt/models/marts/fct_dimension_cost.sql` and any new cost driver
+- **Do not:** Add a per-unit delta and an annual multiplier without stating both units in a comment adjacent to each. A driver's `per_unit_delta` and its `annual_units` must be in the same unit, and the carrier's actual billing basis (per cwt, per shipment, per event) decides which unit that is.
+
 ---
 
 ## Reversed / Superseded

@@ -164,3 +164,40 @@ shouldn't re-attempt dead ends because the lesson got lost.
 **Status:** Open (tooling limitation, not project issue)
 
 **Tags:** preview-tools, screenshot, windows, qa, timeout
+
+---
+
+### 2026-07-28 — Handed-down review finding prescribed the wrong fix for the LTL defect
+
+**Attempted:** Implementing a Tier C fix list's Critical as written: "LTL delta is priced on a case, not a pallet — reprice the rate delta onto a pallet weight (40 × 21.50 lb = 8.60 cwt, Δ $15.48/pallet)." The finding noted no `ti`/`hi`/`cases_per_pallet` column existed and said "that field has to be generated first." Two strict-xfail tests already encoded this reading, asserting the cost basis would name a `shipped_unit_weight_lb` heavier than one case.
+
+**Why it didn't work:** LTL is billed per hundredweight, so a reclassification penalty falls on tonnage shipped, not on how it is stacked. `cases_per_pallet` cancels out of the product entirely:
+
+```
+(cases_per_pallet × case_lb/100) × rate_delta × pallets_per_year
+  == (case_lb/100) × rate_delta × annual_cases
+```
+
+`per_unit_delta` was therefore already correct as $/case. The only defect was the multiplier — a count of pallet *shipments* against a $/case figure. Implementing the finding would have added a physical field the model does not need and double-counted the pallet term. The related "confirm alongside: 52 vs 520 pallets/yr" was likewise the wrong axis: both are asserted pallet counts with no source, which is exactly why they compounded.
+
+**What we tried instead:** Left `per_unit_delta` and all physics untouched; replaced only the multiplier with an annual case count derived from figures the dataset already discloses ($25M ÷ 50 SKUs ÷ `wholesale_price_per_unit` ÷ per-SKU `case_pack_qty`). One sourced price replaced two unsourced volumes. The two xfail tests encoded the wrong diagnosis and were rewritten to pin the actual unit contract. Correction recorded next to the original in PLAN.md.
+
+**Status:** Resolved
+
+**Tags:** ltl, freight, hundredweight, units, cwt, cases-per-pallet, ti-hi, review-findings, wrong-diagnosis, cost-model
+
+---
+
+### 2026-07-28 — Two more review findings failed verification: a false premise and a fix that made things worse
+
+**Attempted:** Taking two further findings from the same fix list at face value — (1) "all four committed CSVs fail UTF-8 decode, which breaks `load_csvs_to_raw` on any Linux or macOS checkout"; (2) "status pills put white text on HK-35 (4.0:1) and Singapore-55 (2.5:1); use HK-5 and Singapore-8."
+
+**Why it didn't work:**
+1. `data/generated/` is in `.gitignore` and `git log -- data/generated/` is empty — the CSVs were **never committed**. A fresh clone has no CSVs at all, so the stated blast radius could not happen. (A stored project memory had carried the same false "committed CSVs" claim for months.)
+2. The Singapore half was right (Singapore-8 on Singapore-55 = 5.33:1). The Hong Kong half was backwards: HK-5 text on an HK-35 fill measures **3.03:1**, worse than the 4.02:1 white it was meant to replace.
+
+**What we tried instead:** The encoding fix was still worth making, but for the real reason — the pipeline hands these files between steps, so the generator and loader must agree on encoding regardless of git. For contrast, darkened the *fill* to HK-25 and kept white text (6.18:1) rather than darkening the text. Both ratios computed from the WCAG formula and confirmed against the browser's computed styles. Corrected the stale memory.
+
+**Status:** Resolved
+
+**Tags:** review-findings, verification, gitignore, utf-8, encoding, wcag, contrast, design-system, memory-drift
