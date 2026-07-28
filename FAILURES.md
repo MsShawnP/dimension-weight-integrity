@@ -111,6 +111,48 @@ shouldn't re-attempt dead ends because the lesson got lost.
 
 ---
 
+### 2026-07-27 — Reading the DOM in the same tick as a click reported a working feature as broken
+
+**Attempted:** Verified the Paradox toggles by clicking "Fix Retail", "Fix DTC", and "Current State" and snapshotting the DOM — all inside one synchronous `javascript_tool` call.
+
+**Why it didn't work:** React re-renders asynchronously. All three snapshots returned identical values, which looked exactly like "the toggles do nothing." The feature was fine; the measurement was wrong. This nearly became a false bug report on working code.
+
+**What we tried instead:** Split click and read into separate tool calls (or `await` a timeout between them). Both toggles then showed correct mirror-image behavior — Fix Retail zeroes LTL + chargebacks, Fix DTC zeroes parcel.
+
+**Status:** Resolved
+
+**Tags:** react, async-render, browser-tools, false-positive, verification-method
+
+---
+
+### 2026-07-27 — Docker Desktop cannot be started headlessly for a pipeline rebuild
+
+**Attempted:** Needed a Postgres to rebuild dbt marts. Local PG was down, so launched Docker Desktop via `Start-Process` and polled `docker info` for 180s.
+
+**Why it didn't work:** The CLI is installed but the daemon never came up — Docker Desktop on this machine needs an interactive start (known recurring stale-socket crash loop). Polling just burned three minutes.
+
+**What we tried instead:** Native Postgres 16 at `C:\Users\mssha\tools\pg16` on port 5433 (the documented workaround), with a **throwaway `dwi_rebuild` database** so the real `cinderhaven` DB was never touched. Loaded the committed raw CSVs, ran `dbt build`, re-exported, dropped the DB. Worth knowing: dbt only sources the 4 raw system tables, so the whole rebuild works offline from committed data — no Fly DB or `product_master` needed.
+
+**Status:** Resolved (workaround)
+
+**Tags:** docker, postgres, pg16, dbt, rebuild, offline, windows
+
+---
+
+### 2026-07-27 — Browser pane not compositing kills screenshots AND synthetic key presses
+
+**Attempted:** Verified the new keyboard-accessibility fix by focusing a sort header and sending Enter via the browser `computer` tool (tried both "Return" and "Enter").
+
+**Why it didn't work:** The Browser pane wasn't displayed, so the page never composites frames. Screenshots time out (same root cause as the 2026-06-04 entry below), and input events are not dispatched either — focus persisted on the button but the key never activated it. A programmatic `.click()` proved the handler was fine, isolating it to input dispatch.
+
+**What we tried instead:** Proved keyboard operability with real Vitest + `userEvent.keyboard('{Enter}')` tests instead. Better outcome anyway — it runs in CI permanently rather than being a one-off manual check.
+
+**Status:** Open (tooling limitation, not project issue)
+
+**Tags:** browser-tools, screenshot, keyboard, input-dispatch, windows, a11y-testing
+
+---
+
 ### 2026-06-04 — preview_screenshot consistently times out on Windows
 
 **Attempted:** Used `preview_screenshot` during QA testing — timed out at 30s on every attempt.

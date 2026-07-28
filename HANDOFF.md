@@ -9,6 +9,18 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-07-27 — SESSION CLOSE (wrap)
+
+**Started from:** Stable v1.0.0, deployed, `/improve` overdue since 2026-07-05, no active arc.
+
+**Did:** Three review passes in one session — `/improve` + code review + UI review (12 items), a 35-agent adversarial re-review after the data changed (3 important fixes), then the nice-to-have sweep (10 items). Rebuilt the pipeline twice via throwaway pg16. Two published numbers were corrected: the portfolio total ($20,213 → $17,533) and the class-mismatch KPI (20 → 27). See the two detailed entries below.
+
+**State:** 57 Python + 41 frontend tests pass, build clean, `npm audit` 0. Tree clean, `main` == `origin/main`. Deploy verified live by content-hash match (local build == served asset).
+
+**Next:** Nothing outstanding. Highest-leverage open assumption is one-unit-per-DTC-order (`annual_dtc_orders_per_sku`) — calibrating it against real order composition moves the parcel number more than the box size does. Next `/improve` due 2026-10-25.
+
+---
+
 ## 2026-07-27 — Post-change re-review (3 more fixes, incl. a wrong live KPI)
 
 **Started from:** All 12 improvement items shipped and deployed. User asked to re-run improve + code review + UI review now that the data and dbt had changed.

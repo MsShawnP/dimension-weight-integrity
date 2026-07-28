@@ -130,6 +130,25 @@ Each entry:
 
 ---
 
+## Metrics & Narrative Integrity
+
+### 2026-07-27 — A published metric counts the population its label names, not the subset that costs money
+- **Why:** `skus_with_class_mismatch` counted SKUs with `ltl_reclass annual_cost > 0`, so 7 downward freight-class shifts — real mismatches whose cost floors at $0 — were excluded. The live KPI read "SKUs with freight class mismatch: 20" when the true count was 27. Costed-subset counting is an easy, invisible way to publish a false number on a credibility-core deliverable.
+- **Scope:** `scripts/export_frontend_json.py` aggregates; any metric surfaced in the frontend or README
+- **Do not:** Derive a count from a cost being non-zero. Count the condition the label describes, and if the costed subset is also interesting, publish it as its own separately-labelled metric.
+
+### 2026-07-27 — User-facing prose is derived from pipeline data, never hard-coded
+- **Why:** Three separate stale-number bugs appeared in one session: the "$20,000 a year" hero lede, the wrong hero SKU name in the README, and the cost-driver explanations hard-coding densities, classes, and weights the pipeline already ships in `driver.basis`. Any figure typed into prose silently drifts the moment the pipeline changes.
+- **Scope:** `frontend/src/components/**`, README, `index.html` meta
+- **Do not:** Type a number into copy that the data already provides. Bind it to the JSON, or if it genuinely must be static, add a test that asserts it still matches the data.
+
+### 2026-07-27 — Calibratable parameters are documented with their sensitivity, not tuned to move the answer
+- **Why:** `dtc_parcel_box_in` looked wrong because actual weight always beat DIM weight. It isn't: DIM only bills below `1728/139 = 12.43 lb/ft³`, and these jars run 11.6–24.4, so a dense product correctly bills on actual weight. But the parameter is a cliff — 5in and 6in both yield $9,988, 7in yields $13,228, 8in $19,372 — so raising it without evidence would manufacture cost while looking like a fix.
+- **Scope:** `config/cost_params.yml`, `dbt/dbt_project.yml` vars
+- **Do not:** Change a PARAM value to make a number look better. Document the crossover math and the sensitivity range, and leave the value until real client data justifies a change. Tag values no model reads as REFERENCE ONLY so wiring gaps are distinguishable from intentional documentation.
+
+---
+
 ## Reversed / Superseded
 
 [None yet]
