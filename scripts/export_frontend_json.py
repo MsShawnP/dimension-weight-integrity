@@ -1,7 +1,8 @@
 """Export dbt mart data to static JSON for the frontend.
 
-Queries Postgres marts, produces hero.json and all_skus.json with
-embedded rate tables for client-side paradox recomputation.
+Queries Postgres marts and produces hero.json (one showcased SKU) and
+all_skus.json (portfolio roll-up). The frontend displays these precomputed
+values; it does not recompute freight physics client-side.
 
 Usage:
     python scripts/export_frontend_json.py
@@ -11,7 +12,6 @@ Usage:
 import argparse
 import decimal
 import json
-import os
 import pathlib
 
 import psycopg2.extras

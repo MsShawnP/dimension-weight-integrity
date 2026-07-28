@@ -7,11 +7,11 @@
 dbt-core==1.11.9
 dbt-postgres==1.11.0b1
 
-# Dagster orchestration
+# Dagster orchestration. The asset graph shells out to dbt via subprocess and
+# uses Dagster's default local storage, so dagster-dbt and dagster-postgres are
+# deliberately not pinned — nothing imports them.
 dagster==1.13.4
 dagster-webserver==1.13.4
-dagster-postgres==0.29.4
-dagster-dbt==0.29.4
 
 # Postgres driver + YAML config
 psycopg2-binary==2.9.12
