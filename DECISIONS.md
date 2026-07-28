@@ -142,6 +142,11 @@ Each entry:
 - **Scope:** `frontend/src/components/**`, README, `index.html` meta
 - **Do not:** Type a number into copy that the data already provides. Bind it to the JSON, or if it genuinely must be static, add a test that asserts it still matches the data.
 
+### 2026-07-27 — Verify published figures against source data before reviewing code
+- **Why:** Two wrong numbers reached the live CFO-facing site — the portfolio total was overstated by $2,680 ($20,213 vs $17,533), and "SKUs with freight class mismatch" published 20 when the true count was 27. Both survived multiple careful code reviews, because neither was a code defect a reader could spot: each was a mismatch between what the code computed and what the label or prose claimed. Recomputing the published figures independently from `data/generated/*.csv` found both in minutes. Reviewer agents also reported "both suites pass green" while 10 tests were erroring, because they spot-ran files instead of the full suite.
+- **Scope:** Any `/improve`, code review, or UI review on this project
+- **Do not:** Treat "the code looks correct" as evidence that a published number is correct. Recompute every figure the site displays from source data first, then read code only to explain a gap. Do not trust a reported test status without running the full suite yourself.
+
 ### 2026-07-27 — Calibratable parameters are documented with their sensitivity, not tuned to move the answer
 - **Why:** `dtc_parcel_box_in` looked wrong because actual weight always beat DIM weight. It isn't: DIM only bills below `1728/139 = 12.43 lb/ft³`, and these jars run 11.6–24.4, so a dense product correctly bills on actual weight. But the parameter is a cliff — 5in and 6in both yield $9,988, 7in yields $13,228, 8in $19,372 — so raising it without evidence would manufacture cost while looking like a fix.
 - **Scope:** `config/cost_params.yml`, `dbt/dbt_project.yml` vars
