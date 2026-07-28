@@ -65,20 +65,45 @@ ltl:
   # DTC is not netted out: at 200 orders/SKU/yr it is ~0.2% of unit volume,
   # well inside the rounding on the revenue figure itself.
   #
-  # SENSITIVITY — this is the highest-leverage assumption in the LTL lane, more
-  # than wholesale_price_per_unit (a linear scalar that cannot reorder SKUs).
-  # The total is sum over SKUs of w_i * revenue_i, where
-  # w_i = per_unit_delta_i / (price * case_pack_i). Only 20 of 50 SKUs have
-  # w > 0, and w spans 5.1x among those, so the total is invariant to
-  # redistribution only IN EXPECTATION and only if revenue is uncorrelated with
-  # divergence. Measured against an 80/20 Pareto split:
-  #   uncorrelated  mean $192.4k, but 5th-95th pct $101k-$291k (sd 30%)
-  #   volume on the clean SKUs      $48.0k   (0.25x)
-  #   volume on the divergent SKUs  $548.2k  (2.86x)
-  # An even split dilutes the 30 zero-cost SKUs deterministically; a
-  # concentrated one does not. Before quoting the portfolio figure, measure the
-  # correlation between per-SKU volume and class divergence -- do not assume
-  # redistribution is size-neutral.
+  # SENSITIVITY (this parameter is an allocation, not a dial). Rank parameter
+  # risk by whether a value can REORDER SKUs or only RESCALE them.
+  # wholesale_price_per_unit below is a pure linear scalar — be 50% wrong and
+  # the shape of the answer is unchanged. This one is an allocation, so a
+  # modest misjudgement reorders which SKUs dominate and moves the headline
+  # several-fold. It is the highest-leverage assumption in the LTL lane.
+  #
+  # The total is sum(w_i * revenue_i), where
+  # w_i = per_unit_delta_i / (wholesale_price_per_unit * case_pack_i).
+  # Only 20 of 50 SKUs have w > 0, and w spans 5.1x across those 20. An even
+  # split dilutes the 30 zero-cost SKUs deterministically; a concentrated one
+  # does not. So the total is invariant to redistribution only IN EXPECTATION,
+  # and only if volume is uncorrelated with class divergence — and even then
+  # the realized value swings, because the variance is structural in the
+  # dataset rather than a modelling choice.
+  #
+  # Measured against an 80/20 Pareto split (20% of SKUs carry 80% of revenue),
+  # 20k shuffles for the uncorrelated case. Parcel + chargeback ($16,468) are
+  # unaffected and are included in the portfolio column:
+  #
+  #   scenario                        LTL      portfolio   vs even
+  #   even split (shipped)        $191,840     $208,308     1.00x
+  #   uncorrelated,  5th pct      $100,654     $117,122     0.56x
+  #   uncorrelated, 95th pct      $291,083     $307,551     1.48x
+  #   volume on the clean SKUs     $47,960      $64,428     0.31x
+  #   volume on the divergent     $548,245     $564,713     2.71x
+  #
+  # Measure the correlation between per-SKU volume and class divergence before
+  # quoting the portfolio figure. Do not assume redistribution is size-neutral,
+  # and do not present the total as a point estimate without the range.
+  # REFERENCE ONLY (not read by any model) — the measured band from the
+  # SENSITIVITY note above, promoted out of the comment so the frontend's
+  # range disclosure can be tested against it instead of drifting as prose.
+  revenue_split_sensitivity_portfolio:
+    even: 208310.87        # shipped aggregate, revenue spread evenly across the
+                           # catalog. The simulation below reproduces this to
+                           # within $3; it omits the model's per-SKU cent rounding.
+    volume_on_clean: 64428          # 80/20 Pareto, volume on non-divergent SKUs
+    volume_on_divergent: 564713     # 80/20 Pareto, volume on divergent SKUs
   annual_wholesale_revenue_per_sku: 500000.00  # DERIVED — $25M annual revenue / 50 SKUs (CINDERHAVEN_CANONICAL.md: "Annual revenue ~$25M", "SKU count 50"). Assumes revenue is spread evenly across the catalog.
   wholesale_price_per_unit: 3.84  # PARAM — $/unit. Catalog mean MSRP $7.67 x blended non-DTC wholesale multiplier 0.5000 (mean of the 9 retail+distributor rates in the Cinderhaven seed catalog: Walmart .50, Costco .48, Whole Foods .58, Sprouts .55, Kroger .52, Regional .52, UNFI .45, KeHE .46, DPI .44). DTC excluded — it sells at MSRP and does not ship LTL.
 

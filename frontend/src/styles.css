@@ -172,6 +172,19 @@ body {
   color: var(--text-secondary);
 }
 
+/* The headline is a point estimate off the model's most load-bearing
+   assumption (an even revenue split), which admits a ~3x band. Stating the
+   band is accuracy, not hedging — an unqualified figure reads as a stronger
+   claim than the model makes. Kept adjacent to the number for that reason. */
+.hero-stat-range {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: var(--body-max-width);
+  margin-top: 12px;
+}
+
 /* Sits with the headline number, not in the footer: a reader who sees the
    figure has to see that the dataset behind it is synthetic. */
 .hero-stat-disclosure {

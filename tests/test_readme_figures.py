@@ -87,3 +87,63 @@ def test_readme_does_not_price_ltl_on_pallets(readme):
         "README still prices a driver against a pallet count; LTL bills per "
         "hundredweight, so the volume must be annual cases"
     )
+
+
+class TestHeroRangeDisclosure:
+    """The hero's range disclosure must match the measured sensitivity band.
+
+    The headline portfolio total is a point estimate resting on an even
+    revenue split -- the model's highest-leverage assumption, and an
+    allocation rather than a scalar, so it can reorder which SKUs dominate
+    rather than just rescale them. The measured band is ~0.31x-2.71x. Stating
+    it is accuracy, not hedging; leaving it unstated presents a stronger claim
+    than the model supports.
+
+    These figures live in cost_params.yml under
+    ltl.revenue_split_sensitivity_portfolio so the copy is testable rather
+    than free prose. DECISIONS.md forbids hard-coded numbers in published
+    copy; where the pipeline JSON does not carry the value, the rule's escape
+    hatch is a test asserting the static copy still matches the data.
+    """
+
+    APP = REPO_ROOT / "frontend" / "src" / "App.tsx"
+    CONFIG = REPO_ROOT / "config" / "cost_params.yml"
+
+    @staticmethod
+    def _compact(value):
+        """Mirror formatCurrency's compact notation (3 significant digits)."""
+        thousands = value / 1000
+        rounded = float(f"{thousands:.3g}")
+        text = f"{rounded:g}"
+        return f"${text}K"
+
+    @pytest.fixture(scope="class")
+    def band(self):
+        import yaml
+        with open(self.CONFIG, encoding="utf-8") as f:
+            return yaml.safe_load(f)["ltl"]["revenue_split_sensitivity_portfolio"]
+
+    def test_even_case_matches_the_shipped_aggregate(self, band, all_skus):
+        """The band's centre must be the number the pipeline actually ships."""
+        shipped = all_skus["aggregate"]["total_annual_cost"]
+        assert abs(band["even"] - shipped) < 1.0, (
+            f"sensitivity band centre {band['even']} does not match the shipped "
+            f"aggregate {shipped}"
+        )
+
+    @pytest.mark.parametrize("key", ["volume_on_divergent", "volume_on_clean"])
+    def test_hero_copy_quotes_the_measured_bound(self, band, key):
+        copy = self.APP.read_text(encoding="utf-8")
+        expected = self._compact(band[key])
+        assert expected in copy, (
+            f"hero range disclosure does not quote {key} as {expected}; "
+            f"copy and config/cost_params.yml have drifted"
+        )
+
+    def test_band_is_wide_enough_to_be_worth_stating(self, band):
+        """Guards the reason the disclosure exists, not just its wording."""
+        spread = band["volume_on_divergent"] / band["volume_on_clean"]
+        assert spread > 2.0, (
+            f"band has narrowed to {spread:.2f}x -- if the revenue split stops "
+            "being load-bearing, revisit whether the disclosure is still needed"
+        )

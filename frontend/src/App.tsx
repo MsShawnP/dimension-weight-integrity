@@ -43,6 +43,12 @@ export default function App() {
           <p className="hero-stat-label">
             leaks from this 50-SKU portfolio every year.
           </p>
+          <p className="hero-stat-range">
+            Modeled on revenue spread evenly across the catalog. Twenty of the
+            fifty SKUs carry freight exposure, so concentrating volume on those
+            raises this to $565K; concentrating it on the clean SKUs lowers it
+            to $64.4K.
+          </p>
           <p className="hero-stat-disclosure">
             Synthetic dataset &mdash; a modeled ~$25M specialty food portfolio.
             Data is synthetic; methodology and cost models are real.
