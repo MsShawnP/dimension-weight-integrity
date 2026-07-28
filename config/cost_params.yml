@@ -37,7 +37,7 @@ ltl:
     300: 75.19
     400: 82.71
     500: 90.98
-  reclassification_inspection_fee: 112.50  # PARAM — $/shipment, source: industry $75-$150 range midpoint
+  reclassification_inspection_fee: 112.50  # REFERENCE ONLY (not read by any model) — $/shipment, source: industry $75-$150 range midpoint. The cost engine bills the class-rate delta, not an inspection fee.
   annual_pallet_shipments_per_sku: 52  # PARAM — weekly pallet shipment per SKU, annualized
 
 # --- Parcel Rates ---
@@ -58,8 +58,25 @@ parcel:
     4: 17.73
     5: 18.53
   dim_divisor: 139  # PARAM — FedEx/UPS domestic standard (USPS moves to 139 July 2026)
-  annual_dtc_orders_per_sku: 200  # PARAM — estimated annual DTC orders per SKU
-  dtc_parcel_box_in: 6.0  # PARAM — per-unit DTC shipping box (inches, cube). A DTC order ships one unit, not a case, so parcel DIM weight uses this box — never the retail case dimensions.
+  # PARAM — assumes ONE unit per DTC order. This is the highest-leverage
+  # assumption in the parcel lane: multi-unit orders raise both the parcel
+  # weight and the box size, which pushes the shipment below the DIM
+  # threshold and roughly doubles parcel cost. Calibrate against real order
+  # composition before quoting the parcel figure to a client.
+  annual_dtc_orders_per_sku: 200
+  # PARAM — per-unit DTC shipping box (inches, cube). A DTC order ships one
+  # unit, not a case, so parcel DIM weight uses this box — never the retail
+  # case dimensions.
+  #
+  # SENSITIVITY (this parameter is a cliff, not a dial). DIM weight bills only
+  # when a parcel is light for its size; the crossover is 1728/dim_divisor =
+  # 12.43 lb/ft^3. These jars run 11.6-24.4 lb/ft^3 in a 6in box, i.e. mostly
+  # dense enough that actual weight wins and DIM never binds. Portfolio parcel
+  # cost by box size: 5in and 6in both $9,988; 7in $13,228; 8in $19,372.
+  # The shipped figure therefore sits at the DIM-never-binds floor. Raising
+  # this value without evidence would manufacture cost, so it stays at 6.0
+  # until Cinderhaven's real shipper dimensions are known.
+  dtc_parcel_box_in: 6.0
 
 # --- Compliance Chargebacks ---
 # Source: Walmart SQEP ($200 base + $4/non-compliant pallet), Costco (2% of invoice)
@@ -67,7 +84,7 @@ parcel:
 #   Labeled as modeled assumption — not published as standalone category
 chargebacks:
   per_event_cost: 200.00  # PARAM — $/event, modeled from Walmart SQEP base
-  per_pallet_surcharge: 4.00  # PARAM — $/non-compliant pallet (Walmart SQEP)
+  per_pallet_surcharge: 4.00  # REFERENCE ONLY (not read by any model) — $/non-compliant pallet (Walmart SQEP). Documents the published SQEP structure behind per_event_cost.
   annual_events_per_sku: 3  # PARAM — estimated annual chargeback events per affected SKU
   affected_sku_pct: 0.40  # PARAM — fraction of divergent SKUs that actually incur chargebacks. Mirrored in dbt_project.yml as chargeback_affected_sku_pct and applied in fct_dimension_cost.sql to scale expected chargeback events (3 -> 1.2).
 
@@ -76,8 +93,11 @@ chargebacks:
 tolerances:
   weight_lb: 0.50  # PARAM — absolute lb difference to flag as divergent
   dimension_in: 0.50  # PARAM — absolute inch difference to flag as divergent
-  weight_pct: 0.03  # PARAM — percentage weight difference to flag
-  dimension_pct: 0.05  # PARAM — percentage dimension difference to flag
+  # Divergence flagging is ABSOLUTE-tolerance only (see fct_attribute_divergence.sql).
+  # These percentage thresholds are documented alternatives, deliberately not wired
+  # up — flagging on both absolute and percentage would double-count the same row.
+  weight_pct: 0.03  # REFERENCE ONLY (not read by any model) — percentage weight difference
+  dimension_pct: 0.05  # REFERENCE ONLY (not read by any model) — percentage dimension difference
 
 # --- Hero SKU Reference Values ---
 # These are NOT parameters — they are the measurement-of-record values
