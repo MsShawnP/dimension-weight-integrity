@@ -167,14 +167,37 @@ def test_python_nmfc_table_is_canonical():
 
 
 def test_dbt_macro_nmfc_table_matches_canonical():
+    """Structural check of the dbt macro, not just a scan for the right numbers.
+
+    Matching the threshold->class pairs alone would still pass if a branch
+    compared a different expression, if the branches were reordered (a SQL CASE
+    returns the FIRST match, so order is load-bearing), or if an extra branch
+    were added that does not use '>='. Assert all four properties.
+    """
     macro = (REPO_ROOT / "dbt" / "macros" / "density_to_nmfc_class.sql").read_text()
-    pairs = [
-        (float(t), float(c))
-        for t, c in re.findall(r">=\s*([0-9.]+)\s*then\s*([0-9.]+)", macro)
-    ]
+    # Strip Jinja comments so commented-out bands cannot be counted as branches.
+    body = re.sub(r"\{#.*?#\}", "", macro, flags=re.S)
+
+    branches = re.findall(r"when\s+(.+?)\s*>=\s*([0-9.]+)\s*then\s*([0-9.]+)", body)
+    pairs = [(float(t), float(c)) for _, t, c in branches]
     expected = [(float(t), float(c)) for t, c in CANONICAL_NMFC_BANDS]
+
     assert pairs == expected, "dbt macro NMFC table drifted from canonical"
-    assert re.search(rf"else\s+{NMFC_FALLBACK_CLASS}\b", macro), "dbt macro fallback drifted"
+
+    # Every branch must test the SAME expression — otherwise a branch could
+    # compare the wrong column while the numbers still line up.
+    compared = {expr.strip() for expr, _, _ in branches}
+    assert len(compared) == 1, f"macro compares differing expressions: {compared}"
+
+    # No extra branches beyond the ones we validated (e.g. a '<' or 'is null'
+    # branch slipped in above them would change results invisibly).
+    assert len(re.findall(r"\bwhen\b", body)) == len(expected), "unvalidated extra when-branch"
+
+    # Thresholds must be strictly descending: a CASE returns the first match.
+    thresholds = [t for t, _ in pairs]
+    assert thresholds == sorted(thresholds, reverse=True), "macro branches are out of order"
+
+    assert re.search(rf"else\s+{NMFC_FALLBACK_CLASS}\b", body), "dbt macro fallback drifted"
 
 
 # --- Divergence flagging honors the tolerance rule (shipped-data check) ---
