@@ -9,6 +9,42 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-07-28 18:31 — SESSION CLOSE (wrap): post-wrap sensitivity deep-dive
+
+**Started from:** First wrap had closed the session at `bf980e7` (LTL unit
+mismatch fixed, portfolio $17,533 -> $208,311, deployed). User feedback then
+reopened work: verify the encoding claim, and measure the revenue-split
+assumption instead of asserting it was size-neutral.
+
+**Did:** Three commits after the wrap (`e6ed5c8`, `410fa4f`, `f47c96f`).
+`/ce-compound` wrote the unit-mismatch learning to a new `logic-errors/`
+category and added a discoverability clause to CLAUDE.md. Measured the revenue
+split: not size-neutral — 20 of 50 SKUs carry LTL cost, w spans 5.1x, so even
+uncorrelated the total has a 30% SD and across an 80/20 Pareto split the LTL
+lane ranges $48K-$548K (portfolio $64.4K-$565K). Rewrote the SENSITIVITY config
+block to match the `dtc_parcel_box_in` convention, promoted the band into real
+config keys, and added a range line under the headline bound to those keys by
+four tests (one self-expiring if the split stops being load-bearing). The guard
+caught two real drifts on the way in (sim vs shipped centre; `$64K` vs
+`$64.4K`).
+
+**Corrected:** the "committed CSVs break on clone" claim — `data/generated/` is
+gitignored; real exposure is a Windows-written file reaching a Linux reader
+outside git. Also nearly reported a false layout bug from an unlaid-out
+(`innerWidth: 0`) browser tab.
+
+**State:** 76 Python + 42 frontend tests pass, build clean, tree clean, `main`
+== `origin/main` at `f47c96f`. Live and verified (asset-hash match).
+
+**Next:** Nothing outstanding here. If real per-SKU volume arrives, measure the
+volume/divergence correlation before requoting. Carry to the other open repos
+(Void Finder, Spin Rate, Trial vs Repeat): rank parameter risk by
+reorder-vs-rescale, and frame-check a finding before implementing it — a
+refuter confirms the assertion, not the question. Next `/improve` due
+2026-10-25.
+
+---
+
 ## 2026-07-27 22:02
 
 **What changed:** Recorded the review pattern that actually works on this project — both wrong published numbers were found by verifying claims against the data, not by reading code.

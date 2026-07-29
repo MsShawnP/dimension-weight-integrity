@@ -201,3 +201,31 @@ shouldn't re-attempt dead ends because the lesson got lost.
 **Status:** Resolved
 
 **Tags:** review-findings, verification, gitignore, utf-8, encoding, wcag, contrast, design-system, memory-drift
+
+---
+
+### 2026-07-28 — Ranked a parameter's leverage by gut, then measured the opposite
+
+**Attempted:** Called `annual_wholesale_revenue_per_sku` (the even $25M/50 split) redistributable "without much changing the size" of the portfolio total, and ranked `annual_dtc_orders_per_sku` above it as the higher-leverage open assumption. Both from plausibility, not measurement.
+
+**Why it didn't work:** The total is `sum(w_i * revenue_i)` with `w_i = per_unit_delta_i / (price * case_pack_i)`. Only 20 of 50 SKUs have `w > 0` and `w` spans 5.1x across them, so an even split is invariant to redistribution only in expectation and only under zero volume/divergence correlation — and even uncorrelated the realized total carries a 30% standard deviation (structural in the dataset, not a modelling choice). Across an 80/20 Pareto split the LTL lane ranges $48K-$548K. The revenue split is an allocation; `wholesale_price_per_unit` is a linear scalar that cannot reorder SKUs. The allocation is far higher-leverage — the reverse of the ranking.
+
+**What we tried instead:** Measured it (20k-shuffle Monte Carlo + best/worst correlation bounds), recorded the band in the config SENSITIVITY block and PLAN.md, and adopted the rule: rank parameter risk by whether a value can REORDER SKUs or only RESCALE them, times uncertainty — allocations dominate scalars. Same failure mode as asserting a figure instead of computing it, one level up.
+
+**Status:** Resolved
+
+**Tags:** sensitivity-analysis, parameter-leverage, allocation-vs-scalar, monte-carlo, revenue-split, ranking, cinderhaven
+
+---
+
+### 2026-07-28 — Almost reported a layout bug from an unlaid-out browser tab
+
+**Attempted:** Measured the new hero range line in a freshly opened preview tab; the first read showed 87px-wide body text and `document.scrollWidth > clientWidth` (horizontal scroll). Started to treat it as a real responsive-layout defect.
+
+**Why it didn't work:** The reading included `innerWidth: 0` — the tab had no laid-out viewport yet, so every geometry value was a degenerate artifact, not a measurement. Acting on it would have been "fixing" a bug that did not exist.
+
+**What we tried instead:** Forced the viewport with `resize_window` (1440x900, then 375 mobile) and re-measured: no horizontal scroll, copy capped at the 660px body measure, clean at both breakpoints. Lesson matches the day's theme — a true reading of a degenerate frame is still the wrong answer; check the frame is valid (`innerWidth > 0`) before trusting geometry.
+
+**Status:** Resolved
+
+**Tags:** browser-verification, viewport, degenerate-frame, false-positive, responsive, measurement-hygiene
