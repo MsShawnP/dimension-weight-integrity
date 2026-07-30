@@ -51,7 +51,7 @@
 
   /* Layout */
   --content-max-width: 1200px;
-  --body-max-width: 660px;
+  --body-max-width: 720px;
   --section-gap: 60px;
   --radius: 2px;
 }
@@ -323,7 +323,7 @@ body {
   font-size: 17px;
   color: var(--text-secondary);
   line-height: 1.6;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   margin-bottom: 32px;
 }
 
@@ -442,7 +442,7 @@ body {
   font-size: 17px;
   color: var(--text-primary);
   line-height: 1.6;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   margin-bottom: 16px;
 }
 
@@ -544,7 +544,7 @@ body {
   font-size: 17px;
   color: var(--text-primary);
   line-height: 1.6;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   margin-bottom: 32px;
 }
 
@@ -749,7 +749,7 @@ body {
   font-size: 17px;
   color: var(--text-primary);
   line-height: 1.6;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   margin-bottom: 32px;
 }
 
