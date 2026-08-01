@@ -32,7 +32,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <p className="brand-subtitle">Cinderhaven Foods</p>
+        <p className="brand-subtitle">Cinderhaven Provisions</p>
         <h1 className="brand-title">Dimension &amp; Weight Integrity</h1>
 
         <div className="hero-stat">
